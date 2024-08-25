@@ -3,6 +3,9 @@ package com.uade.tpo.libreria.tpolibreria.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCategoriaDuplicada;
+import com.uade.tpo.libreria.tpolibreria.service.CategoryService;
+
 /*
 import com.uade.tpo.demo.entity.Category;
 import com.uade.tpo.demo.entity.dto.CategoryRequest;
@@ -47,7 +50,7 @@ public class CategoriesController {
 
     @PostMapping
     public ResponseEntity<Object> createCategory(@RequestBody CategoryRequest categoryRequest)
-            throws CategoryDuplicateException {
+            throws ExcepcionCategoriaDuplicada {
         Category result = categoryService.createCategory(categoryRequest.getDescription());
         return ResponseEntity.created(URI.create("/categories/" + result.getId())).body(result);
     }

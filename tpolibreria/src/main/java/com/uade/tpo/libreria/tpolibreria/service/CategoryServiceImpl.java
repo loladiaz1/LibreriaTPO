@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.uade.tpo.libreria.tpolibreria.entity.Category;
-import com.uade.tpo.libreria.tpolibreria.exceptions.CategoryDuplicateException;
+//import com.uade.tpo.libreria.tpolibreria.entity.Category;
+import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCategoriaDuplicada;
 import com.uade.tpo.libreria.tpolibreria.repository.CategoryRepository;
 
 @Service
@@ -26,10 +26,10 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(categoryId);
     }
 
-    public Category createCategory(String description) throws CategoryDuplicateException {
+    public Category createCategory(String description) throws ExcepcionCategoriaDuplicada {
         List<Category> categories = categoryRepository.findByDescription(description);
         if (categories.isEmpty())
             return categoryRepository.save(new Category(description));
-        throw new CategoryDuplicateException();
+        throw new ExcepcionCategoriaDuplicada();
     }
 }
