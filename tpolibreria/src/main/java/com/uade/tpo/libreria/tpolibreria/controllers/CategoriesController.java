@@ -3,16 +3,10 @@ package com.uade.tpo.libreria.tpolibreria.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uade.tpo.libreria.tpolibreria.entity.Genero;
+import com.uade.tpo.libreria.tpolibreria.entity.dto.GeneroRequest;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCategoriaDuplicada;
-import com.uade.tpo.libreria.tpolibreria.service.CategoryService;
-
-/*
-import com.uade.tpo.demo.entity.Category;
-import com.uade.tpo.demo.entity.dto.CategoryRequest;
-import com.uade.tpo.demo.exceptions.CategoryDuplicateException;
-import com.uade.tpo.demo.service.CategoryService;
-import com.uade.tpo.demo.service.CategoryServiceImpl;
-*/
+import com.uade.tpo.libreria.tpolibreria.service.GeneroService;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -30,18 +24,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("categories")
 public class CategoriesController {
     @Autowired
-    private CategoryService categoryService;
+    private GeneroService GeneroService;
 
     
-
+    /* 
     @GetMapping
-    public ResponseEntity<List<Category>> getCategories() {
-        return ResponseEntity.ok(categoryService.getCategories());
+    public ResponseEntity<List<Genero>> getCategories() {
+        return ResponseEntity.ok(GeneroService.getGeneros());
     }
+    */
 
-    @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long categoryId) {
-        Optional<Category> result = categoryService.getCategoryById(categoryId);
+    @GetMapping("/{GeneroId}")
+    public ResponseEntity<Genero> getGeneroById(@PathVariable Long GeneroId) {
+        Optional<Genero> result = GeneroService.getGeneroById(GeneroId);
         if (result.isPresent())
             return ResponseEntity.ok(result.get());
 
@@ -49,9 +44,9 @@ public class CategoriesController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createCategory(@RequestBody CategoryRequest categoryRequest)
+    public ResponseEntity<Object> createGenero(@RequestBody GeneroRequest GeneroRequest)
             throws ExcepcionCategoriaDuplicada {
-        Category result = categoryService.createCategory(categoryRequest.getDescription());
+        Genero result = GeneroService.createGenero(GeneroRequest.getNombre());
         return ResponseEntity.created(URI.create("/categories/" + result.getId())).body(result);
     }
 }

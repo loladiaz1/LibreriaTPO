@@ -3,6 +3,7 @@ package com.uade.tpo.libreria.tpolibreria.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -15,11 +16,16 @@ public class Genero {
     //constructor??
 
     @Id
-    private int id;
+    private Long id;
 
     @Column
     private String nombre;
 
-    //relaciones
+    /* 
+    
+    @OneToMany(mappedBy = "genero")
+    private Libros libros;
+
+    */
 
 }
