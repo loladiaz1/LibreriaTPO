@@ -34,7 +34,7 @@ public class Usuarios {
     private String direccion;
 
     @Column
-    private int CP;
+    private int CP; //codigo postal
 
     @Column
     private String rol;
