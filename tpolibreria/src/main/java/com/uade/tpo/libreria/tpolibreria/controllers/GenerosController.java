@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("categories")
-public class CategoriesController {
+@RequestMapping("generos")
+public class GenerosController {
     @Autowired
     private GeneroService GeneroService;
 
@@ -47,6 +47,6 @@ public class CategoriesController {
     public ResponseEntity<Object> createGenero(@RequestBody GeneroRequest GeneroRequest)
             throws ExcepcionCategoriaDuplicada {
         Genero result = GeneroService.createGenero(GeneroRequest.getNombre());
-        return ResponseEntity.created(URI.create("/categories/" + result.getId())).body(result);
+        return ResponseEntity.created(URI.create("/generos/" + result.getId())).body(result);
     }
 }

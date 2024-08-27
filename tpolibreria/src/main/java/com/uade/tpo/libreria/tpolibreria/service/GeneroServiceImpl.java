@@ -18,7 +18,7 @@ public class GeneroServiceImpl implements GeneroService {
     @Autowired
     private GeneroRepository GeneroRepository;
 
-    public Page<Genero> getCategories(PageRequest pageable) {
+    public Page<Genero> getGeneros(PageRequest pageable) {
         return GeneroRepository.findAll(pageable);
     }
 
@@ -26,10 +26,11 @@ public class GeneroServiceImpl implements GeneroService {
         return GeneroRepository.findById(GeneroId);
     }
 
-    public Genero createGenero(String description) throws ExcepcionCategoriaDuplicada {
-        List<Genero> categories = GeneroRepository.findByDescription(description);
-        if (categories.isEmpty())
+    public Genero createGenero(String nombre) throws ExcepcionCategoriaDuplicada {
+        List<Genero> generos = GeneroRepository.findByNombre(nombre);
+        if (generos.isEmpty())
             return GeneroRepository.save(new Genero());
         throw new ExcepcionCategoriaDuplicada();
     }
+
 }

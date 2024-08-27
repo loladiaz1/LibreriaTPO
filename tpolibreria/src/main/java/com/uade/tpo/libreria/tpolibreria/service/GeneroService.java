@@ -14,5 +14,5 @@ public interface GeneroService {
 
     public Optional<Genero> getGeneroById(Long GeneroId);
 
-    public Genero createGenero(String description) throws ExcepcionCategoriaDuplicada;
+    public Genero createGenero(String nombre) throws ExcepcionCategoriaDuplicada;
 }
