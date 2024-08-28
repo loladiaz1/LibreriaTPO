@@ -1,5 +1,6 @@
 package com.uade.tpo.libreria.tpolibreria.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -42,6 +43,6 @@ public class Usuarios {
     private String rol;
 
     @Column
-    private List<Libros> wishList;
+    private ArrayList<Libros> wishList;
 
 }
