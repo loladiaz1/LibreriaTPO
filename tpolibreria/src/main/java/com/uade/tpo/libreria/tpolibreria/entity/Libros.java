@@ -38,12 +38,13 @@ public class Libros {
     @Column
     private List<String> genero;
     
-    /* 
-    @ManyToOne
-    @JoinColumn(name = "genero_libro")
 
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-    */
+    //relacion con generos
+    //muchos libros pueden tener un genero
+    @ManyToOne
+    @JoinColumn(name = "genero_id")
+    private Genero generos;
+
+    
     
 }
