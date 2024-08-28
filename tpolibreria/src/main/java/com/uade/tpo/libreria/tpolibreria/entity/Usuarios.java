@@ -1,5 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -34,9 +36,12 @@ public class Usuarios {
     private String direccion;
 
     @Column
-    private int CP;
+    private int CP; //codigo postal
 
     @Column
     private String rol;
+    
+    @Column
+    private List<Libros> wishList;
 
 }
