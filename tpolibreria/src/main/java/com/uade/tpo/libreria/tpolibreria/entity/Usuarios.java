@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
@@ -43,5 +44,11 @@ public class Usuarios {
 
     @Column
     private List<Libros> wishList;
+
+    //relacion con carrito 
+    //un usuario tiene un carrito UNICO!
+
+    @OneToOne (mappedBy = "usuario")
+    private Carrito carrito;
 
 }
