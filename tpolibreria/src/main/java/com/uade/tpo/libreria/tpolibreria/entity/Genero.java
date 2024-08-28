@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
 import lombok.Data;
 
 @Data
@@ -21,11 +22,13 @@ public class Genero {
     @Column
     private String nombre;
 
-    /* 
     
+    //relacion con generos
+    //muchos generos puede tener un libro
     @OneToMany(mappedBy = "genero")
-    private Libros libros;
+    private ArrayList<Libros> libros;
+    
 
-    */
+    
 
 }
