@@ -32,9 +32,10 @@ public class Carrito {
 
     //relacion con libros
     //muchos libros pueden estar en muchos carritos
-    @ManyToMany
-    @ElementCollection
-    private HashMap<Libros, Integer> librosEnCarritos= new HashMap<>();
+    
+    //@ManyToMany
+    //@ElementCollection
+    //private HashMap<Libros, Integer> librosEnCarritos= new HashMap<>();
     
 
     
