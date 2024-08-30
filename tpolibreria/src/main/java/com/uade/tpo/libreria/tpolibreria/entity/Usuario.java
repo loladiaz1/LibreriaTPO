@@ -11,21 +11,21 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Usuarios {
+public class Usuario {
 
-    public Usuarios(){
+    public Usuario(){
     }
 
     @Id
     private int id;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String nombre_usuario;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String mail;
 
-    @Column
+    @Column(nullable = false)
     private String contraseña;
 
     @Column
@@ -43,13 +43,7 @@ public class Usuarios {
     @Column
     private String rol;
 
-    @Column
-    private ArrayList<Libros> wishList;
-
-    //relacion con carrito 
-    //un usuario tiene un carrito UNICO!
-
-    @OneToOne (mappedBy = "usuario")
+    @OneToOne(mappedBy = "usuario")
     private Carrito carrito;
 
 }

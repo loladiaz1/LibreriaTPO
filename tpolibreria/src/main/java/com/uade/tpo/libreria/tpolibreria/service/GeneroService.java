@@ -7,12 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Genero;
-import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCategoriaDuplicada;
+import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionGeneroDuplicado;
 
 public interface GeneroService {
     public Page<Genero> getGeneros(PageRequest pageRequest);
 
     public Optional<Genero> getGeneroById(Long GeneroId);
 
-    public Genero createGenero(String nombre) throws ExcepcionCategoriaDuplicada;
+    public Genero createGenero(String nombre) throws ExcepcionGeneroDuplicado;
 }

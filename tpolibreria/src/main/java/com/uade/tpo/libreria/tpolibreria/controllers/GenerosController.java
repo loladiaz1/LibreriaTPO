@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Genero;
 import com.uade.tpo.libreria.tpolibreria.entity.dto.GeneroRequest;
-import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCategoriaDuplicada;
+import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionGeneroDuplicado;
 import com.uade.tpo.libreria.tpolibreria.service.GeneroService;
 
 import java.net.URI;
@@ -30,7 +30,7 @@ public class GenerosController {
     @Autowired
     private GeneroService GeneroService;
 
-     @GetMapping
+    @GetMapping
     public ResponseEntity<Page<Genero>> getGeneros(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
@@ -50,7 +50,7 @@ public class GenerosController {
 
     @PostMapping
     public ResponseEntity<Object> createGenero(@RequestBody GeneroRequest GeneroRequest)
-            throws ExcepcionCategoriaDuplicada {
+            throws ExcepcionGeneroDuplicado {
         Genero result = GeneroService.createGenero(GeneroRequest.getNombre());
         return ResponseEntity.created(URI.create("/generos/" + result.getId())).body(result);
     }

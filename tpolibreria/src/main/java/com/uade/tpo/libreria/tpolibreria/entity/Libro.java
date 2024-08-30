@@ -12,12 +12,12 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Libros {
+public class Libro {
     
     @Id
     private int isbn;
 
-    @Column
+    @Column(nullable = false)
     private String titulo;
     @Column
     private double precio;
@@ -25,8 +25,7 @@ public class Libros {
     private int cantPaginas;
     @Column
     private String descripcion;
-    @Column
-    private List<String> autor;
+
     @Column
     private int stock;
     @Column
@@ -43,8 +42,10 @@ public class Libros {
     //muchos libros pueden tener un genero
     @ManyToOne
     @JoinColumn(name = "genero_id")
-    private Genero generos;
+    private Genero genero;
 
-    
-    
+    @ElementCollection
+    @CollectionTable(name = "autores", joinColumns = @JoinColumn(name = "isbn"))
+    @Column(name = "autor")
+    private List<String> autor;
 }

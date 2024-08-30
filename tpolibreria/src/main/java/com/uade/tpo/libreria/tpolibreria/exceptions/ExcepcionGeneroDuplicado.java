@@ -4,6 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "La categoria que se intenta agregar esta duplicada")
-public class ExcepcionCategoriaDuplicada extends Exception{
+public class ExcepcionGeneroDuplicado extends Exception{
     
 }
