@@ -1,10 +1,9 @@
 package com.uade.tpo.libreria.tpolibreria.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
@@ -13,10 +12,8 @@ import lombok.Data;
 @Entity
 public class Usuario {
 
-    public Usuario(){
-    }
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false, unique = true)
@@ -45,5 +42,4 @@ public class Usuario {
 
     @OneToOne(mappedBy = "usuario")
     private Carrito carrito;
-
 }
