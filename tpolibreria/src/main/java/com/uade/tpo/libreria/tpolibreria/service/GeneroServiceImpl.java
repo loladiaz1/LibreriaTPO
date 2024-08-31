@@ -24,11 +24,26 @@ public class GeneroServiceImpl implements GeneroService {
         return GeneroRepository.findById(GeneroId);
     }
 
+    /* 
+    //POST DE LA PROFESORA:
     public Genero createGenero(String nombre) throws ExcepcionGeneroDuplicado {
         List<Genero> generos = GeneroRepository.findByNombre(nombre);
         if (generos.isEmpty())
             return GeneroRepository.save(new Genero());
         throw new ExcepcionGeneroDuplicado();
     }
+    */
+    
+    //NUEVO POST:
+    public Genero createGenero(String nombre) throws ExcepcionGeneroDuplicado {
+        List<Genero> generos = GeneroRepository.findByNombre(nombre);
+        if (generos.isEmpty()) {
+            Genero nuevoGenero = new Genero();
+            nuevoGenero.setNombre(nombre);
+            return GeneroRepository.save(nuevoGenero);
+        }
+        throw new ExcepcionGeneroDuplicado();
+    }
+
 
 }
