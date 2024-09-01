@@ -1,5 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 import com.uade.tpo.libreria.tpolibreria.service.CarritoService;
+
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -29,5 +34,15 @@ public class CarritoController {
         return ResponseEntity.ok(carritoService.getCarritos(PageRequest.of(page, size)));
 
     }
+
+    @GetMapping("/{carritoId}")
+    public ResponseEntity<Carrito> getCarritoById(@PathVariable String carritoId) {
+        Optional<Carrito> result = carritoService.getCarritoById(carritoId);
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        }
+        return ResponseEntity.noContent().build();
+    }
+    
     
 }
