@@ -1,7 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
-import com.uade.tpo.libreria.tpolibreria.repository.LibrosRepository;
+import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class LibroServiceImpl implements LibroService {
 
     @Autowired
-    private LibrosRepository libroRepository;
+    private LibroRepository libroRepository;
 
     @Override
     public Page<Libro> getLibros(PageRequest pageable, String titulo, String autor) {
