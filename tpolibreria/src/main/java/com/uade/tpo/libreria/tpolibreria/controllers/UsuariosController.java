@@ -36,8 +36,8 @@ public class UsuariosController {
         }
 
     @GetMapping("/{UsuarioId}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long UID) {
-        Optional<Usuario> result = usuarioService.getUsuarioById(UID);
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long UsuarioId) {
+        Optional<Usuario> result = usuarioService.getUsuarioById(UsuarioId);
         if (result.isPresent()){
             return ResponseEntity.ok(result.get());
         }
