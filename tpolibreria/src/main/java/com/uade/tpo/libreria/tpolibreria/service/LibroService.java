@@ -7,8 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import java.util.Optional;
 
 public interface LibroService {
-    Page<Libro> getLibros(PageRequest pageRequest, String titulo, String autor);
+    Page<Libro> getLibros(PageRequest pageRequest, String titulo, String autor, String editorial, String idioma);
     Optional<Libro> getLibroByIsbn(int isbn);
     Libro createLibro(Libro libro);
 }
-
