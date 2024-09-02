@@ -16,6 +16,6 @@ public interface ProductoCarritoRepository extends JpaRepository<ProductoCarrito
     //@Query(value = "select pc from ProductoCarr pc where pc.id = ?1")
     //List<ProductoCarrito> findById(Long Id);
     
-    @Query("SELECT p.cantidad FROM producto_carrito p WHERE p.id = :id")
+    @Query("SELECT p.cantidad FROM ProductoCarrito p WHERE p.id = :id")
     Optional<Integer> findCantidadById(@Param("id") Long id);
 } 
