@@ -10,7 +10,7 @@ public interface ProductoCarritoService {
     public Page<ProductoCarrito> getProductosCarrito(PageRequest pageRequest);
 
     //public Optional<Integer> getCantidadById(Long ProductoCarritoId);
-
+    //se necesita??^^^^
     
     public Optional<ProductoCarrito> getProductoCarritoById(Long ProductoCarritoId);
 

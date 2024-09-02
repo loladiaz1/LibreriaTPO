@@ -10,17 +10,15 @@ import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDupl
 import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
 
 import java.net.URI;
-//import java.util.Optional;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController //indica que esa clase va a manejar solicitudes HTTP y devolverá directamente el resultado de los métodos en forma de respuestas HTTP.
@@ -38,14 +36,16 @@ public class ProductosCarritoController {
         return ResponseEntity.ok(ProductoCarritoService.getProductosCarrito(PageRequest.of(page, size))); 
     }
      
-    /*
-     * @PostMapping
-    public ResponseEntity<Object> createGenero(@RequestBody GeneroRequest GeneroRequest)
-            throws ExcepcionGeneroDuplicado {
-        Genero result = GeneroService.createGenero(GeneroRequest.getNombre());
-        return ResponseEntity.created(URI.create("/generos/" + result.getId())).body(result);
+    @GetMapping("/{productoCarritoId}")
+    //@PathVariable --> indica que el valor del segmento de la URL {productoCarritoId} debe ser vinculado al parámetro productoCarritoId en el método.
+    public ResponseEntity<ProductoCarrito> getProductoCarritoById(@PathVariable Long productoCarritoId) {
+        //Optional --> se utiliza para representar un valor que puede estar presente o ausente
+        Optional<ProductoCarrito> result = ProductoCarritoService.getProductoCarritoById(productoCarritoId);
+        if (result.isPresent())
+            return ResponseEntity.ok(result.get());
+        
+            return ResponseEntity.noContent().build(); //es una forma de construir una respuesta HTTP en un controlador de Spring Boot cuando no hay contenido para devolver, pero deseas indicar que la solicitud fue procesada correctamente.
     }
-     */
 
     @PostMapping //("path") --> http://localhost:4002/"path"
     public ResponseEntity<Object> createProductoCarrito(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) 
