@@ -14,7 +14,7 @@ import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
 
 
 @Service
-public class CarritoSericeImpl implements CarritoService {
+public class CarritoServiceImpl implements CarritoService {
      @Autowired
     private CarritoRepository carritoRepository;
 
