@@ -9,11 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
-import com.uade.tpo.libreria.tpolibreria.entity.Genero;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCarrito;
-import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionGeneroDuplicado;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
-import com.uade.tpo.libreria.tpolibreria.repository.GeneroRepository;
+
 
 @Service
 public class CarritoSericeImpl implements CarritoService {
@@ -30,13 +28,13 @@ public class CarritoSericeImpl implements CarritoService {
          return carritoRepository.findById(nombreUsuario);
      }
     
-    public Carrito createCarrito(double precio) throws ExcepcionCarrito{
-
-        List<Carrito> carritos = CarritoRepository.findByPrecio(double precio);
+    public Carrito createCarrito(String nombreUsuario, double precio) throws ExcepcionCarrito{
+        List<Carrito> carritos = carritoRepository.findByNombreUsuario(nombreUsuario);
         if (carritos.isEmpty()) {
             Carrito nuevoCarrito = new Carrito();
-            nuevoCarrito.setNombre(nombre);
-            return CarritoRepository.save(nuevoGenero);
+            nuevoCarrito.setNombreUsuario(nombreUsuario);
+            nuevoCarrito.setPrecio(precio);
+            return carritoRepository.save(nuevoCarrito);
         }
         throw new ExcepcionCarrito();
 
