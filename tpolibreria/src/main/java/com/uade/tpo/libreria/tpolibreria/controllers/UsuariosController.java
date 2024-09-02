@@ -7,9 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.libreria.tpolibreria.entity.Usuario;
+import com.uade.tpo.libreria.tpolibreria.entity.dto.UsuarioRequest;
 import com.uade.tpo.libreria.tpolibreria.service.UsuarioService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import java.net.URI;
+
 
 
 @RestController
@@ -27,6 +34,21 @@ public class UsuariosController {
             }
             return ResponseEntity.ok(usuarioService.getUsuarios(PageRequest.of(page, size)));
         }
+
+    @GetMapping("/{UsuarioId}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long UID) {
+        Optional<Usuario> result = usuarioService.getUsuarioById(UID);
+        if (result.isPresent()){
+            return ResponseEntity.ok(result.get());
+        }
+        return ResponseEntity.noContent().build();
+    }
+    
+    @PostMapping
+    public ResponseEntity createUsuario(@RequestBody UsuarioRequest ur) {
+        Usuario result = usuarioService.createUsuario(ur.getNombre_usuario(), ur.getMail(), ur.getContraseña(), ur.getNombre(), ur.getApellido(), ur.getDireccion(), ur.getCP(), ur.getRol());
+        return ResponseEntity.created(URI.create("/usuarios/" + result.getId())).body(result);
+    }
     
     }
     
