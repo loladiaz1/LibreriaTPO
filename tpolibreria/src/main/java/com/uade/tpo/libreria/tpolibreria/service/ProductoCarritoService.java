@@ -8,12 +8,16 @@ import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDupl
 
 public interface ProductoCarritoService {
     public Page<ProductoCarrito> getProductosCarrito(PageRequest pageRequest);
-
-    //public Optional<Integer> getCantidadById(Long ProductoCarritoId);
-    //se necesita??^^^^
+    
+    public Optional<Integer> getCantidadById(Long ProductoCarritoId);
     
     public Optional<ProductoCarrito> getProductoCarritoById(Long ProductoCarritoId);
 
     public ProductoCarrito createProductoCarrito(Long id, int cantidad) throws ExcepcionProductoCarritoDuplicado;
     
+    /*
+    posibles:
+    - getLibroByProductoCarritoId(Long ProductoCarritoId) (obtendrias el ISBN)
+    - getNombreUsuarioByProductoCarritoId (no creo, obtenelo del carrito)
+    */
 } 

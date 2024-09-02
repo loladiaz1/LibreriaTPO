@@ -47,6 +47,17 @@ public class ProductosCarritoController {
             return ResponseEntity.noContent().build(); //es una forma de construir una respuesta HTTP en un controlador de Spring Boot cuando no hay contenido para devolver, pero deseas indicar que la solicitud fue procesada correctamente.
     }
 
+    @GetMapping("/{productoCarritoId}/cantidad")
+    public ResponseEntity<Integer> getCantidadById(@PathVariable Long productoCarritoId) {
+        
+        Optional<Integer> cantidad = ProductoCarritoService.getCantidadById(productoCarritoId);
+        //El método map se usa para transformar el valor contenido en el Optional
+        //Si cantidad contiene un valor, ResponseEntity::ok convierte ese valor en una respuesta HTTP 200 (OK) 
+        return cantidad.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
+        //^^^esto es como un if simplificado
+    }
+
     @PostMapping //("path") --> http://localhost:4002/"path"
     public ResponseEntity<Object> createProductoCarrito(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) 
         throws ExcepcionProductoCarritoDuplicado {

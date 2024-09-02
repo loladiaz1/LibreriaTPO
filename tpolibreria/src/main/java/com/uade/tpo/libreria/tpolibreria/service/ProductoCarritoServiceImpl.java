@@ -21,12 +21,9 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findAll(pageRequest);
     }
 
-    /* 
-    @Override
-    public Optional<Integer> getCantidadById(Long ProductoCarritoId) {
-        return ;
+    public Optional<Integer> getCantidadById(Long productoCarritoId) {
+        return ProductoCarritoRepository.findCantidadById(productoCarritoId);
     }
-    */
 
     @Override
     public ProductoCarrito createProductoCarrito(Long id, int cantidad) throws ExcepcionProductoCarritoDuplicado {
