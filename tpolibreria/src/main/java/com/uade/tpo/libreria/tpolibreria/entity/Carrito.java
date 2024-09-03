@@ -26,6 +26,7 @@ public class Carrito {
     private double precio;
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<ProductoCarrito> productos;
 
     @OneToOne

@@ -1,5 +1,6 @@
 package com.uade.tpo.libreria.tpolibreria.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -30,5 +31,6 @@ public class ProductoCarrito {
 
     @ManyToOne
     @JoinColumn(name = "carrito_nombreUsuario")
+    @JsonBackReference
     private Carrito carrito;
 }
