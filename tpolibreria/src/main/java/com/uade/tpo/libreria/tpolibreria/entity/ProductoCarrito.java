@@ -1,5 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
