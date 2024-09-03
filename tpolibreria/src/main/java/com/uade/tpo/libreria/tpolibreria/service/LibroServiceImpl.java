@@ -1,6 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
+import com.uade.tpo.libreria.tpolibreria.entity.dto.LibroRequest;
 import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,14 @@ public class LibroServiceImpl implements LibroService {
         return libroRepository.findById(isbn);
     }
 
-    @Override
+    /*@Override
     public Libro createLibro(Libro libro) {
         return libroRepository.save(libro);
+    }*/
+
+    @Override
+    public Libro createLibro(LibroRequest libroRequest) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createLibro'");
     }
 }
