@@ -93,7 +93,7 @@ public class LibrosController {
         return ResponseEntity.ok(libroService.getLibros(PageRequest.of(page, size), null, null, null, idioma));
     }
 
-    // Nuevo método para crear un libro usando LibroRequest y LibroService
+    // método para crear un libro usando LibroRequest y LibroService
     @PostMapping
     public ResponseEntity<Object> createLibro(@RequestBody LibroRequest libroRequest) {
         Libro result = libroService.createLibro(libroRequest);
