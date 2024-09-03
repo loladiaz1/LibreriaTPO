@@ -1,3 +1,4 @@
+/* 
 package com.uade.tpo.libreria.tpolibreria.controllers.auth;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Role;
@@ -19,3 +20,4 @@ public class RegisterRequest {
     private String password;
     private Role role;
 }
+*/

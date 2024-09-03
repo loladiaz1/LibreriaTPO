@@ -1,3 +1,4 @@
+/* 
 package com.uade.tpo.libreria.tpolibreria.controllers.config;
 
 import org.springframework.context.annotation.Bean;
@@ -41,3 +42,4 @@ public class SecurityConfig {
                 return http.build();
         }
 }
+*/

@@ -1,4 +1,4 @@
-package com.uade.tpo.libreria.tpolibreria.controllers.config;
+/*package com.uade.tpo.libreria.tpolibreria.controllers.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -70,3 +70,4 @@ public class JwtService {
         return secretKeySpec;
     }
 }
+*/
