@@ -19,12 +19,17 @@ public class LibroServiceImpl implements LibroService {
     private LibroRepository libroRepository;
 
     @Override
-    public Page<Libro> getLibros(PageRequest pageable, String titulo, String autor) {
+    public Page<Libro> getLibros(PageRequest pageable, String titulo, String autor, String editorial, String idioma) {
         List<Libro> libros;
+        // Filtrar por los criterios disponibles
         if (titulo != null && !titulo.isEmpty()) {
             libros = libroRepository.findByTituloContaining(titulo);
         } else if (autor != null && !autor.isEmpty()) {
             libros = libroRepository.findByAutorContaining(autor);
+        } else if (editorial != null && !editorial.isEmpty()) {
+            libros = libroRepository.findByEditorialContaining(editorial);
+        } else if (idioma != null && !idioma.isEmpty()) {
+            libros = libroRepository.findByIdiomaContaining(idioma);
         } else {
             return libroRepository.findAll(pageable);
         }
@@ -41,4 +46,3 @@ public class LibroServiceImpl implements LibroService {
         return libroRepository.save(libro);
     }
 }
-
