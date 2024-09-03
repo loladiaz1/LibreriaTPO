@@ -1,7 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
+import com.uade.tpo.libreria.tpolibreria.controllers.libros.LibroRequest;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
-import com.uade.tpo.libreria.tpolibreria.entity.dto.LibroRequest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,8 +1,8 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
+import com.uade.tpo.libreria.tpolibreria.controllers.libros.LibroRequest;
 import com.uade.tpo.libreria.tpolibreria.entity.Genero;
-import com.uade.tpo.libreria.tpolibreria.entity.dto.LibroRequest;
 import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.GeneroRepository;
 
