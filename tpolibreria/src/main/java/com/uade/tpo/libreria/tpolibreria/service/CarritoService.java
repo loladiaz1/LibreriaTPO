@@ -1,0 +1,20 @@
+package com.uade.tpo.libreria.tpolibreria.service;
+
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
+import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCarrito;
+
+public interface CarritoService {
+
+    Page<Carrito> getCarritos(Pageable pageable);
+
+    Optional<Carrito> getCarritoById(String nombreUsuario);
+     
+    public Carrito createCarrito(String nombreUsuario, double precio) throws ExcepcionCarrito;
+
+    
+}
