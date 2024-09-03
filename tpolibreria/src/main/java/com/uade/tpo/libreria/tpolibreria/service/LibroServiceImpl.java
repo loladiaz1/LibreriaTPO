@@ -1,8 +1,10 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
+import com.uade.tpo.libreria.tpolibreria.entity.Genero;
 import com.uade.tpo.libreria.tpolibreria.entity.dto.LibroRequest;
 import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
+import com.uade.tpo.libreria.tpolibreria.repository.GeneroRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,9 @@ public class LibroServiceImpl implements LibroService {
 
     @Autowired
     private LibroRepository libroRepository;
+
+    @Autowired
+    private GeneroRepository generoRepository;
 
     @Override
     public Page<Libro> getLibros(PageRequest pageable, String titulo, String autor, String editorial, String idioma) {
@@ -42,14 +47,27 @@ public class LibroServiceImpl implements LibroService {
         return libroRepository.findById(isbn);
     }
 
-    /*@Override
-    public Libro createLibro(Libro libro) {
-        return libroRepository.save(libro);
-    }*/
-
     @Override
     public Libro createLibro(LibroRequest libroRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createLibro'");
+        Libro libro = new Libro();
+        libro.setIsbn(libroRequest.getIsbn());
+        libro.setTitulo(libroRequest.getTitulo());
+        libro.setPrecio(libroRequest.getPrecio());
+        libro.setCantPaginas(libroRequest.getCantPaginas());
+        libro.setDescripcion(libroRequest.getDescripcion());
+        libro.setStock(libroRequest.getStock());
+        libro.setEditorial(libroRequest.getEditorial());
+        libro.setEdicion(libroRequest.getEdicion());
+        libro.setIdioma(libroRequest.getIdioma());
+        libro.setAutor(libroRequest.getAutor());
+
+        // Manejo de la asignación del género
+        if (libroRequest.getGeneroId() != null) {
+            Genero genero = generoRepository.findById(libroRequest.getGeneroId())
+                .orElseThrow(() -> new RuntimeException("Género no encontrado con ID: " + libroRequest.getGeneroId()));
+            libro.setGenero(genero);
+        }
+
+        return libroRepository.save(libro);
     }
 }
