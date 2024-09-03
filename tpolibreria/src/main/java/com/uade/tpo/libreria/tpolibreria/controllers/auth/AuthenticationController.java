@@ -1,3 +1,4 @@
+/* 
 package com.uade.tpo.libreria.tpolibreria.controllers.auth;
 
 import org.springframework.http.ResponseEntity;
@@ -29,3 +30,4 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 }
+*/
