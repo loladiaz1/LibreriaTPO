@@ -3,7 +3,9 @@ package com.uade.tpo.libreria.tpolibreria.entity;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,9 +15,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import java.util.HashSet;
+import java.util.List;
 
 @Data
 @Entity
+
 public class Carrito {
 
     @Id
@@ -27,10 +32,9 @@ public class Carrito {
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private Set<ProductoCarrito> productos;
+    private List<ProductoCarrito> productosCarrito;
 
-    @OneToOne
-    @JoinColumn(name = "usuario_id", unique = true)
+    @OneToOne(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private Usuario usuario;
 }
