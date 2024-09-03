@@ -1,4 +1,4 @@
-package com.uade.tpo.libreria.tpolibreria.controllers.auth;
+/*package com.uade.tpo.libreria.tpolibreria.controllers.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,3 +14,4 @@ public class AuthenticationRequest {
     private String mail;
     String contraseña;
 }
+*/
