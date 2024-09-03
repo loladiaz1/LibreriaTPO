@@ -1,5 +1,8 @@
 package com.uade.tpo.libreria.tpolibreria.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +17,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String nombre_usuario;
@@ -41,5 +44,6 @@ public class Usuario {
     private String rol;
 
     @OneToOne(mappedBy = "usuario")
+    @JsonManagedReference
     private Carrito carrito;
 }
