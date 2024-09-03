@@ -2,6 +2,7 @@ package com.uade.tpo.libreria.tpolibreria.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
+import com.uade.tpo.libreria.tpolibreria.entity.dto.LibroRequest;
 import com.uade.tpo.libreria.tpolibreria.service.LibroService;
 import java.net.URI;
 import java.util.Optional;
@@ -92,9 +93,10 @@ public class LibrosController {
         return ResponseEntity.ok(libroService.getLibros(PageRequest.of(page, size), null, null, null, idioma));
     }
 
+    // Nuevo método para crear un libro usando LibroRequest y LibroService
     @PostMapping
-    public ResponseEntity<Object> createLibro(@RequestBody Libro libro) {
-        Libro result = libroService.createLibro(libro);
+    public ResponseEntity<Object> createLibro(@RequestBody LibroRequest libroRequest) {
+        Libro result = libroService.createLibro(libroRequest);
         return ResponseEntity.created(URI.create("/libros/" + result.getIsbn())).body(result);
     }
 }
