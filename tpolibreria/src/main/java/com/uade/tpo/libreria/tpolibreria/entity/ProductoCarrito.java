@@ -12,6 +12,8 @@ import lombok.Data;
 @Entity
 @Data
 public class ProductoCarrito {
+
+    //Le falta el constructor?
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
