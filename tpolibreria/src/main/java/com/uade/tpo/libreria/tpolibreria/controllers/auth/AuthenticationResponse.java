@@ -1,4 +1,4 @@
-package com.uade.tpo.demo.controllers.auth;
+package com.uade.tpo.libreria.tpolibreria.controllers.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

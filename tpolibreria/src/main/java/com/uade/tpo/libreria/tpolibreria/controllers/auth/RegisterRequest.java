@@ -1,6 +1,6 @@
-package com.uade.tpo.demo.controllers.auth;
+package com.uade.tpo.libreria.tpolibreria.controllers.auth;
 
-import com.uade.tpo.demo.entity.Role;
+import com.uade.tpo.libreria.tpolibreria.entity.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
