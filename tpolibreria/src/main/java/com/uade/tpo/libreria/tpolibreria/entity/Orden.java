@@ -1,5 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +32,11 @@ public class Orden {
     @ManyToOne
     @JoinColumn(name = "giftCard_id") //permite nulls
     private GiftCard giftCard;
+
+    @ManyToOne
+    @JoinColumn(name = "carrito_nombreUsuario", nullable = false)
+    @JsonBackReference
+    private Carrito carrito;
 
     @Transient //dato transitorio, no se guarda en la BD
     private Double precioUnitario;
