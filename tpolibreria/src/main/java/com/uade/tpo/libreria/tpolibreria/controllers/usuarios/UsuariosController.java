@@ -45,7 +45,7 @@ public class UsuariosController {
     
     @PostMapping
     public ResponseEntity<Object> createUsuario(@RequestBody UsuarioRequest ur) {
-        Usuario result = usuarioService.createUsuario(ur.getNombre_usuario(), ur.getMail(), ur.getContraseña(), ur.getNombre(), ur.getApellido(), ur.getDireccion(), ur.getCP(), ur.getRol());
+        Usuario result = usuarioService.createUsuario(ur.getNombre_usuario(), ur.getMail(), ur.getContraseña(), ur.getNombre(), ur.getApellido(), ur.getDireccion(), ur.getCP());
         return ResponseEntity.created(URI.create("/usuarios/" + result.getId())).body(result);
     }
     
