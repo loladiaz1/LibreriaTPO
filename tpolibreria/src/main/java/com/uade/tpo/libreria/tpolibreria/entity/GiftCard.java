@@ -13,6 +13,10 @@ import lombok.Data;
 @Table(name = "gift_cards")
 public class GiftCard {
 
+    public GiftCard(){
+        
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

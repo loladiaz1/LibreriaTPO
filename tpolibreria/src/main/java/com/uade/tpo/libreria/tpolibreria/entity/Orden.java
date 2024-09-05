@@ -19,6 +19,11 @@ import lombok.Data;
 @Table(name = "ordenes")
 public class Orden {
 
+    public Orden(){
+
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,15 +41,31 @@ public class Orden {
     @JsonBackReference
     private Carrito carrito;
 
-    @Transient//dato transitorio, no se guarda en la BD
-    public Double TotalDeCompra() {
-        Double total = carrito.getPrecio();
-        if (giftCard != null) {
-            // Aplicar descuento 
-            total -= total * (giftCard.getDescuento() / 100);
+    @Column
+    private Double TotalSinDescuento(){
+        Double Total = 0.0;
+        if (carrito != null){
+            Total = carrito.getPrecio();
+            
         }
-        // Si no hay GiftCard, total ya está sin el descuento
+        return Total;
+
+    }
+
+    @Column
+    private Double TotalConDescueno(){
+        Double total = 0.0;
+        if (carrito != null){
+            if (giftCard != null) {
+                // Aplicar descuento 
+                total -= total * (giftCard.getDescuento() / 100);
+            }
+            // Si no hay GiftCard, total ya está sin el descuento
+            return total;
+        }
         return total;
+        
+
     }
 
     
