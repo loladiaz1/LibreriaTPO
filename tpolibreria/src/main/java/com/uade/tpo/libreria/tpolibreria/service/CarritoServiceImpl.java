@@ -24,15 +24,15 @@ public class CarritoServiceImpl implements CarritoService {
      }
  
      // Busca un carrito por el nombre de usuario
-    public Optional<Carrito> getCarritoById(String nombreUsuario) {
-         return carritoRepository.findById(nombreUsuario);
+    public Optional<Carrito> getCarritoById(String mail) {
+         return carritoRepository.findById(mail);
      }
     
-    public Carrito createCarrito(String nombreUsuario, double precio) throws ExcepcionCarrito{
-        List<Carrito> carritos = carritoRepository.findByNombreUsuario(nombreUsuario);
+    public Carrito createCarrito(String mail, double precio) throws ExcepcionCarrito{
+        List<Carrito> carritos = carritoRepository.findByMail(mail);
         if (carritos.isEmpty()) {
             Carrito nuevoCarrito = new Carrito();
-            nuevoCarrito.setNombreUsuario(nombreUsuario);
+            nuevoCarrito.setMail(mail);
             nuevoCarrito.setPrecio(precio);
             return carritoRepository.save(nuevoCarrito);
         }

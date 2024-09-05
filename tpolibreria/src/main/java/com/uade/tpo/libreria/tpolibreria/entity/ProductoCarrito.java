@@ -29,7 +29,7 @@ public class ProductoCarrito {
     private int cantidad;
 
     @ManyToOne
-    @JoinColumn(name = "carrito_nombreUsuario")
+    @JoinColumn(name = "carrito_mail")
     @JsonBackReference
     private Carrito carrito;
 }

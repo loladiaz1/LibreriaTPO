@@ -20,7 +20,7 @@ public class Carrito {
 
     @Id
     @Column
-    private String nombreUsuario;
+    private String mail;
 
     @Column
     private double precio;

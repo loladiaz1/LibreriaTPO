@@ -9,8 +9,8 @@ import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 @Repository
 public interface CarritoRepository  extends JpaRepository<Carrito, String>{
 
-    @Query(value = "select c from Carrito c where c.nombreUsuario = ?1")
-    List<Carrito> findByNombreUsuario(String nombreUsuario);
+    @Query(value = "select c from Carrito c where c.mail = ?1")
+    List<Carrito> findByMail(String mail);
 
     
 }
