@@ -12,9 +12,9 @@ public interface CarritoService {
 
     Page<Carrito> getCarritos(Pageable pageable);
 
-    Optional<Carrito> getCarritoById(String nombreUsuario);
+    Optional<Carrito> getCarritoById(String mail);
      
-    public Carrito createCarrito(String nombreUsuario, double precio) throws ExcepcionCarrito;
+    public Carrito createCarrito(String mail, double precio) throws ExcepcionCarrito;
 
     
 }

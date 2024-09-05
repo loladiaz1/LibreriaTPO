@@ -10,6 +10,6 @@ public interface UsuarioService {
 
     public Optional<Usuario> getUsuarioById(Long UsuarioId);
 
-    public Usuario createUsuario(String nombre_usuario, String mail, String contraseña, String nombre, String apellido, String direccion, int CP, String rol);
+    public Usuario createUsuario(String nombre_usuario, String mail, String contraseña, String nombre, String apellido, String direccion, int CP);
 
 }

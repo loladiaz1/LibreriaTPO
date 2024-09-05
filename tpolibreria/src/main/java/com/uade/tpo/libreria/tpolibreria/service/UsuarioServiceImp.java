@@ -28,7 +28,7 @@ public class UsuarioServiceImp implements UsuarioService{
 
     @Override
     public Usuario createUsuario(String nombre_usuario, String mail, String contraseña, String nombre, String apellido,
-            String direccion, int CP, String rol) {
+            String direccion, int CP) {
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre_usuario(nombre_usuario);
         nuevoUsuario.setMail(mail);
@@ -37,7 +37,6 @@ public class UsuarioServiceImp implements UsuarioService{
         nuevoUsuario.setApellido(apellido);
         nuevoUsuario.setDireccion(direccion);
         nuevoUsuario.setCP(CP);
-        nuevoUsuario.setRol(rol);
         return usuarioRepository.save(nuevoUsuario);
     }
     

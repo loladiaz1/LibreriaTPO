@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CarritoRequest {
-    private String nombreUsuario;
+    private String mail;
     private double precio;
     
 }

@@ -48,9 +48,8 @@ public class CarritoController {
     @PostMapping
      public ResponseEntity<Object> createCarrito(@RequestBody CarritoRequest carritoRequest)
             throws ExcepcionCarrito{
-                Carrito result = carritoService.createCarrito(carritoRequest.getNombreUsuario() ,carritoRequest.getPrecio());
-                return ResponseEntity.created(URI.create("/carritos/" + result.getNombreUsuario() + result.getPrecio())).body(result);
-                //uso getNombreUsuario porque es el id de carrito 
+                Carrito result = carritoService.createCarrito(carritoRequest.getMail() ,carritoRequest.getPrecio());
+                return ResponseEntity.created(URI.create("/carritos/" + result.getMail() + result.getPrecio())).body(result);
             }
 
     

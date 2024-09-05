@@ -1,9 +1,6 @@
 package com.uade.tpo.libreria.tpolibreria.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-//import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-//import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +14,6 @@ import lombok.Data;
 @Data
 public class ProductoCarrito {
 
-    //Le falta el constructor?
     public ProductoCarrito() {
     }
     
@@ -33,7 +29,7 @@ public class ProductoCarrito {
     private int cantidad;
 
     @ManyToOne
-    @JoinColumn(name = "carrito_nombreUsuario")
+    @JoinColumn(name = "carrito_mail")
     @JsonBackReference
     private Carrito carrito;
 }

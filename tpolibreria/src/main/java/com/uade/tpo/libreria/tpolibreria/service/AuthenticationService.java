@@ -2,9 +2,7 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +25,10 @@ public class AuthenticationService {
 
         public AuthenticationResponse register(RegisterRequest request) {
                 var user = Usuario.builder()
-                                .firstName(request.getFirstname())
-                                .lastName(request.getLastname())
-                                .email(request.getEmail())
-                                .password(passwordEncoder.encode(request.getPassword()))
+                                .nombre(request.getNombre())
+                                .apellido(request.getApellido())
+                                .mail(request.getMail())
+                                .contraseña(passwordEncoder.encode(request.getContraseña()))
                                 .role(request.getRole())
                                 .build();
 
@@ -44,10 +42,10 @@ public class AuthenticationService {
         public AuthenticationResponse authenticate(AuthenticationRequest request) {
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(
-                                                request.getEmail(),
-                                                request.getPassword()));
+                                                request.getMail(),
+                                                request.getContraseña()));
 
-                var user = repository.findByEmail(request.getEmail())
+                var user = repository.findByMail(request.getMail())
                                 .orElseThrow();
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
