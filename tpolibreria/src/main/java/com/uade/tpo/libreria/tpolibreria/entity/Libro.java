@@ -3,9 +3,6 @@ package com.uade.tpo.libreria.tpolibreria.entity;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -20,6 +17,9 @@ import lombok.Data;
 @Entity
 
 public class Libro {
+
+    public Libro(){
+    }
     
     @Id
     @Column(unique = true)
