@@ -71,35 +71,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return nuevoProductoCarrito;
     }
 
-    @Override
-    public void eliminarProductoCarrito(String carritoMail, Long productoCarritoId) {
-        Carrito carrito = carritoRepository.findById(carritoMail)
-            .orElseThrow(() -> new RuntimeException("Carrito no encontrado con mail: " + carritoMail));
-
-        // Encuentra el ProductoCarrito a eliminar
-        ProductoCarrito productoCarrito = carrito.getProductosCarrito().stream()
-            .filter(pc -> pc.getId().equals(productoCarritoId))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("ProductoCarrito no encontrado con ID: " + productoCarritoId));
-
-        carrito.getProductosCarrito().remove(productoCarrito);
-
-        // Actualizar el total del carrito
-        carrito.calcularYActualizarPrecioTotal();
-
-        // Eliminar el ProductoCarrito
-        productoCarritoRepository.delete(productoCarrito);
-
-        // Guardar los cambios en el carrito
-        carritoRepository.save(carrito);
-    }
-
-    @Override
-    public ProductoCarrito obtenerProductoCarrito(Long id) {
-        return productoCarritoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("ProductoCarrito no encontrado con ID: " + id));
-    }
-}
+    
      */
     
 
