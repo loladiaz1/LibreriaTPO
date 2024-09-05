@@ -18,8 +18,9 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+        if (request.getContraseña() == null) 
+            throw new IllegalArgumentException("La contraseña no puede ser nula");
         return ResponseEntity.ok(service.register(request));
     }
 
