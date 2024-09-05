@@ -32,6 +32,29 @@ public class Carrito {
     @OneToOne(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private Usuario usuario;
+
+    /*
+    public void calcularYActualizarPrecioTotal() {
+        double total = 0.0;
+
+        for (ProductoCarrito productoCarrito : productosCarrito) {
+            Libro libro = productoCarrito.getLibro();
+            
+            double precioLibro = libro.getPrecio();
+            
+            int cantidad = productoCarrito.getCantidad();
+            
+            double subtotal = precioLibro * cantidad;
+            
+            total += subtotal;
+    }
+
+    // Establece el precio total del carrito
+    this.precioTotal = total;
+}
+
+    */
+
 }
 
 

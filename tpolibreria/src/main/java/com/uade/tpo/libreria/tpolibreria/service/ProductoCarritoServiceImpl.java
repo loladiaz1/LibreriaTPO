@@ -34,6 +34,75 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findCantidadById(productoCarritoId);
     }
 
+    /*
+    public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carritoMail) throws ExcepcionProductoCarritoDuplicado {
+        // Verificar si el ProductoCarrito ya existe en el carrito
+        Carrito carrito = carritoRepository.findById(carritoMail)
+            .orElseThrow(() -> new RuntimeException("Carrito no encontrado con mail: " + carritoMail));
+        
+        // Verificar si el libro existe
+        Libro libro = libroRepository.findById(isbn)
+            .orElseThrow(() -> new RuntimeException("Libro no encontrado con ISBN: " + isbn));
+
+        // Verificar si el productoCarrito ya existe en el carrito
+        boolean productoExistente = carrito.getProductosCarrito().stream()
+            .anyMatch(pc -> pc.getLibro().equals(libro));
+
+        if (productoExistente) {
+            throw new ExcepcionProductoCarritoDuplicado("El producto ya está en el carrito.");
+        }
+
+        // Crear una nueva instancia de ProductoCarrito
+        ProductoCarrito nuevoProductoCarrito = new ProductoCarrito();
+        nuevoProductoCarrito.setCantidad(cantidad);
+        nuevoProductoCarrito.setLibro(libro);
+        nuevoProductoCarrito.setCarrito(carrito);
+
+        // Agregar el ProductoCarrito al carrito
+        carrito.getProductosCarrito().add(nuevoProductoCarrito);
+
+        // Actualizar el total del carrito
+        carrito.calcularYActualizarPrecioTotal();
+
+        // Guardar el ProductoCarrito y el Carrito
+        productoCarritoRepository.save(nuevoProductoCarrito);
+        carritoRepository.save(carrito);
+
+        return nuevoProductoCarrito;
+    }
+
+    @Override
+    public void eliminarProductoCarrito(String carritoMail, Long productoCarritoId) {
+        Carrito carrito = carritoRepository.findById(carritoMail)
+            .orElseThrow(() -> new RuntimeException("Carrito no encontrado con mail: " + carritoMail));
+
+        // Encuentra el ProductoCarrito a eliminar
+        ProductoCarrito productoCarrito = carrito.getProductosCarrito().stream()
+            .filter(pc -> pc.getId().equals(productoCarritoId))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("ProductoCarrito no encontrado con ID: " + productoCarritoId));
+
+        carrito.getProductosCarrito().remove(productoCarrito);
+
+        // Actualizar el total del carrito
+        carrito.calcularYActualizarPrecioTotal();
+
+        // Eliminar el ProductoCarrito
+        productoCarritoRepository.delete(productoCarrito);
+
+        // Guardar los cambios en el carrito
+        carritoRepository.save(carrito);
+    }
+
+    @Override
+    public ProductoCarrito obtenerProductoCarrito(Long id) {
+        return productoCarritoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("ProductoCarrito no encontrado con ID: " + id));
+    }
+}
+     */
+    
+
     @Override
     public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado {
         //Optional<ProductoCarrito> productoCarritoExistente = ProductoCarritoRepository.findById(id);

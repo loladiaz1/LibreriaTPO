@@ -28,12 +28,17 @@ public class CarritoServiceImpl implements CarritoService {
          return carritoRepository.findById(mail);
      }
     
+
+    
     public Carrito createCarrito(String mail, double precio) throws ExcepcionCarrito{
         List<Carrito> carritos = carritoRepository.findByMail(mail);
         if (carritos.isEmpty()) {
             Carrito nuevoCarrito = new Carrito();
             nuevoCarrito.setMail(mail);
-            nuevoCarrito.setPrecio(precio);
+            //nuevoCarrito.setPrecio(precio);
+
+            //Que el precio empiece en 0
+            nuevoCarrito.setPrecio(0.0);
             return carritoRepository.save(nuevoCarrito);
         }
         throw new ExcepcionCarrito();
