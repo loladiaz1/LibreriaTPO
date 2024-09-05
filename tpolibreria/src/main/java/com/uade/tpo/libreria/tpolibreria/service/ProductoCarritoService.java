@@ -13,7 +13,7 @@ public interface ProductoCarritoService {
     
     public Optional<ProductoCarrito> getProductoCarritoById(Long ProductoCarritoId);
 
-    public ProductoCarrito createProductoCarrito(Long id, int cantidad) throws ExcepcionProductoCarritoDuplicado;
+    public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado;
     
     /*
     posibles:
