@@ -52,6 +52,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
                 //sumo la cantidad vieja y la cantidad nueva
                 productoCarrito.setCantidad(productoCarrito.getCantidad() + cantidad);
                 carrito.calcularYActualizarPrecioTotal();
+                carritoRepository.save(carrito);
                 productoEncontrado = productoCarrito;
                 break;
                
