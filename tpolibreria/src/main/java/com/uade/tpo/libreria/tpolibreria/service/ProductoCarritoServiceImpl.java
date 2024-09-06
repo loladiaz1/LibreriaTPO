@@ -2,6 +2,7 @@ package com.uade.tpo.libreria.tpolibreria.service;
 
 import java.util.Optional;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -87,4 +88,12 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     public Optional<ProductoCarrito> getProductoCarritoById(Long ProductoCarritoId) {
         return ProductoCarritoRepository.findById(ProductoCarritoId);
     }
+
+    @Override
+    //esta bien el list?, la profe usa page con findall
+    public List<ProductoCarrito> getProductosCarritoByMail(String carrito_mail) {
+        return ProductoCarritoRepository.findByMail(carrito_mail);
+    }
+
+
 }
