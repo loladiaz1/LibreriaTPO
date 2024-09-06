@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.libreria.tpolibreria.entity.Usuario;
 import com.uade.tpo.libreria.tpolibreria.service.UsuarioService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.net.URI;
 
@@ -41,6 +44,19 @@ public class UsuariosController {
             return ResponseEntity.ok(result.get());
         }
         return ResponseEntity.noContent().build();
+    }
+    
+    @PutMapping("/{usuarioId}")
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long usuarioId, @RequestBody UsuarioRequest ur) {
+        Optional<Usuario> result = usuarioService.updateUsuario(usuarioId, ur.getNombre_usuario(), ur.getMail(),
+                ur.getContraseña(), ur.getNombre(), ur.getApellido(), ur.getDireccion(), ur.getCP());
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{usuarioId}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long usuarioId) {
+        boolean deleted = usuarioService.deleteUsuario(usuarioId);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
     
     @PostMapping

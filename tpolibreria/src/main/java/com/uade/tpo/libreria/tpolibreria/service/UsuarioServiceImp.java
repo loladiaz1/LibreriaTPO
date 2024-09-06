@@ -39,6 +39,31 @@ public class UsuarioServiceImp implements UsuarioService{
         nuevoUsuario.setCP(CP);
         return usuarioRepository.save(nuevoUsuario);
     }
+    @Override
+    public Optional<Usuario> updateUsuario(Long usuarioId, String nombre_usuario, String mail, String contraseña, String nombre, String apellido, String direccion, int CP) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(usuarioId);
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            usuario.setNombre_usuario(nombre_usuario);
+            usuario.setMail(mail);
+            usuario.setContraseña(contraseña);
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setDireccion(direccion);
+            usuario.setCP(CP);
+            return Optional.of(usuarioRepository.save(usuario));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteUsuario(Long usuarioId) {
+        if (usuarioRepository.existsById(usuarioId)) {
+            usuarioRepository.deleteById(usuarioId);
+            return true;
+        }
+        return false;
+    }
     
     
 }
