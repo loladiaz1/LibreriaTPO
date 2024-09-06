@@ -69,7 +69,7 @@ public class ProductosCarritoController {
         return ResponseEntity.created(URI.create("/productosCarrito/" + resultado.getId())).body(resultado);
     }
     
-    @GetMapping("/{mail}")
+    @GetMapping("/mail/{mail}")
     public ResponseEntity<List<ProductoCarrito>> getProductosCarritoByMail(@PathVariable String mail) {
         List<ProductoCarrito> productosCarrito = ProductoCarritoService.getProductosCarritoByMail(mail);
         if (productosCarrito.isEmpty()) {
