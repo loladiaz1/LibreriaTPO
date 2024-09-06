@@ -91,6 +91,24 @@ public class LibrosController {
         }
         return ResponseEntity.ok(libroService.getLibros(PageRequest.of(page, size), null, null, null, idioma));
     }
+    @DeleteMapping("/{isbn}")
+    public ResponseEntity<Void> deleteLibro(@PathVariable int isbn) {
+        try {
+            libroService.deleteLibro(isbn);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping("/{isbn}")
+    public ResponseEntity<Libro> updateLibro(@PathVariable int isbn, @RequestBody LibroRequest libroRequest) {
+        try {
+            Libro updatedLibro = libroService.updateLibro(isbn, libroRequest);
+            return ResponseEntity.ok(updatedLibro);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     // método para crear un libro usando LibroRequest y LibroService
     @PostMapping
