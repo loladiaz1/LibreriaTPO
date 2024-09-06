@@ -18,6 +18,5 @@ public interface ProductoCarritoService {
     /*
     posibles:
     - getLibroByProductoCarritoId(Long ProductoCarritoId) (obtendrias el ISBN)
-    - getNombreUsuarioByProductoCarritoId (no creo, obtenelo del carrito)
     */
 } 

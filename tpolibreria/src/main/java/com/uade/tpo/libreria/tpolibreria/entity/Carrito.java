@@ -23,7 +23,7 @@ public class Carrito {
     private String mail;
 
     @Column
-    private double precio;
+    private double total;
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -33,28 +33,25 @@ public class Carrito {
     @JsonBackReference
     private Usuario usuario;
 
-    /*
+    
     public void calcularYActualizarPrecioTotal() {
-        double total = 0.0;
+        double suma = 0.0;
 
         for (ProductoCarrito productoCarrito : productosCarrito) {
             Libro libro = productoCarrito.getLibro();
-            
             double precioLibro = libro.getPrecio();
-            
             int cantidad = productoCarrito.getCantidad();
             
             double subtotal = precioLibro * cantidad;
             
-            total += subtotal;
+            suma += subtotal;
     }
 
     // Establece el precio total del carrito
-    this.precioTotal = total;
+    this.total = suma;
 }
 
-    */
-
+    
 }
 
 

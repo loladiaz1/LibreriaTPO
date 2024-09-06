@@ -34,65 +34,45 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findCantidadById(productoCarritoId);
     }
 
-    /*
-    public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carritoMail) throws ExcepcionProductoCarritoDuplicado {
-        // Verificar si el ProductoCarrito ya existe en el carrito
-        Carrito carrito = carritoRepository.findById(carritoMail)
-            .orElseThrow(() -> new RuntimeException("Carrito no encontrado con mail: " + carritoMail));
-        
-        // Verificar si el libro existe
-        Libro libro = libroRepository.findById(isbn)
-            .orElseThrow(() -> new RuntimeException("Libro no encontrado con ISBN: " + isbn));
-
-        // Verificar si el productoCarrito ya existe en el carrito
-        boolean productoExistente = carrito.getProductosCarrito().stream()
-            .anyMatch(pc -> pc.getLibro().equals(libro));
-
-        if (productoExistente) {
-            throw new ExcepcionProductoCarritoDuplicado("El producto ya está en el carrito.");
-        }
-
-        // Crear una nueva instancia de ProductoCarrito
-        ProductoCarrito nuevoProductoCarrito = new ProductoCarrito();
-        nuevoProductoCarrito.setCantidad(cantidad);
-        nuevoProductoCarrito.setLibro(libro);
-        nuevoProductoCarrito.setCarrito(carrito);
-
-        // Agregar el ProductoCarrito al carrito
-        carrito.getProductosCarrito().add(nuevoProductoCarrito);
-
-        // Actualizar el total del carrito
-        carrito.calcularYActualizarPrecioTotal();
-
-        // Guardar el ProductoCarrito y el Carrito
-        productoCarritoRepository.save(nuevoProductoCarrito);
-        carritoRepository.save(carrito);
-
-        return nuevoProductoCarrito;
-    }
-
-    
-     */
-    
-
     @Override
     public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado {
         //Optional<ProductoCarrito> productoCarritoExistente = ProductoCarritoRepository.findById(id);
         //if (productoCarritoExistente.isPresent()) {
         //throw new ExcepcionProductoCarritoDuplicado();
         //}
-    
-        ProductoCarrito nuevoProductoCarrito = new ProductoCarrito();
-        nuevoProductoCarrito.setCantidad(cantidad);
 
-        //Relaciones
-        Libro libro = libroRepository.findById(isbn)
-            .orElseThrow(() -> new RuntimeException("Libro no encontrado con ISBN: " + isbn));
-        nuevoProductoCarrito.setLibro(libro);
-
+        //CAMBIAR LOS EXCEPTIONS
         Carrito carrito = carritoRepository.findById(carrito_mail)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con mail: " + carrito_mail));
-        nuevoProductoCarrito.setCarrito(carrito);
+            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + carrito_mail));
+
+        ProductoCarrito productoEncontrado = null;
+        //busca el productoCarrito y si lo encuentra le actualiza la cantidad
+        for (ProductoCarrito productoCarrito : carrito.getProductosCarrito()) {
+            if (productoCarrito.getLibro().getIsbn() == isbn) {
+                //sumo la cantidad vieja y la cantidad nueva
+                productoCarrito.setCantidad(productoCarrito.getCantidad() + cantidad);
+                carrito.calcularYActualizarPrecioTotal();
+                productoEncontrado = productoCarrito;
+                break;
+               
+            }
+        }
+
+        //si lo encontro, lo devuelvo
+        if (productoEncontrado != null) {
+            return ProductoCarritoRepository.save(productoEncontrado);
+        }
+
+        //ahora si no se encontro, voy a crear un productoCarrito nuevo:
+        Libro libro = libroRepository.findById(isbn)
+            .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
+
+        
+        ProductoCarrito nuevoProductoCarrito = new ProductoCarrito();
+        nuevoProductoCarrito.setLibro(libro);  
+        nuevoProductoCarrito.setCantidad(cantidad);  
+        nuevoProductoCarrito.setCarrito(carrito); 
+
 
     return ProductoCarritoRepository.save(nuevoProductoCarrito);
     }
@@ -101,16 +81,4 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     public Optional<ProductoCarrito> getProductoCarritoById(Long ProductoCarritoId) {
         return ProductoCarritoRepository.findById(ProductoCarritoId);
     }
-
-    /*
-    public Page<Genero> getGeneros(PageRequest pageable) {
-        return GeneroRepository.findAll(pageRequest);
-    }
-
-    public Optional<Genero> getGeneroById(Long GeneroId) {
-        return GeneroRepository.findById(GeneroId);
-    }
-     * 
-     * 
-     */
 }
