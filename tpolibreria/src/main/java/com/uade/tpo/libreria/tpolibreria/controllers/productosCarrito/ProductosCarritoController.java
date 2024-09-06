@@ -61,8 +61,9 @@ public class ProductosCarritoController {
     public ResponseEntity<Object> createProductoCarrito(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) 
         throws ExcepcionProductoCarritoDuplicado {
         ProductoCarrito resultado = ProductoCarritoService.createProductoCarrito(
-            ProductoCarritoRequest.getId(), 
-            ProductoCarritoRequest.getCantidad());
+            ProductoCarritoRequest.getCantidad(),
+            ProductoCarritoRequest.getIsbn(),
+            ProductoCarritoRequest.getCarrito_mail());
         return ResponseEntity.created(URI.create("/productosCarrito/" + resultado.getId())).body(resultado);
     }
     
