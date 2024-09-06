@@ -10,6 +10,8 @@ import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
 
 import java.net.URI;
 import java.util.Optional;
+
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -67,4 +69,15 @@ public class ProductosCarritoController {
         return ResponseEntity.created(URI.create("/productosCarrito/" + resultado.getId())).body(resultado);
     }
     
+    @GetMapping("/{mail}")
+    public ResponseEntity<List<ProductoCarrito>> getProductosCarritoByMail(@PathVariable String mail) {
+        List<ProductoCarrito> productosCarrito = ProductoCarritoService.getProductosCarritoByMail(mail);
+        if (productosCarrito.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(productosCarrito);
+        }
+    }
+
+
 }
