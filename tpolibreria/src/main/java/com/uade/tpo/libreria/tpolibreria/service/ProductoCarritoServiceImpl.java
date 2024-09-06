@@ -51,15 +51,17 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             if (productoCarrito.getLibro().getIsbn() == isbn) {
                 //sumo la cantidad vieja y la cantidad nueva
                 productoCarrito.setCantidad(productoCarrito.getCantidad() + cantidad);
-                carrito.calcularYActualizarPrecioTotal();
+
+                double montoASumar = productoCarrito.getLibro().getPrecio() * cantidad;
+                carrito.setTotal(carrito.getTotal() + montoASumar);
                 carritoRepository.save(carrito);
+                
                 productoEncontrado = productoCarrito;
                 break;
-               
             }
         }
 
-        //si lo encontro, lo devuelvo
+        //si lo encontro, lo devuelvo y lo guardo en repository
         if (productoEncontrado != null) {
             return ProductoCarritoRepository.save(productoEncontrado);
         }
@@ -73,9 +75,10 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         nuevoProductoCarrito.setLibro(libro);  
         nuevoProductoCarrito.setCantidad(cantidad);  
         nuevoProductoCarrito.setCarrito(carrito); 
-        carrito.calcularYActualizarPrecioTotal();
-        carritoRepository.save(carrito);
 
+        double montoASumar = libro.getPrecio() * cantidad;
+        carrito.setTotal(carrito.getTotal() + montoASumar);
+        carritoRepository.save(carrito);
 
     return ProductoCarritoRepository.save(nuevoProductoCarrito);
     }

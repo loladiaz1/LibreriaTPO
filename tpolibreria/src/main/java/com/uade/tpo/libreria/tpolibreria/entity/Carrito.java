@@ -33,26 +33,8 @@ public class Carrito {
     @JsonBackReference
     private Usuario usuario;
 
-    
-    public void calcularYActualizarPrecioTotal() {
-        double suma = 0.0;
-
-        for (ProductoCarrito productoCarrito : productosCarrito) {
-            Libro libro = productoCarrito.getLibro();
-            double precioLibro = libro.getPrecio();
-            int cantidad = productoCarrito.getCantidad();
-            
-            double subtotal = precioLibro * cantidad;
-            
-            suma += subtotal;
-    }
-
-    // Establece el precio total del carrito
-    this.total = suma;
 }
 
-    
-}
 
 
 

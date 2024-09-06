@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
+import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCarrito;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
 
@@ -41,10 +43,9 @@ public class CarritoServiceImpl implements CarritoService {
             return carritoRepository.save(nuevoCarrito);
         }
         throw new ExcepcionCarrito();
-
-
     }
     
-
+    
+    
     
 }
