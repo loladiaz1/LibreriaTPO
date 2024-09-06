@@ -1,4 +1,3 @@
-/* 
 package com.uade.tpo.libreria.tpolibreria.controllers.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,4 +16,3 @@ public class AuthenticationResponse {
     @JsonProperty("access_token")
     private String accessToken;
 }
-*/

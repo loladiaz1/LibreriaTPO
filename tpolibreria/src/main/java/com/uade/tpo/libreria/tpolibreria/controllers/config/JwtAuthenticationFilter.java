@@ -1,4 +1,4 @@
-/*package com.uade.tpo.libreria.tpolibreria.controllers.config;
+package com.uade.tpo.libreria.tpolibreria.controllers.config;
 
 import java.io.IOException;
 
@@ -54,4 +54,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 }
-*/

@@ -1,4 +1,3 @@
-/* 
 package com.uade.tpo.libreria.tpolibreria.controllers.auth;
 
 import lombok.AllArgsConstructor;
@@ -15,4 +14,3 @@ public class AuthenticationRequest {
     private String mail;
     private String contraseña;
 }
-*/
