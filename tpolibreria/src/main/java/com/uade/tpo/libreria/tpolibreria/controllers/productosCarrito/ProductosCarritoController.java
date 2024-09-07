@@ -4,12 +4,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
 
 import java.net.URI;
 import java.util.Optional;
+
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+//"/{productoCarritoId}/productoCarrito"
+// 1.LO QUE TENGO QUE PONER 2.LO QUE VA A DEVOLVER (no es necesario)
 
 @RestController //indica que esa clase va a manejar solicitudes HTTP y devolverá directamente el resultado de los métodos en forma de respuestas HTTP.
 @RequestMapping("productosCarrito") //indica que todos los métodos de esa clase que manejen solicitudes HTTP tendrán la URL base "/productosCarrito""
@@ -35,7 +40,7 @@ public class ProductosCarritoController {
         return ResponseEntity.ok(ProductoCarritoService.getProductosCarrito(PageRequest.of(page, size))); 
     }
      
-    @GetMapping("/{productoCarritoId}")
+    @GetMapping("/{productoCarritoId}/productoCarritoById")
     //@PathVariable --> indica que el valor del segmento de la URL {productoCarritoId} debe ser vinculado al parámetro productoCarritoId en el método.
     public ResponseEntity<ProductoCarrito> getProductoCarritoById(@PathVariable Long productoCarritoId) {
         //Optional --> se utiliza para representar un valor que puede estar presente o ausente
@@ -46,7 +51,7 @@ public class ProductosCarritoController {
             return ResponseEntity.noContent().build(); //es una forma de construir una respuesta HTTP en un controlador de Spring Boot cuando no hay contenido para devolver, pero deseas indicar que la solicitud fue procesada correctamente.
     }
 
-    @GetMapping("/{productoCarritoId}/cantidad")
+    @GetMapping("/{productoCarritoId}/cantidadById")
     public ResponseEntity<Integer> getCantidadById(@PathVariable Long productoCarritoId) {
         
         Optional<Integer> cantidad = ProductoCarritoService.getCantidadById(productoCarritoId);
@@ -67,4 +72,36 @@ public class ProductosCarritoController {
         return ResponseEntity.created(URI.create("/productosCarrito/" + resultado.getId())).body(resultado);
     }
     
+    @GetMapping("/{mail}/listaDeProductosCarritoByMail")
+    public ResponseEntity<List<ProductoCarrito>> getProductosCarritoByMail(@PathVariable String mail) {
+        List<ProductoCarrito> productosCarrito = ProductoCarritoService.getProductosCarritoByMail(mail);
+        if (productosCarrito.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(productosCarrito);
+        }
+    }
+
+    @GetMapping("/{productoCarritoId}/libroById")
+    public ResponseEntity<Libro> getLibroById(@PathVariable Long productoCarritoId) {
+        Optional<Libro> libro = ProductoCarritoService.getLibroById(productoCarritoId);
+
+        if (libro.isPresent()) {
+            return ResponseEntity.ok(libro.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{isbn}/productoCarritoByIsbn")
+    public ResponseEntity<ProductoCarrito> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
+        Optional<ProductoCarrito> prodCarr = ProductoCarritoService.getProductoCarritoByIsbn(isbn);
+
+        if (prodCarr.isPresent()) {
+            return ResponseEntity.ok(prodCarr.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
