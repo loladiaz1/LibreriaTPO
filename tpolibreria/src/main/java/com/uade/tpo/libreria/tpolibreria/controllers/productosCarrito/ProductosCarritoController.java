@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
@@ -76,6 +77,17 @@ public class ProductosCarritoController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(productosCarrito);
+        }
+    }
+
+    @GetMapping("/{productoCarritoId}/libro")
+    public ResponseEntity<Libro> getLibroByProductoCarritoId(@PathVariable Long productoCarritoId) {
+        Optional<Libro> libro = ProductoCarritoService.getLibroByProductoCarritoId(productoCarritoId);
+
+        if (libro.isPresent()) {
+            return ResponseEntity.ok(libro.get());
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
