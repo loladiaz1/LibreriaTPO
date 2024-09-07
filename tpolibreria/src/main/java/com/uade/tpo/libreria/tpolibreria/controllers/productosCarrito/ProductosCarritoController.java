@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 //"/{productoCarritoId}/productoCarrito"
 // 1.LO QUE TENGO QUE PONER 2.LO QUE VA A DEVOLVER (no es necesario)
@@ -104,4 +106,15 @@ public class ProductosCarritoController {
         }
     }
 
+    //"el usuario tiene que poner en el url, el isbn del libro que quiere actualizar"
+    //dsp en el json va a escribir {cantidad: 3}, se va a moficar a esa cantidad
+    @PutMapping("/{isbn}/ActualizarCantLibro")
+    public ResponseEntity<String> actualizarProductoCarritoByIsbn(
+            @PathVariable Integer isbn, 
+            @RequestBody ProductoCarritoRequest productoCarritoRequest) {
+        
+        ProductoCarritoService.actualizarProductoCarritoByIsbn(isbn, productoCarritoRequest);
+        
+        return ResponseEntity.ok("Cantidad del libro actualizado.");
+    }
 }

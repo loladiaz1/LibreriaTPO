@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
+
+import com.uade.tpo.libreria.tpolibreria.controllers.productosCarrito.ProductoCarritoRequest;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
@@ -15,6 +17,8 @@ import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDupl
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.ProductoCarritoRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductoCarritoServiceImpl implements ProductoCarritoService{
@@ -101,6 +105,45 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     public Optional<ProductoCarrito> getProductoCarritoByIsbn(int isbn) {
         return ProductoCarritoRepository.findByIsbn(isbn);
     }
+
+    /* 
+    @Override
+    public void actualizarProductoCarritoByIsbn(Integer isbn, ProductoCarritoRequest prodCarrRequest) {
+        //url: 
+        //json:
+        //{cantidad: 3}
+        
+        ProductoCarrito productoCarritoExistente = ProductoCarritoRepository.findByIsbn(isbn)
+            .orElseThrow(() -> new EntityNotFoundException("No se encontró el producto en el carrito para el libro con ISBN: " + isbn));
+    
+        if (prodCarrRequest.getCantidad() > 0){
+            //ACA SE VA A CAMBIAR EL TOTAL DEL CARRITO Y LA CANTIDAD DEL LIBRO EN PRODUCTO CARRITO
+
+            
+            //1. le resto el precio x cantidad que tenia del libro con la vieja cantidad:
+            Carrito carrito = carritoRepository.
+            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + carrito_mail));
+
+            //va a cambiar la cantidad vieja por la nueva
+            productoCarritoExistente.setCantidad(prodCarrRequest.getCantidad());
+
+            //modificar tambien el total del carrito:
+            
+
+            double montoNuevo = productoCarritoExistente.getLibro().getPrecio() * prodCarrRequest.getCantidad();
+
+
+                carrito.setTotal(carrito.getTotal() + montoASumar);
+                carritoRepository.save(carrito);
+
+        } else {
+            throw new IllegalArgumentException("La cantidad debe ser mayor que cero.");
+        }
+
+        ProductoCarritoRepository.save(productoCarritoExistente);
+
+    }
+    */
 
 
 }
