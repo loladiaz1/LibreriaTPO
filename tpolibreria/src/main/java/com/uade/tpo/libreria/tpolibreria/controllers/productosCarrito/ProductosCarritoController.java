@@ -40,7 +40,7 @@ public class ProductosCarritoController {
         return ResponseEntity.ok(ProductoCarritoService.getProductosCarrito(PageRequest.of(page, size))); 
     }
      
-    @GetMapping("/{productoCarritoId}/productoCarrito")
+    @GetMapping("/{productoCarritoId}/productoCarritoById")
     //@PathVariable --> indica que el valor del segmento de la URL {productoCarritoId} debe ser vinculado al parámetro productoCarritoId en el método.
     public ResponseEntity<ProductoCarrito> getProductoCarritoById(@PathVariable Long productoCarritoId) {
         //Optional --> se utiliza para representar un valor que puede estar presente o ausente
@@ -51,7 +51,7 @@ public class ProductosCarritoController {
             return ResponseEntity.noContent().build(); //es una forma de construir una respuesta HTTP en un controlador de Spring Boot cuando no hay contenido para devolver, pero deseas indicar que la solicitud fue procesada correctamente.
     }
 
-    @GetMapping("/{productoCarritoId}/cantidad")
+    @GetMapping("/{productoCarritoId}/cantidadById")
     public ResponseEntity<Integer> getCantidadById(@PathVariable Long productoCarritoId) {
         
         Optional<Integer> cantidad = ProductoCarritoService.getCantidadById(productoCarritoId);
@@ -72,7 +72,7 @@ public class ProductosCarritoController {
         return ResponseEntity.created(URI.create("/productosCarrito/" + resultado.getId())).body(resultado);
     }
     
-    @GetMapping("/{mail}/listaDeProductosCarrito")
+    @GetMapping("/{mail}/listaDeProductosCarritoByMail")
     public ResponseEntity<List<ProductoCarrito>> getProductosCarritoByMail(@PathVariable String mail) {
         List<ProductoCarrito> productosCarrito = ProductoCarritoService.getProductosCarritoByMail(mail);
         if (productosCarrito.isEmpty()) {
@@ -82,7 +82,7 @@ public class ProductosCarritoController {
         }
     }
 
-    @GetMapping("/{productoCarritoId}/libro")
+    @GetMapping("/{productoCarritoId}/libroById")
     public ResponseEntity<Libro> getLibroById(@PathVariable Long productoCarritoId) {
         Optional<Libro> libro = ProductoCarritoService.getLibroById(productoCarritoId);
 
@@ -93,7 +93,7 @@ public class ProductosCarritoController {
         }
     }
 
-    @GetMapping("/{isbn}/productoCarrito")
+    @GetMapping("/{isbn}/productoCarritoByIsbn")
     public ResponseEntity<ProductoCarrito> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
         Optional<ProductoCarrito> prodCarr = ProductoCarritoService.getProductoCarritoByIsbn(isbn);
 
