@@ -9,13 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 
 @Repository
 public interface ProductoCarritoRepository extends JpaRepository<ProductoCarrito, Long>{
-    //@Query(value = "select pc from ProductoCarr pc where pc.id = ?1")
-    //List<ProductoCarrito> findById(Long Id);
-    
+    @Query("select p.libro from ProductoCarrito p where p.id = :id")
+    Optional<Libro> findLibroByProductoCarritoId(@Param("id") Long id);
+
     @Query("select p.cantidad from ProductoCarrito p where p.id = :id")
     Optional<Integer> findCantidadById(@Param("id") Long id);
 

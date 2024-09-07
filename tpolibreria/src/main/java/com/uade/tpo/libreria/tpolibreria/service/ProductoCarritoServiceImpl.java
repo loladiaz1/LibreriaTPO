@@ -37,10 +37,6 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
 
     @Override
     public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado {
-        //Optional<ProductoCarrito> productoCarritoExistente = ProductoCarritoRepository.findById(id);
-        //if (productoCarritoExistente.isPresent()) {
-        //throw new ExcepcionProductoCarritoDuplicado();
-        //}
 
         //CAMBIAR LOS EXCEPTIONS
         Carrito carrito = carritoRepository.findById(carrito_mail)
@@ -93,6 +89,11 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     //esta bien el list?, la profe usa page con findall
     public List<ProductoCarrito> getProductosCarritoByMail(String carrito_mail) {
         return ProductoCarritoRepository.findByMail(carrito_mail);
+    }
+
+    @Override
+    public Optional<Libro> getLibroByProductoCarritoId(Long ProductoCarritoId) {
+        return ProductoCarritoRepository.findLibroByProductoCarritoId(ProductoCarritoId);
     }
 
 
