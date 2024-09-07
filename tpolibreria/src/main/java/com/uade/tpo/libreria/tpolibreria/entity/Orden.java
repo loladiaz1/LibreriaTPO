@@ -19,12 +19,7 @@ import lombok.Data;
 public class Orden {
 
     public Orden(){
-<<<<<<< HEAD
     }
-=======
-
-    }
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,6 +65,5 @@ public class Orden {
 
     }
 
->>>>>>> Sofi
     
 }

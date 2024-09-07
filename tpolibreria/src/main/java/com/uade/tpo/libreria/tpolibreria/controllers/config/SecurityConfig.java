@@ -71,6 +71,7 @@ public class SecurityConfig {
                                         .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/generos/**").permitAll()
                                         .requestMatchers("/libros/**").permitAll()
+                                        .requestMatchers("/giftcards/**").permitAll()
                                         .anyRequest()
                                         .authenticated())
                                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
