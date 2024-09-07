@@ -11,6 +11,7 @@ import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 
 public interface ProductoCarritoService {
+    //se usa page porque en la implementacion se usa el findAll que es parte de JPA, y como parametro se le pasa un pageable
     public Page<ProductoCarrito> getProductosCarrito(PageRequest pageRequest);
     //^^^ admin: si, usuario: no
     
@@ -26,12 +27,10 @@ public interface ProductoCarritoService {
     public List<ProductoCarrito> getProductosCarritoByMail(String carrito_mail); //se van a mostrar los ProductosCarrito de un usuario
     //^^^ admin: si, usuario: solo permitirle que ponga su mail
 
-    public Optional<Libro> getLibroByProductoCarritoId(Long ProductoCarritoId);
-    //^^^ solo para el admin
+    public Optional<Libro> getLibroById(Long ProductoCarritoId);
+    //^^^ admin: si, usuario: no
     
-    /*
-    posibles:
-    - getProductosCarritoByIsbn(int isbn)
-    */
+    public Optional<ProductoCarrito> getProductoCarritoByIsbn(int isbn);
+    //^^^ admin: si, usuario: no
 
 } 

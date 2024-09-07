@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
@@ -92,8 +93,13 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     }
 
     @Override
-    public Optional<Libro> getLibroByProductoCarritoId(Long ProductoCarritoId) {
+    public Optional<Libro> getLibroById(Long ProductoCarritoId) {
         return ProductoCarritoRepository.findLibroByProductoCarritoId(ProductoCarritoId);
+    }
+
+    @Override
+    public Optional<ProductoCarrito> getProductoCarritoByIsbn(int isbn) {
+        return ProductoCarritoRepository.findByIsbn(isbn);
     }
 
 

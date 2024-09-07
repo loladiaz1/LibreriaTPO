@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+//"/{productoCarritoId}/productoCarrito"
+// 1.LO QUE TENGO QUE PONER 2.LO QUE VA A DEVOLVER (no es necesario)
 
 @RestController //indica que esa clase va a manejar solicitudes HTTP y devolverá directamente el resultado de los métodos en forma de respuestas HTTP.
 @RequestMapping("productosCarrito") //indica que todos los métodos de esa clase que manejen solicitudes HTTP tendrán la URL base "/productosCarrito""
@@ -38,7 +40,7 @@ public class ProductosCarritoController {
         return ResponseEntity.ok(ProductoCarritoService.getProductosCarrito(PageRequest.of(page, size))); 
     }
      
-    @GetMapping("/{productoCarritoId}")
+    @GetMapping("/{productoCarritoId}/productoCarrito")
     //@PathVariable --> indica que el valor del segmento de la URL {productoCarritoId} debe ser vinculado al parámetro productoCarritoId en el método.
     public ResponseEntity<ProductoCarrito> getProductoCarritoById(@PathVariable Long productoCarritoId) {
         //Optional --> se utiliza para representar un valor que puede estar presente o ausente
@@ -70,7 +72,7 @@ public class ProductosCarritoController {
         return ResponseEntity.created(URI.create("/productosCarrito/" + resultado.getId())).body(resultado);
     }
     
-    @GetMapping("/mail/{mail}")
+    @GetMapping("/{mail}/listaDeProductosCarrito}")
     public ResponseEntity<List<ProductoCarrito>> getProductosCarritoByMail(@PathVariable String mail) {
         List<ProductoCarrito> productosCarrito = ProductoCarritoService.getProductosCarritoByMail(mail);
         if (productosCarrito.isEmpty()) {
@@ -81,8 +83,8 @@ public class ProductosCarritoController {
     }
 
     @GetMapping("/{productoCarritoId}/libro")
-    public ResponseEntity<Libro> getLibroByProductoCarritoId(@PathVariable Long productoCarritoId) {
-        Optional<Libro> libro = ProductoCarritoService.getLibroByProductoCarritoId(productoCarritoId);
+    public ResponseEntity<Libro> getLibroById(@PathVariable Long productoCarritoId) {
+        Optional<Libro> libro = ProductoCarritoService.getLibroById(productoCarritoId);
 
         if (libro.isPresent()) {
             return ResponseEntity.ok(libro.get());
@@ -91,5 +93,15 @@ public class ProductosCarritoController {
         }
     }
 
+    @GetMapping("/{isbn}/productoCarrito")
+    public ResponseEntity<ProductoCarrito> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
+        Optional<ProductoCarrito> prodCarr = ProductoCarritoService.getProductoCarritoByIsbn(isbn);
+
+        if (prodCarr.isPresent()) {
+            return ResponseEntity.ok(prodCarr.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
