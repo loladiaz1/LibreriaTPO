@@ -1,6 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.controllers.GiftCard;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,31 +32,44 @@ public class GiftCardController {
 
 
     //obtener un GiftCard por id
-
     @GetMapping("/{id}")
     public ResponseEntity<GiftCard> getGiftCardById(@PathVariable("id") Long id) {
         Optional<GiftCard> giftCard = giftCardRepository.findById(id);
         return giftCard.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //crear un nuevo GiftCard
+    @GetMapping
+    public ResponseEntity<List<GiftCard>> getAllGiftCards() {
+        List<GiftCard> giftCards = giftCardService.getAllGiftCards();
+        return ResponseEntity.ok(giftCards);
+    }
 
-
+    //crear un nuevo gift
     @PostMapping
-    public ResponseEntity<GiftCard> createGiftCard(@RequestBody GiftCard giftCard) {
-        if (giftCard.getDescuento() == null) {
-            giftCard.setDescuento(0.0);  // Establece descuento a 0 si es null
-        }
+    public ResponseEntity<GiftCard> createGiftCard(@RequestBody GiftCardRequest giftCardRequest) {
+        GiftCard giftCard = new GiftCard();
+        giftCard.setDescuento(giftCardRequest.getDescuento() != null ? giftCardRequest.getDescuento() : 0.0);
+        giftCard.setCodigo(giftCardRequest.getCodigo());
+        // GuardarGiftCard
         GiftCard savedGiftCard = giftCardRepository.save(giftCard);
+
         return new ResponseEntity<>(savedGiftCard, HttpStatus.CREATED);
     }
 
+    //actualiza gift
     @PutMapping("/{id}")
-    public ResponseEntity<GiftCard> updateGiftCard(@PathVariable Long id, @RequestBody GiftCard giftCardDetails) throws ExcepcionGiftCard {
-    GiftCard updatedGiftCard = giftCardService.updateGiftCard(id, giftCardDetails);
-    return ResponseEntity.ok(updatedGiftCard);
+    public ResponseEntity<GiftCard> updateGiftCard(
+            @PathVariable Long id, 
+            @RequestBody GiftCardRequest giftCardRequest) throws ExcepcionGiftCard {
+        GiftCard giftCardDetails = new GiftCard();
+        giftCardDetails.setDescuento(giftCardRequest.getDescuento() != null ? giftCardRequest.getDescuento() : 0.0);
+        giftCardDetails.setCodigo(giftCardRequest.getCodigo());
+        // Actualizar la GiftCard usando el servicio
+        GiftCard updatedGiftCard = giftCardService.updateGiftCard(id, giftCardDetails);
+        return ResponseEntity.ok(updatedGiftCard);
     }
 
+    //borra la gift
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGiftCard(@PathVariable Long id) throws ExcepcionGiftCard {
         giftCardService.deleteGiftCard(id);
