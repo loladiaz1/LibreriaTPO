@@ -1,6 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.controllers.GiftCard;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,12 @@ public class GiftCardController {
     public ResponseEntity<GiftCard> getGiftCardById(@PathVariable("id") Long id) {
         Optional<GiftCard> giftCard = giftCardRepository.findById(id);
         return giftCard.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GiftCard>> getAllGiftCards() {
+        List<GiftCard> giftCards = giftCardService.getAllGiftCards();
+        return ResponseEntity.ok(giftCards);
     }
 
     //crear un nuevo gift
