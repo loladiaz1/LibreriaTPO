@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class GiftCardRequest {
 
-    
     private Double descuento;
     private String codigo;
    

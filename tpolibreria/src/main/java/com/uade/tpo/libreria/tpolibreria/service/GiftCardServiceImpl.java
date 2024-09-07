@@ -1,7 +1,9 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import com.uade.tpo.libreria.tpolibreria.entity.GiftCard;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionGiftCard;
@@ -31,6 +33,11 @@ public class GiftCardServiceImpl implements GiftCardService {
 
         giftCardRepository.delete(giftCard);
     }
+
+    public List<GiftCard> getAllGiftCards() {
+        return giftCardRepository.findAll(); 
+    }
+
     
 }
 
