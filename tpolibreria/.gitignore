@@ -1,5 +1,1 @@
-# Ignorar application.properties en la carpeta resources
-/src/main/java/resources/application.properties
-
-# Ignorar application.properties en la carpeta classes
-/target/classes/application.properties
+application.properties

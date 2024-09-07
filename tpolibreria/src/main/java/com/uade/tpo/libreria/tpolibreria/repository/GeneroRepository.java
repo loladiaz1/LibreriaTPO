@@ -8,6 +8,7 @@ import com.uade.tpo.libreria.tpolibreria.entity.Genero;
 
 @Repository
 public interface GeneroRepository extends JpaRepository<Genero, Long> {
+
     @Query(value = "select g from Genero g where g.nombre = ?1")
     List<Genero> findByNombre(String nombre);
 }
