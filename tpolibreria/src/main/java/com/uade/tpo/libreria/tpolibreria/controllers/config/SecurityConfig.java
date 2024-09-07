@@ -58,8 +58,8 @@ public class SecurityConfig {
                                                                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
                                                 return new AuthorizationDecision(esPropietario || esAdmin); })
                                         .requestMatchers("/carritos/**").hasAnyAuthority(Role.ADMIN.name())
-                                        .requestMatchers("/productosCarrito/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .requestMatchers("/productosCarrito/**").permitAll()
                                         .requestMatchers("/generos/**").permitAll()
                                         .requestMatchers("/libros/**").permitAll()
                                         .requestMatchers("/giftcards/**").permitAll()
