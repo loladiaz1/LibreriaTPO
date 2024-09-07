@@ -23,7 +23,7 @@ public class Carrito {
     private String mail;
 
     @Column
-    private double precio;
+    private double total;
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -32,7 +32,9 @@ public class Carrito {
     @OneToOne(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private Usuario usuario;
+
 }
+
 
 
 

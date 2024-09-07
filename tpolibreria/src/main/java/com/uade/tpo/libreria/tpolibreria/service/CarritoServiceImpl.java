@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
+import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCarrito;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
 
@@ -28,21 +30,24 @@ public class CarritoServiceImpl implements CarritoService {
          return carritoRepository.findById(mail);
      }
     
-    public Carrito createCarrito(String mail, double precio) throws ExcepcionCarrito{
+
+    
+    public Carrito createCarrito(String mail) throws ExcepcionCarrito{
         List<Carrito> carritos = carritoRepository.findByMail(mail);
         if (carritos.isEmpty()) {
             Carrito nuevoCarrito = new Carrito();
             nuevoCarrito.setMail(mail);
-            nuevoCarrito.setPrecio(precio);
+
+            //Que el precio empiece en 0
+            nuevoCarrito.setTotal(0.0);
             return carritoRepository.save(nuevoCarrito);
         }
         throw new ExcepcionCarrito();
-
-
     }
 
     
     
-
+    
+    
     
 }
