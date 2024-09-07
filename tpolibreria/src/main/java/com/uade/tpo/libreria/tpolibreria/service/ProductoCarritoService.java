@@ -39,4 +39,6 @@ public interface ProductoCarritoService {
     
     //CUANDO MODIFIQUE LA CANTIDAD SE TIENE QUE MODIFICAR EL TOTAL DE CARRITO!!!!!!    
     //CREO QUE VA A SER MEJOR UN PATCH
+
+    public String getMailById(Long ProductoCarritoId);
 } 

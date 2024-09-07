@@ -105,8 +105,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     public Optional<ProductoCarrito> getProductoCarritoByIsbn(int isbn) {
         return ProductoCarritoRepository.findByIsbn(isbn);
     }
-
-    /* 
+    
     @Override
     public void actualizarProductoCarritoByIsbn(Integer isbn, ProductoCarritoRequest prodCarrRequest) {
         //url: 
@@ -119,31 +118,37 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         if (prodCarrRequest.getCantidad() > 0){
             //ACA SE VA A CAMBIAR EL TOTAL DEL CARRITO Y LA CANTIDAD DEL LIBRO EN PRODUCTO CARRITO
 
+            //1. Por el ISBN voy a obtener productoCarrito y productoCarrito tiene el mail(id de carrito)
+            //con el mail voy a obtener el carrito para cambiar el total
             
-            //1. le resto el precio x cantidad que tenia del libro con la vieja cantidad:
-            Carrito carrito = carritoRepository.
-            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + carrito_mail));
+            Long idProductoCarrito = productoCarritoExistente.getId();
+            String mail = ProductoCarritoRepository.findMailById(idProductoCarrito);
+            Carrito carrito = carritoRepository.findById(mail)
+                .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
 
-            //va a cambiar la cantidad vieja por la nueva
-            productoCarritoExistente.setCantidad(prodCarrRequest.getCantidad());
+            //2. Le resto el precio x cantidad viejo que tenia del libro antes de actualizar
+            double montoARestar = productoCarritoExistente.getLibro().getPrecio() * productoCarritoExistente.getCantidad(); //esta es la cantidad vieja
+            carrito.setTotal(carrito.getTotal() - montoARestar);
 
-            //modificar tambien el total del carrito:
-            
-
+            //3. le cambio la cantidad a productoCarrito y agrego precio x cantidad nueva al total del carrito
+            productoCarritoExistente.setCantidad(prodCarrRequest.getCantidad()); //el request tiene la cantidad nueva(el put que hizo el usuario)
+            ProductoCarritoRepository.save(productoCarritoExistente);
             double montoNuevo = productoCarritoExistente.getLibro().getPrecio() * prodCarrRequest.getCantidad();
-
-
-                carrito.setTotal(carrito.getTotal() + montoASumar);
-                carritoRepository.save(carrito);
-
-        } else {
-            throw new IllegalArgumentException("La cantidad debe ser mayor que cero.");
+            carrito.setTotal(carrito.getTotal() + montoNuevo);
+            carritoRepository.save(carrito);
+        } 
+        /*
+        else {
+            LLAMAR A DELETE, SI LA CANTIDAD NUEVA ES 0 O <0 QUE SE ELIMINE
+            ProductoCarritoRepository.delete(productoCarritoExistente);
         }
-
-        ProductoCarritoRepository.save(productoCarritoExistente);
-
+        */
     }
-    */
+
+    @Override
+    public String getMailById(Long ProductoCarritoId) {
+        return ProductoCarritoRepository.findMailById(ProductoCarritoId);
+    }
 
 
 }
