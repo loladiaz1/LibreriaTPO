@@ -150,5 +150,24 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findMailById(ProductoCarritoId);
     }
 
+    @Override
+    public void eliminarProductoCarritoByIsbn(Integer isbn) {
+        ProductoCarrito prodCarritoAEliminar = ProductoCarritoRepository.findByIsbn(isbn)
+            .orElseThrow(() -> new EntityNotFoundException("No se encontró el producto en el carrito para el libro con ISBN: " + isbn));;
+        //orElseThrow() desenvuelve el Optional, devolviendo el ProductoCarrito si está presente,
+        // o lanzando una excepción si está vacío.
+       
+        double montoARestar = prodCarritoAEliminar.getLibro().getPrecio() * prodCarritoAEliminar.getCantidad();
+        
+        Long idProductoCarrito = prodCarritoAEliminar.getId();
+        String mail = ProductoCarritoRepository.findMailById(idProductoCarrito);
+        Carrito carrito = carritoRepository.findById(mail)
+            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
+        carrito.setTotal(carrito.getTotal() - montoARestar);
+
+        carritoRepository.save(carrito);
+        ProductoCarritoRepository.delete(prodCarritoAEliminar);
+    }
+
 
 }

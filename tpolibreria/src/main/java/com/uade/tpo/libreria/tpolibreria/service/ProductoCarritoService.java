@@ -35,10 +35,17 @@ public interface ProductoCarritoService {
     //^^^ admin: si, usuario: no
 
     public void actualizarProductoCarritoByIsbn(Integer isbn, ProductoCarritoRequest prodCarrRequest);
-    //^^^ admin: no, usuario: si (el usuario solo va a modificar la cantidad, porque no quiero que cambie el mail ni el libro)
-    
-    //CUANDO MODIFIQUE LA CANTIDAD SE TIENE QUE MODIFICAR EL TOTAL DE CARRITO!!!!!!    
-    //CREO QUE VA A SER MEJOR UN PATCH
+    //^^^ admin: no, usuario: si (el usuario solo va a modificar la cantidad, porque no quiero que cambie el mail ni el libro)   
+    //CREO QUE VA A SER MEJOR UN PATCH(investigar)
 
     public String getMailById(Long ProductoCarritoId);
+    //^^^ admin: si, usuario: no
+
+    public void eliminarProductoCarritoByIsbn(Integer isbn);
+    //^^^si lo hago de esta forma, el usuario tiene que escribir el isbn en la url
+    //admin: no, usuario: si
+
+    //otra forma(que el usuario escriba el isbn en el json):
+    //public void eliminarProductoCarrito(ProductoCarritoRequest prodCarrRequest);
+
 } 
