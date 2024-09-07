@@ -3,37 +3,24 @@ package com.uade.tpo.libreria.tpolibreria.repository;
 import java.util.List;
 import java.util.Optional;
 
-import java.util.List;
+//import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-<<<<<<< HEAD
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
-=======
-import com.uade.tpo.libreria.tpolibreria.entity.Libro;
->>>>>>> main
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 
 @Repository
 public interface ProductoCarritoRepository extends JpaRepository<ProductoCarrito, Long>{
-    @Query("select p.libro from ProductoCarrito p where p.id = :id")
-    Optional<Libro> findLibroByProductoCarritoId(@Param("id") Long id);
-
-    @Query("select p.cantidad from ProductoCarrito p where p.id = :id")
+    //@Query(value = "select pc from ProductoCarr pc where pc.id = ?1")
+    //List<ProductoCarrito> findById(Long Id);
+    
+    @Query("SELECT p.cantidad FROM ProductoCarrito p WHERE p.id = :id")
     Optional<Integer> findCantidadById(@Param("id") Long id);
 
-<<<<<<< HEAD
     @Query(value = "select p from ProductoCarrito p where p.carrito_mail = ?1")
     List<Carrito> findByMail(String mail);
-=======
-    @Query("select p from ProductoCarrito p where p.carrito.mail = :mail")
-    List<ProductoCarrito> findByMail(@Param("mail") String carritoMail);
-
-    //libro.isbn --> la consulta debe acceder a isbn a través de la relación con Libro
-    @Query("select p from ProductoCarrito p where p.libro.isbn = :isbn")
-    Optional<ProductoCarrito> findByIsbn(@Param("isbn") Integer isbn);
->>>>>>> main
 } 
