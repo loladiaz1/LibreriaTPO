@@ -42,6 +42,15 @@ public class UsuariosController {
         }
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/mail/{UsuarioMail}")
+    public ResponseEntity<Usuario> getUsuarioByMail(@PathVariable String UsuarioMail) {
+        Optional<Usuario> result = usuarioService.getUsuarioByMail(UsuarioMail);
+        if (result.isPresent()){
+            return ResponseEntity.ok(result.get());
+        }
+        return ResponseEntity.noContent().build();
+    }
     
     @PostMapping
     public ResponseEntity<Object> createUsuario(@RequestBody UsuarioRequest ur) {

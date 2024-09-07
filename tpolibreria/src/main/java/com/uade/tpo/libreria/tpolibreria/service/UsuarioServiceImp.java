@@ -39,6 +39,11 @@ public class UsuarioServiceImp implements UsuarioService{
         nuevoUsuario.setCP(CP);
         return usuarioRepository.save(nuevoUsuario);
     }
+
+    @Override
+    public Optional<Usuario> getUsuarioByMail(String UsuarioMail) {
+        return usuarioRepository.findByMail(UsuarioMail);
+    }
     
     
 }

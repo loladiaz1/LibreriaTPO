@@ -50,22 +50,13 @@ public class SecurityConfig {
                                                 boolean esAdmin = authentication.get().getAuthorities().stream()
                                                                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
                                                 return new AuthorizationDecision(esPropietario || esAdmin); })
-                                       /*  .requestMatchers("/productosCarrito/{productoCarritoId}").access((authentication, context) -> {
-                                                String productoCarritoId = context.getVariables().get("productoCarritoId");
-                                                Optional<ProductoCarrito> productoCarrito = productoCarritoRepository.findByMail(productoCarritoId);
-                                                boolean esPropietario = (carrito.isPresent() && carrito.get().getMail().equals(authentication.get().getName()));
+                                         .requestMatchers("/usuarios/mail/{UsuarioMail}").access((authentication, context) -> {
+                                                String usuarioMail = context.getVariables().get("UsuarioMail");
+                                                Optional<Usuario> usuario = usuarioRepository.findByMail(usuarioMail);
+                                                boolean esPropietario = (usuario.isPresent() && usuario.get().getMail().equals(authentication.get().getName()));
                                                 boolean esAdmin = authentication.get().getAuthorities().stream()
                                                                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
                                                 return new AuthorizationDecision(esPropietario || esAdmin); })
-                                                Hacer prodcuto carrito by mail*/
-                                        /* .requestMatchers("/usuarios/{UsuarioId}").access((authentication, context) -> {
-                                                Long usuarioId = Long.parseLong(context.getVariables().get("UsuarioId"));
-                                                Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
-                                                boolean esPropietario = (usuario.isPresent() && usuario.get().getId().equals(authentication.get().getName()));
-                                                boolean esAdmin = authentication.get().getAuthorities().stream()
-                                                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
-                                                return new AuthorizationDecision(esPropietario || esAdmin); })
-                                                hacer usuario by mail*/
                                         .requestMatchers("/carritos/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/productosCarrito/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
