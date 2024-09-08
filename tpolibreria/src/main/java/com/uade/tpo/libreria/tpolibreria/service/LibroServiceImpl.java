@@ -70,4 +70,39 @@ public class LibroServiceImpl implements LibroService {
 
         return libroRepository.save(libro);
     }
+    public void deleteLibro(int isbn) {
+        Optional<Libro> libro = libroRepository.findById(isbn);
+        if (libro.isPresent()) {
+            libroRepository.deleteById(isbn);
+        } else {
+            throw new RuntimeException("Libro no encontrado con ISBN: " + isbn);
+        }
+    }
+    @Override
+    public Libro updateLibro(int isbn, LibroRequest libroRequest) {
+        Optional<Libro> existingLibro = libroRepository.findById(isbn);
+        if (existingLibro.isPresent()) {
+            Libro libro = existingLibro.get();
+            libro.setTitulo(libroRequest.getTitulo());
+            libro.setPrecio(libroRequest.getPrecio());
+            libro.setCantPaginas(libroRequest.getCantPaginas());
+            libro.setDescripcion(libroRequest.getDescripcion());
+            libro.setStock(libroRequest.getStock());
+            libro.setEditorial(libroRequest.getEditorial());
+            libro.setEdicion(libroRequest.getEdicion());
+            libro.setIdioma(libroRequest.getIdioma());
+            libro.setAutor(libroRequest.getAutor());
+
+            // Actualizar el género si se proporciona
+            /*if (libroRequest.getGeneroId() != null) {
+                Genero genero = generoRepository.findById(libroRequest.getGeneroId())
+                    .orElseThrow(() -> new RuntimeException("Género no encontrado con ID: " + libroRequest.getGeneroId()));
+                libro.setGenero(genero);
+            }*/
+
+            return libroRepository.save(libro);
+        } else {
+            throw new RuntimeException("Libro no encontrado con ISBN: " + isbn);
+        }
+    }
 }

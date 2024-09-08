@@ -12,4 +12,6 @@ public interface LibroService {
     Page<Libro> getLibros(PageRequest pageRequest, String titulo, String autor, String editorial, String idioma);
     Optional<Libro> getLibroByIsbn(int isbn);
     Libro createLibro(LibroRequest libroRequest);
+    void deleteLibro(int isbn);  // delete
+    Libro updateLibro(int isbn, LibroRequest libroRequest); //put
 }
