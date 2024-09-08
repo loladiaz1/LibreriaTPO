@@ -10,21 +10,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.util.List;
 import java.util.Optional;
-
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
-import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.entity.Role;
 import com.uade.tpo.libreria.tpolibreria.entity.Usuario;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
-import com.uade.tpo.libreria.tpolibreria.repository.ProductoCarritoRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
-import com.uade.tpo.libreria.tpolibreria.service.CarritoService;
-
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -35,7 +27,6 @@ public class SecurityConfig {
         private final JwtAuthenticationFilter jwtAuthFilter;
         private final AuthenticationProvider authenticationProvider;
         private final CarritoRepository carritoRepository;
-        private final ProductoCarritoRepository productoCarritoRepository;
         private final UsuarioRepository usuarioRepository;
 
         @Bean
@@ -59,12 +50,15 @@ public class SecurityConfig {
                                                                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
                                                 return new AuthorizationDecision(esPropietario || esAdmin); })
                                         .requestMatchers(HttpMethod.POST, "/productosCarrito/**").hasAnyAuthority(Role.USUARIO.name())
+                                        .requestMatchers("/productosCarrito/{isbn}/ActualizarCantLibro").hasAnyAuthority(Role.USUARIO.name())
                                         .requestMatchers("/carritos/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/productosCarrito/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
-                                        .requestMatchers("/generos/**").permitAll()
-                                        .requestMatchers("/libros/**").permitAll()
-                                        .requestMatchers("/giftcards/**").permitAll()
+                                        .requestMatchers("/giftcards/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .requestMatchers(HttpMethod.GET,"/generos/**").permitAll()
+                                        .requestMatchers(HttpMethod.GET,"/libros/**").permitAll()
+                                        .requestMatchers("/generos/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .requestMatchers("/libros/**").hasAnyAuthority(Role.ADMIN.name())
                                         .anyRequest()
                                         .authenticated())
                                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
