@@ -36,7 +36,7 @@ public interface ProductoCarritoService {
     public String getMailById(Long ProductoCarritoId);
     //^^^ admin: si, usuario: no
 
-    public void eliminarProductoCarritoByIsbn(Integer isbn);
+    public void eliminarProductoCarritoByIsbnAndMail(ProductoCarritoRequest prodCarrRequest);
     //^^^si lo hago de esta forma, el usuario tiene que escribir el isbn en la url
     //admin: no, usuario: si
 

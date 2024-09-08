@@ -17,7 +17,6 @@ import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.ProductoCarritoRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductoCarritoServiceImpl implements ProductoCarritoService{
@@ -107,37 +106,25 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     
     @Override
     public void actualizarProductoCarritoByIsbn(Integer isbn, ProductoCarritoRequest prodCarrRequest) {
-        //url: 
-        //json:
-        //{cantidad: 3}
+        Carrito carrito = carritoRepository.findById(prodCarrRequest.getCarrito_mail())
+            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + prodCarrRequest.getCarrito_mail()));
         
-        ProductoCarrito productoCarritoExistente = ProductoCarritoRepository.findByIsbn(isbn)
-            .orElseThrow(() -> new EntityNotFoundException("No se encontró el producto en el carrito para el libro con ISBN: " + isbn));
-    
-        if (prodCarrRequest.getCantidad() > 0){
-            //ACA SE VA A CAMBIAR EL TOTAL DEL CARRITO Y LA CANTIDAD DEL LIBRO EN PRODUCTO CARRITO
+        for (ProductoCarrito productoCarrito : carrito.getProductosCarrito()) {
+            if (productoCarrito.getLibro().getIsbn() == isbn) {
+                if (prodCarrRequest.getCantidad() > 0){
+                    double montoARestar = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad(); //esta es la cantidad vieja
+                    carrito.setTotal(carrito.getTotal() - montoARestar);
+                    
+                    productoCarrito.setCantidad(prodCarrRequest.getCantidad()); //el request tiene la cantidad nueva(el put que hizo el usuario)
+                    ProductoCarritoRepository.save(productoCarrito);
+                    double montoNuevo = productoCarrito.getLibro().getPrecio() * prodCarrRequest.getCantidad();
+                    carrito.setTotal(carrito.getTotal() + montoNuevo);
+                    carritoRepository.save(carrito);
+                } else{
+                    ProductoCarritoRepository.delete(productoCarrito);
+                }
 
-            //1. Por el ISBN voy a obtener productoCarrito y productoCarrito tiene el mail(id de carrito)
-            //con el mail voy a obtener el carrito para cambiar el total
-            
-            Long idProductoCarrito = productoCarritoExistente.getId();
-            String mail = ProductoCarritoRepository.findMailById(idProductoCarrito);
-            Carrito carrito = carritoRepository.findById(mail)
-                .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
-
-            //2. Le resto el precio x cantidad viejo que tenia del libro antes de actualizar
-            double montoARestar = productoCarritoExistente.getLibro().getPrecio() * productoCarritoExistente.getCantidad(); //esta es la cantidad vieja
-            carrito.setTotal(carrito.getTotal() - montoARestar);
-
-            //3. le cambio la cantidad a productoCarrito y agrego precio x cantidad nueva al total del carrito
-            productoCarritoExistente.setCantidad(prodCarrRequest.getCantidad()); //el request tiene la cantidad nueva(el put que hizo el usuario)
-            ProductoCarritoRepository.save(productoCarritoExistente);
-            double montoNuevo = productoCarritoExistente.getLibro().getPrecio() * prodCarrRequest.getCantidad();
-            carrito.setTotal(carrito.getTotal() + montoNuevo);
-            carritoRepository.save(carrito);
-        } 
-        else { //si la cantidad es 0 o menor a 0
-            eliminarProductoCarritoByIsbn(isbn);
+            }
         }
     }
 
@@ -146,22 +133,18 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findMailById(ProductoCarritoId);
     }
 
-    @Override
-    public void eliminarProductoCarritoByIsbn(Integer isbn) {
-        ProductoCarrito prodCarritoAEliminar = ProductoCarritoRepository.findByIsbn(isbn)
-            .orElseThrow(() -> new EntityNotFoundException("No se encontró el producto en el carrito para el libro con ISBN: " + isbn));;
-        //orElseThrow() desenvuelve el Optional, devolviendo el ProductoCarrito si está presente,
-        // o lanzando una excepción si está vacío.
-       
-        double montoARestar = prodCarritoAEliminar.getLibro().getPrecio() * prodCarritoAEliminar.getCantidad();
-        
-        Long idProductoCarrito = prodCarritoAEliminar.getId();
-        String mail = ProductoCarritoRepository.findMailById(idProductoCarrito);
-        Carrito carrito = carritoRepository.findById(mail)
-            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
-        carrito.setTotal(carrito.getTotal() - montoARestar);
+    public void eliminarProductoCarritoByIsbnAndMail(ProductoCarritoRequest prodCarrRequest){
+        Carrito carrito = carritoRepository.findById(prodCarrRequest.getCarrito_mail())
+            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + prodCarrRequest.getCarrito_mail()));
 
-        carritoRepository.save(carrito);
-        ProductoCarritoRepository.delete(prodCarritoAEliminar);
+        for (ProductoCarrito productoCarrito : carrito.getProductosCarrito()) {
+            if (productoCarrito.getLibro().getIsbn() == prodCarrRequest.getIsbn()) {
+                double montoARestar = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
+                carrito.setTotal(carrito.getTotal() - montoARestar);
+                carritoRepository.save(carrito);
+                ProductoCarritoRepository.delete(productoCarrito);
+            }
     }
+    }
+    
 }

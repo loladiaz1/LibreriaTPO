@@ -9,14 +9,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
+import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCarrito;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
+import com.uade.tpo.libreria.tpolibreria.repository.ProductoCarritoRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 
 @Service
 public class CarritoServiceImpl implements CarritoService {
-     @Autowired
+    @Autowired
     private CarritoRepository carritoRepository;
+
+    @Autowired
+    private ProductoCarritoService ProdCarritoService;
+
+    @Autowired
+    private ProductoCarritoRepository ProdCarritoRepository;
 
      // Devuelve una página de carritos 
     public Page<Carrito> getCarritos(Pageable pageable) {
@@ -37,7 +47,33 @@ public class CarritoServiceImpl implements CarritoService {
             return carritoRepository.save(nuevoCarrito);
         }
         throw new ExcepcionCarrito();
+    }
 
+    @Override
+    public void eliminarCarrito(String mail) {
+        Carrito carritoExistente = carritoRepository.findByMail(mail);
+        if ((carritoExistente == null)){
+            throw new EntityNotFoundException("No se encontró el carrito con el mail: " + mail);
+        }
+        else{
+            carritoRepository.delete(carritoExistente);
+        }
+    }
 
-    }    
+    @Override
+    public void vaciarCarrito(String mail) {
+        Carrito carritoExistente = carritoRepository.findByMail(mail);
+        if ((carritoExistente == null)){
+            throw new EntityNotFoundException("No se encontró el carrito con el mail: " + mail);
+        }
+        List<ProductoCarrito> productos = carritoExistente.getProductosCarrito();
+        if (!productos.isEmpty()) {
+        for (ProductoCarrito productoCarrito : productos) {
+            ProdCarritoRepository.delete(productoCarrito);
+            
+        }
+        carritoExistente.setTotal(0.0);
+        carritoRepository.save(carritoExistente);
+    }
+    }  
 }

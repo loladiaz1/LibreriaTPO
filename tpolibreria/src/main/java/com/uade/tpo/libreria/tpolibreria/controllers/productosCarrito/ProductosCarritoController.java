@@ -9,6 +9,8 @@ import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -107,6 +109,7 @@ public class ProductosCarritoController {
 
     //"el usuario tiene que poner en el url, el isbn del libro que quiere actualizar"
     //dsp en el json va a escribir {cantidad: 3}, se va a moficar a esa cantidad
+    //TENGO QUE PASARLE EL MAIL
     @PutMapping("/{isbn}/ActualizarCantLibro")
     public ResponseEntity<String> actualizarProductoCarritoByIsbn(
             @PathVariable Integer isbn, 
@@ -117,10 +120,10 @@ public class ProductosCarritoController {
         return ResponseEntity.ok("Cantidad del libro actualizado.");
     }
 
-    @DeleteMapping("/{isbn}/EliminarProdCarrito")
-    public ResponseEntity<String> eliminarProductoCarritoByIsbn(@PathVariable int isbn) {
+    @DeleteMapping("EliminarprodCarrito")
+    public ResponseEntity<String> eliminarProductoCarritoByIsbnAndMail(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) {
         try {
-            ProductoCarritoService.eliminarProductoCarritoByIsbn(isbn);
+            ProductoCarritoService.eliminarProductoCarritoByIsbnAndMail(ProductoCarritoRequest);
             return ResponseEntity.ok("ProductoCarrito eliminado correctamente.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: ProductoCarrito no encontrado.");

@@ -32,6 +32,7 @@ public class Carrito {
     @OneToOne(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private Usuario usuario;
+
 }
 
 

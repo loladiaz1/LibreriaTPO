@@ -16,6 +16,7 @@ public interface CarritoService {
      
     public Carrito createCarrito(String mail) throws ExcepcionCarrito;
 
-    //public void eliminarCarrito(String mail);
+    public void eliminarCarrito(String mail); //cuando se elimina la cuenta
     
+    public void vaciarCarrito(String mail); //cuando se crea orden, se van a eliminar los productosCarrito
 }
