@@ -29,8 +29,8 @@ public class CarritoServiceImpl implements CarritoService {
      }
     
     public Carrito createCarrito(String mail) throws ExcepcionCarrito{
-        List<Carrito> carritos = carritoRepository.findByMail(mail);
-        if (carritos.isEmpty()) {
+        Carrito carritoExistente = carritoRepository.findByMail(mail);
+        if ((carritoExistente == null)) {
             Carrito nuevoCarrito = new Carrito();
             nuevoCarrito.setMail(mail);
             nuevoCarrito.setTotal(0.0);
@@ -39,10 +39,5 @@ public class CarritoServiceImpl implements CarritoService {
         throw new ExcepcionCarrito();
 
 
-    }
-
-    
-    
-
-    
+    }    
 }
