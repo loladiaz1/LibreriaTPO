@@ -109,23 +109,32 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         Carrito carrito = carritoRepository.findById(prodCarrRequest.getCarrito_mail())
             .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + prodCarrRequest.getCarrito_mail()));
         
-        for (ProductoCarrito productoCarrito : carrito.getProductosCarrito()) {
-            if (productoCarrito.getLibro().getIsbn() == isbn) {
-                if (prodCarrRequest.getCantidad() > 0){
-                    double montoARestar = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad(); //esta es la cantidad vieja
-                    carrito.setTotal(carrito.getTotal() - montoARestar);
-                    
-                    productoCarrito.setCantidad(prodCarrRequest.getCantidad()); //el request tiene la cantidad nueva(el put que hizo el usuario)
-                    ProductoCarritoRepository.save(productoCarrito);
-                    double montoNuevo = productoCarrito.getLibro().getPrecio() * prodCarrRequest.getCantidad();
-                    carrito.setTotal(carrito.getTotal() + montoNuevo);
-                    carritoRepository.save(carrito);
-                } else{
-                    ProductoCarritoRepository.delete(productoCarrito);
+            ProductoCarrito productoCarrito = null;
+            for (ProductoCarrito pc : carrito.getProductosCarrito()) {
+                if (pc.getLibro().getIsbn() == isbn) {
+                    productoCarrito = pc;
+                    break;
                 }
-
             }
-        }
+        
+            if (productoCarrito == null) {
+                throw new RuntimeException("No se encontró el producto con ISBN: " + isbn + " en el carrito con mail: " + prodCarrRequest.getCarrito_mail());
+            }
+        
+            
+            double montoARestar = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
+            carrito.setTotal(carrito.getTotal() - montoARestar);
+        
+            if (prodCarrRequest.getCantidad() > 0) {
+                productoCarrito.setCantidad(prodCarrRequest.getCantidad());
+                double montoNuevo = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
+                carrito.setTotal(carrito.getTotal() + montoNuevo);
+                ProductoCarritoRepository.save(productoCarrito);
+            } else {
+                ProductoCarritoRepository.delete(productoCarrito);
+            }
+        
+            carritoRepository.save(carrito);
     }
 
     @Override
@@ -137,14 +146,23 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         Carrito carrito = carritoRepository.findById(prodCarrRequest.getCarrito_mail())
             .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + prodCarrRequest.getCarrito_mail()));
 
+        ProductoCarrito productoAEliminar = null;
         for (ProductoCarrito productoCarrito : carrito.getProductosCarrito()) {
             if (productoCarrito.getLibro().getIsbn() == prodCarrRequest.getIsbn()) {
-                double montoARestar = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
-                carrito.setTotal(carrito.getTotal() - montoARestar);
-                carritoRepository.save(carrito);
-                ProductoCarritoRepository.delete(productoCarrito);
+                productoAEliminar = productoCarrito;
+                break;
             }
-    }
+        }
+        if (productoAEliminar == null) {
+            throw new RuntimeException("No se encontró el producto con ISBN: " + prodCarrRequest.getIsbn() + " en el carrito con mail: " + prodCarrRequest.getCarrito_mail());
+        }
+
+        double montoARestar = productoAEliminar.getLibro().getPrecio() * productoAEliminar.getCantidad();
+        carrito.setTotal(carrito.getTotal() - montoARestar);
+        carritoRepository.save(carrito);
+
+        ProductoCarritoRepository.delete(productoAEliminar);
+
     }
     
 }
