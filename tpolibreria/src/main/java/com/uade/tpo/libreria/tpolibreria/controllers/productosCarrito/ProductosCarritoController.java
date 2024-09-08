@@ -4,11 +4,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
