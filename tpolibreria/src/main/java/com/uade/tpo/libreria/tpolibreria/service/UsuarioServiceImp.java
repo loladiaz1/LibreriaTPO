@@ -43,6 +43,7 @@ public class UsuarioServiceImp implements UsuarioService{
     @Override
     public Optional<Usuario> getUsuarioByMail(String UsuarioMail) {
         return usuarioRepository.findByMail(UsuarioMail);
+    }
     @Override
     public Optional<Usuario> updateUsuario(Long usuarioId, String nombre_usuario, String mail, String contraseña, String nombre, String apellido, String direccion, int CP) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(usuarioId);
