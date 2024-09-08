@@ -22,8 +22,6 @@ public class CarritoServiceImpl implements CarritoService {
     @Autowired
     private CarritoRepository carritoRepository;
 
-    @Autowired
-    private ProductoCarritoService ProdCarritoService;
 
     @Autowired
     private ProductoCarritoRepository ProdCarritoRepository;
