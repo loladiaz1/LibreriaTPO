@@ -14,7 +14,7 @@ public interface CarritoService {
 
     Optional<Carrito> getCarritoById(String mail);
      
-    public Carrito createCarrito(String mail, double precio) throws ExcepcionCarrito;
+    public Carrito createCarrito(String mail) throws ExcepcionCarrito;
 
 
     

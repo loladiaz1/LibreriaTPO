@@ -4,20 +4,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController //indica que esa clase va a manejar solicitudes HTTP y devolverá directamente el resultado de los métodos en forma de respuestas HTTP.
@@ -67,4 +73,68 @@ public class ProductosCarritoController {
         return ResponseEntity.created(URI.create("/productosCarrito/" + resultado.getId())).body(resultado);
     }
     
+    @GetMapping("/{mail}/listaDeProductosCarritoByMail")
+    public ResponseEntity<List<ProductoCarrito>> getProductosCarritoByMail(@PathVariable String mail) {
+        List<ProductoCarrito> productosCarrito = ProductoCarritoService.getProductosCarritoByMail(mail);
+        if (productosCarrito.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(productosCarrito);
+        }
+    }
+
+    @GetMapping("/{productoCarritoId}/libroById")
+    public ResponseEntity<Libro> getLibroById(@PathVariable Long productoCarritoId) {
+        Optional<Libro> libro = ProductoCarritoService.getLibroById(productoCarritoId);
+
+        if (libro.isPresent()) {
+            return ResponseEntity.ok(libro.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{isbn}/productoCarritoByIsbn")
+    public ResponseEntity<ProductoCarrito> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
+        Optional<ProductoCarrito> prodCarr = ProductoCarritoService.getProductoCarritoByIsbn(isbn);
+
+        if (prodCarr.isPresent()) {
+            return ResponseEntity.ok(prodCarr.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //"el usuario tiene que poner en el url, el isbn del libro que quiere actualizar"
+    //dsp en el json va a escribir {cantidad: 3}, se va a moficar a esa cantidad
+    @PutMapping("/{isbn}/ActualizarCantLibro")
+    public ResponseEntity<String> actualizarProductoCarritoByIsbn(
+            @PathVariable Integer isbn, 
+            @RequestBody ProductoCarritoRequest productoCarritoRequest) {
+        
+        ProductoCarritoService.actualizarProductoCarritoByIsbn(isbn, productoCarritoRequest);
+        
+        return ResponseEntity.ok("Cantidad del libro actualizado.");
+    }
+
+    @DeleteMapping("/{isbn}/EliminarProdCarrito")
+    public ResponseEntity<String> eliminarProductoCarritoByIsbn(@PathVariable int isbn) {
+        try {
+            ProductoCarritoService.eliminarProductoCarritoByIsbn(isbn);
+            return ResponseEntity.ok("ProductoCarrito eliminado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: ProductoCarrito no encontrado.");
+        }
+    }
+
+    @GetMapping("/{productoCarritoId}/MailById")
+    public ResponseEntity<String> getMailById(@PathVariable Long productoCarritoId) {
+        String mail = ProductoCarritoService.getMailById(productoCarritoId);
+        if (mail == null || mail.isEmpty()) {
+            return ResponseEntity.notFound().build();  
+        }
+        return ResponseEntity.ok(mail);
+    }
+    
+
 }
