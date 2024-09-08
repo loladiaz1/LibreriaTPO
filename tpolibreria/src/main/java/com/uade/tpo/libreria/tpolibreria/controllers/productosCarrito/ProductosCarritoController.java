@@ -129,4 +129,15 @@ public class ProductosCarritoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: ProductoCarrito no encontrado.");
         }
     }
+
+    @GetMapping("/{productoCarritoId}/MailById")
+    public ResponseEntity<String> getMailById(@PathVariable Long productoCarritoId) {
+        String mail = ProductoCarritoService.getMailById(productoCarritoId);
+        if (mail == null || mail.isEmpty()) {
+            return ResponseEntity.notFound().build();  
+        }
+        return ResponseEntity.ok(mail);
+    }
+    
+
 }

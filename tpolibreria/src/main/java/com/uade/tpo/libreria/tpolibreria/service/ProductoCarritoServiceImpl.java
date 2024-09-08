@@ -136,12 +136,9 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             carrito.setTotal(carrito.getTotal() + montoNuevo);
             carritoRepository.save(carrito);
         } 
-        /*
-        else {
-            LLAMAR A DELETE, SI LA CANTIDAD NUEVA ES 0 O <0 QUE SE ELIMINE
-            ProductoCarritoRepository.delete(productoCarritoExistente);
+        else { //si la cantidad es 0 o menor a 0
+            eliminarProductoCarritoByIsbn(isbn);
         }
-        */
     }
 
     @Override
