@@ -2,6 +2,7 @@ package com.uade.tpo.libreria.tpolibreria.controllers.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,6 +58,7 @@ public class SecurityConfig {
                                                 boolean esAdmin = authentication.get().getAuthorities().stream()
                                                                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
                                                 return new AuthorizationDecision(esPropietario || esAdmin); })
+                                        .requestMatchers(HttpMethod.POST, "/productosCarrito/**").hasAnyAuthority(Role.USUARIO.name())
                                         .requestMatchers("/carritos/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/productosCarrito/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
