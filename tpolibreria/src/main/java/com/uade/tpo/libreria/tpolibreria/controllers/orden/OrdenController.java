@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +28,8 @@ public class OrdenController {
     private OrdenService ordenService;
 
     // Crear una orden a partir del email del usuario
-    @PostMapping("/crear")
-    public ResponseEntity<Orden> crearOrden(@RequestParam OrdenRequest ordenRequest) {
+    @PostMapping
+    public ResponseEntity<Orden> crearOrden(@RequestBody OrdenRequest ordenRequest) {
         Orden nuevaOrden = ordenService.createOrden(ordenRequest.mail);
         return ResponseEntity.created(URI.create("/orden/" + nuevaOrden.getId())).body(nuevaOrden);
     }

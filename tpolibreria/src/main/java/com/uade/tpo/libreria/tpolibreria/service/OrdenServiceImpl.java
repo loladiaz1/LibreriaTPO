@@ -30,13 +30,13 @@ public class OrdenServiceImpl implements OrdenService {
 
     @Override
     public Orden createOrden(String mail) {
-
-        Carrito carrito = carritoRepository.findById(mail)
-            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
+        Carrito carrito = carritoRepository.findByMail(mail);
+            //.orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
 
         Orden ordenNueva = new Orden();
         ordenNueva.setTotalSinDescuento(carrito.getTotal());
-        ordenNueva.setTotalConDescuento(carrito.getTotal()*ordenNueva.getGiftCard().getDescuento());
+        if
+        ordenNueva.setTotalConDescuento(carrito.getTotal()* ordenNueva.getGiftCard().getDescuento());
         ordenNueva.setDescuento(ordenNueva.getGiftCard().getDescuento());
         Usuario usuario = usuarioRepository.findByMail(mail)
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el mail: " + mail));

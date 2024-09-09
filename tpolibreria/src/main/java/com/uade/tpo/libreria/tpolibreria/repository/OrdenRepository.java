@@ -14,7 +14,7 @@ import com.uade.tpo.libreria.tpolibreria.entity.Orden;
 @Repository
 public interface OrdenRepository extends JpaRepository<Orden, Long>{
 
-    @Query(value = "select o from Orden o where o.mail = ?1")
+    @Query(value = "select o from Orden o where o.usuario.mail = ?1")
     List<Orden> findByMail(String Mail);
 
 

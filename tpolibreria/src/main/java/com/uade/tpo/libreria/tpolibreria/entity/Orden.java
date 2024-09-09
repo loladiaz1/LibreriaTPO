@@ -26,16 +26,16 @@ public class Orden {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "mail_id", nullable = false)
+    @JoinColumn(name = "mail_id")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "carrito_mailUsuario", nullable = false)
+    @JoinColumn(name = "carrito_mailUsuario")
     @JsonBackReference
     private Carrito carrito;
 
     @OneToOne
-    @JoinColumn(name = "giftCard_id", nullable = false)
+    @JoinColumn(name = "giftCard_id")
     private GiftCard giftCard;
 
     @Column
