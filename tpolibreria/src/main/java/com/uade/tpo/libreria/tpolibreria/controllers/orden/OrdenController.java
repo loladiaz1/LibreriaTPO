@@ -29,7 +29,7 @@ public class OrdenController {
     // Crear una orden a partir del email del usuario
     @PostMapping
     public ResponseEntity<Orden> crearOrden(@RequestBody OrdenRequest ordenRequest) {
-        Orden nuevaOrden = ordenService.createOrden(ordenRequest.mail);
+        Orden nuevaOrden = ordenService.createOrden(ordenRequest);
         return ResponseEntity.created(URI.create("/orden/" + nuevaOrden.getId())).body(nuevaOrden);
     }
 

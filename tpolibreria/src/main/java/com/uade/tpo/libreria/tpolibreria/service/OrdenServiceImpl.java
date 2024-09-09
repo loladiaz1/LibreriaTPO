@@ -9,16 +9,18 @@ import org.springframework.stereotype.Service;
 
 import com.uade.tpo.libreria.tpolibreria.repository.OrdenRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
+import com.uade.tpo.libreria.tpolibreria.controllers.orden.OrdenRequest;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 import com.uade.tpo.libreria.tpolibreria.entity.Orden;
 import com.uade.tpo.libreria.tpolibreria.entity.Usuario;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
+import com.uade.tpo.libreria.tpolibreria.repository.GiftCardRepository;
 
 
 @Service
 public class OrdenServiceImpl implements OrdenService {
 
-     @Autowired
+    @Autowired
     private CarritoRepository carritoRepository;
 
     @Autowired
@@ -27,12 +29,16 @@ public class OrdenServiceImpl implements OrdenService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private GiftCardRepository giftCardRepository;
+
     @Override
-    public Orden createOrden(String mail) {
-        Carrito carrito = carritoRepository.findByMail(mail);
+    public Orden createOrden(OrdenRequest ordenRequest) {
+        Carrito carrito = carritoRepository.findByMail(ordenRequest.getMail());
             //.orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
 
         Orden ordenNueva = new Orden();
+        ordenNueva.setGiftCard(giftCardRepository.findByCodigo(ordenRequest.getCodigo()));
         ordenNueva.setTotalSinDescuento(carrito.getTotal());
         if (ordenNueva.getGiftCard() != null){
             ordenNueva.setTotalConDescuento(carrito.getTotal()* ordenNueva.getGiftCard().getDescuento());
@@ -41,8 +47,8 @@ public class OrdenServiceImpl implements OrdenService {
             ordenNueva.setTotalConDescuento(carrito.getTotal());
             ordenNueva.setDescuento(0.0);
         }
-        Usuario usuario = usuarioRepository.findByMail(mail)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el mail: " + mail));
+        Usuario usuario = usuarioRepository.findByMail(ordenRequest.getMail())
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el mail: " + ordenRequest.getMail()));
         ordenNueva.setUsuario(usuario);
         return OrdenRepository.save(ordenNueva);
 
