@@ -8,10 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uade.tpo.libreria.tpolibreria.repository.OrdenRepository;
-
-
+import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
+import com.uade.tpo.libreria.tpolibreria.entity.Genero;
 import com.uade.tpo.libreria.tpolibreria.entity.Orden;
+import com.uade.tpo.libreria.tpolibreria.entity.Usuario;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
 
 
@@ -24,6 +25,9 @@ public class OrdenServiceImpl implements OrdenService {
     @Autowired
     private OrdenRepository OrdenRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @Override
     public Orden createOrden(String mail) {
 
@@ -31,11 +35,12 @@ public class OrdenServiceImpl implements OrdenService {
             .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
 
         Orden ordenNueva = new Orden();
-        //ordenNueva.setMailUsuario(mail);
         ordenNueva.setTotalSinDescuento(carrito.getTotal());
         ordenNueva.setTotalConDescuento(carrito.getTotal()*ordenNueva.getGiftCard().getDescuento());
         ordenNueva.setDescuento(ordenNueva.getGiftCard().getDescuento());
-
+        Usuario usuario = usuarioRepository.findByMail(mail)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el mail: " + mail));
+        ordenNueva.setUsuario(usuario);
         return OrdenRepository.save(ordenNueva);
 
     }

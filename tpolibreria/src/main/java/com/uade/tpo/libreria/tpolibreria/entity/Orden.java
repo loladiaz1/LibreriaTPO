@@ -16,7 +16,6 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "ordenes")
 public class Orden {
 
     public Orden(){
@@ -28,7 +27,7 @@ public class Orden {
 
     @ManyToOne
     @JoinColumn(name = "mail_id", nullable = false)
-    private String mailUsuario;
+    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "carrito_mailUsuario", nullable = false)

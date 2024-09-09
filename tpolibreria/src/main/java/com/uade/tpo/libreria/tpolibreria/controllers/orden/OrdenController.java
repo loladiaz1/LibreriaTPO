@@ -1,5 +1,6 @@
 package com.uade.tpo.libreria.tpolibreria.controllers.orden;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,9 @@ public class OrdenController {
 
     // Crear una orden a partir del email del usuario
     @PostMapping("/crear")
-    public ResponseEntity<Orden> crearOrden(@RequestParam String mail) {
-        try {
-            Orden nuevaOrden = ordenService.createOrden(mail);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaOrden);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    public ResponseEntity<Orden> crearOrden(@RequestParam OrdenRequest ordenRequest) {
+        Orden nuevaOrden = ordenService.createOrden(ordenRequest.mail);
+        return ResponseEntity.created(URI.create("/orden/" + nuevaOrden.getId())).body(nuevaOrden);
     }
 
     // Obtener una lista paginada de todas las órdenes
