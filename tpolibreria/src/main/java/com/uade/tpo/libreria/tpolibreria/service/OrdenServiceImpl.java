@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.uade.tpo.libreria.tpolibreria.repository.OrdenRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
-import com.uade.tpo.libreria.tpolibreria.entity.Genero;
 import com.uade.tpo.libreria.tpolibreria.entity.Orden;
 import com.uade.tpo.libreria.tpolibreria.entity.Usuario;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
