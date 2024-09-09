@@ -49,7 +49,7 @@ public class SecurityConfig {
                                                 boolean esAdmin = authentication.get().getAuthorities().stream()
                                                                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
                                                 return new AuthorizationDecision(esPropietario || esAdmin); })
-                                        .requestMatchers(HttpMethod.POST, "/productosCarrito/**").hasAnyAuthority(Role.USUARIO.name())
+                                        .requestMatchers(HttpMethod.POST, "/productosCarrito/**").hasAnyAuthority(Role.USUARIO.name()) //Agregar que solo pueda hacerlo si es su usuario
                                         .requestMatchers("/productosCarrito/{isbn}/ActualizarCantLibro").hasAnyAuthority(Role.USUARIO.name())
                                         .requestMatchers("/carritos/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/productosCarrito/**").hasAnyAuthority(Role.ADMIN.name())//revisar
@@ -59,7 +59,8 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.GET,"/libros/**").permitAll()
                                         .requestMatchers("/generos/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/libros/**").hasAnyAuthority(Role.ADMIN.name())
-                                        .requestMatchers("/ordenes/**").permitAll()
+                                        .requestMatchers(HttpMethod.POST, "/ordenes/**").hasAnyAuthority(Role.USUARIO.name())//Agregar que solo pueda hacerlo si es su usuario
+                                        .requestMatchers("/ordenes/**").hasAnyAuthority(Role.ADMIN.name())
                                         .anyRequest()
                                         .authenticated())
                                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
