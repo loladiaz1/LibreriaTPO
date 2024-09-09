@@ -22,9 +22,9 @@ public class CarritoServiceImpl implements CarritoService {
     @Autowired
     private CarritoRepository carritoRepository;
 
-
     @Autowired
     private ProductoCarritoRepository ProdCarritoRepository;
+
 
      // Devuelve una página de carritos 
     public Page<Carrito> getCarritos(Pageable pageable) {
@@ -50,28 +50,36 @@ public class CarritoServiceImpl implements CarritoService {
     @Override
     public void eliminarCarrito(String mail) {
         Carrito carritoExistente = carritoRepository.findByMail(mail);
-        if ((carritoExistente == null)){
+    
+        if (carritoExistente == null) {
             throw new EntityNotFoundException("No se encontró el carrito con el mail: " + mail);
         }
-        else{
-            carritoRepository.delete(carritoExistente);
-        }
+
+        vaciarCarrito(mail);
+
+        carritoRepository.delete(carritoExistente);
     }
 
     @Override
     public void vaciarCarrito(String mail) {
         Carrito carritoExistente = carritoRepository.findByMail(mail);
-        if ((carritoExistente == null)){
-            throw new EntityNotFoundException("No se encontró el carrito con el mail: " + mail);
+        
+        if (carritoExistente == null) {
+            throw new EntityNotFoundException("No se encontró el carrito con el mail:" + mail);
         }
-        List<ProductoCarrito> productos = carritoExistente.getProductosCarrito();
-        if (!productos.isEmpty()) {
-        for (ProductoCarrito productoCarrito : productos) {
-            ProdCarritoRepository.delete(productoCarrito);
-            
+
+        List<ProductoCarrito> productosDelCarrito = ProdCarritoRepository.findProductosCarritoByMail(mail);
+        
+        for (ProductoCarrito producto : productosDelCarrito) {
+            ProdCarritoRepository.delete(producto);
         }
+
+        carritoExistente.getProductosCarrito().clear(); //con el orphanremoval este metodo tendria que funcionar y no haria falta el delete del prodcarrRepository
+
         carritoExistente.setTotal(0.0);
+
         carritoRepository.save(carritoExistente);
+        }
+        
     }
-    }  
-}
+    
