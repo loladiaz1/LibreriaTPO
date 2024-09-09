@@ -23,10 +23,10 @@ public class CarritoServiceImpl implements CarritoService {
     private CarritoRepository carritoRepository;
 
     @Autowired
-    private ProductoCarritoService ProdCarritoService;
+    private ProductoCarritoRepository ProdCarritoRepository;
 
     @Autowired
-    private ProductoCarritoRepository ProdCarritoRepository;
+    private ProductoCarritoService ProductoCarritoService;
 
      // Devuelve una página de carritos 
     public Page<Carrito> getCarritos(Pageable pageable) {
@@ -52,28 +52,34 @@ public class CarritoServiceImpl implements CarritoService {
     @Override
     public void eliminarCarrito(String mail) {
         Carrito carritoExistente = carritoRepository.findByMail(mail);
-        if ((carritoExistente == null)){
+        if (carritoExistente == null) {
             throw new EntityNotFoundException("No se encontró el carrito con el mail: " + mail);
         }
-        else{
-            carritoRepository.delete(carritoExistente);
+        if (!carritoExistente.getProductosCarrito().isEmpty()) {
+            for (ProductoCarrito productoCarrito : carritoExistente.getProductosCarrito()) {
+                ProdCarritoRepository.delete(productoCarrito);
+            }
         }
+        carritoRepository.delete(carritoExistente);
     }
 
     @Override
     public void vaciarCarrito(String mail) {
-        Carrito carritoExistente = carritoRepository.findByMail(mail);
-        if ((carritoExistente == null)){
-            throw new EntityNotFoundException("No se encontró el carrito con el mail: " + mail);
-        }
+        Carrito carritoExistente = carritoRepository.findById(mail) //el id es el mail
+            .orElseThrow(() -> new EntityNotFoundException("No se encontró el carrito con el mail: " + mail));
+        
         List<ProductoCarrito> productos = carritoExistente.getProductosCarrito();
+        
         if (!productos.isEmpty()) {
-        for (ProductoCarrito productoCarrito : productos) {
-            ProdCarritoRepository.delete(productoCarrito);
-            
+            for (ProductoCarrito productoCarrito : productos) {
+                ProductoCarritoService.eliminarProductoCarritoByIsbnAndMail(productoCarrito.getLibro().getIsbn(), mail);
+                
+            }
+           
+            carritoExistente.setTotal(0.0);
+            carritoRepository.save(carritoExistente);
         }
-        carritoExistente.setTotal(0.0);
-        carritoRepository.save(carritoExistente);
+        
     }
-    }  
-}
+    
+} 

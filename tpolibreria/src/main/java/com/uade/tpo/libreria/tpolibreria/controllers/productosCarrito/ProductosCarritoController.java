@@ -9,8 +9,6 @@ import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
 
-import jakarta.persistence.EntityNotFoundException;
-
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;

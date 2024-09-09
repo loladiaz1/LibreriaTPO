@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import com.uade.tpo.libreria.tpolibreria.controllers.productosCarrito.ProductoCarritoRequest;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
@@ -30,8 +29,6 @@ public interface ProductoCarritoService {
     //^^^ admin: si, usuario: no
 
     public void actualizarProductoCarritoByIsbn(int isbn, int cantidad, String mail);
-    //^^^ admin: no, usuario: si (el usuario solo va a modificar la cantidad, porque no quiero que cambie el mail ni el libro)   
-    //CREO QUE VA A SER MEJOR UN PATCH(investigar)
 
     public String getMailById(Long ProductoCarritoId);
     //^^^ admin: si, usuario: no
