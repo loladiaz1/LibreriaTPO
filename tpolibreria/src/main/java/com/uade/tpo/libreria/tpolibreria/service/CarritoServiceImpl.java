@@ -25,8 +25,6 @@ public class CarritoServiceImpl implements CarritoService {
     @Autowired
     private ProductoCarritoRepository ProdCarritoRepository;
 
-    @Autowired
-    private ProductoCarritoService ProductoCarritoService;
 
      // Devuelve una página de carritos 
     public Page<Carrito> getCarritos(Pageable pageable) {
@@ -52,34 +50,36 @@ public class CarritoServiceImpl implements CarritoService {
     @Override
     public void eliminarCarrito(String mail) {
         Carrito carritoExistente = carritoRepository.findByMail(mail);
+    
         if (carritoExistente == null) {
             throw new EntityNotFoundException("No se encontró el carrito con el mail: " + mail);
         }
-        if (!carritoExistente.getProductosCarrito().isEmpty()) {
-            for (ProductoCarrito productoCarrito : carritoExistente.getProductosCarrito()) {
-                ProdCarritoRepository.delete(productoCarrito);
-            }
-        }
+
+        vaciarCarrito(mail);
+
         carritoRepository.delete(carritoExistente);
     }
 
     @Override
     public void vaciarCarrito(String mail) {
-        Carrito carritoExistente = carritoRepository.findById(mail) //el id es el mail
-            .orElseThrow(() -> new EntityNotFoundException("No se encontró el carrito con el mail: " + mail));
+        Carrito carritoExistente = carritoRepository.findByMail(mail);
         
-        List<ProductoCarrito> productos = carritoExistente.getProductosCarrito();
+        if (carritoExistente == null) {
+            throw new EntityNotFoundException("No se encontró el carrito con el mail:" + mail);
+        }
+
+        List<ProductoCarrito> productosDelCarrito = ProdCarritoRepository.findProductosCarritoByMail(mail);
         
-        if (!productos.isEmpty()) {
-            for (ProductoCarrito productoCarrito : productos) {
-                ProductoCarritoService.eliminarProductoCarritoByIsbnAndMail(productoCarrito.getLibro().getIsbn(), mail);
-                
-            }
-           
-            carritoExistente.setTotal(0.0);
-            carritoRepository.save(carritoExistente);
+        for (ProductoCarrito producto : productosDelCarrito) {
+            ProdCarritoRepository.delete(producto);
+        }
+
+        carritoExistente.getProductosCarrito().clear(); //con el orphanremoval este metodo tendria que funcionar y no haria falta el delete del prodcarrRepository
+
+        carritoExistente.setTotal(0.0);
+
+        carritoRepository.save(carritoExistente);
         }
         
     }
     
-} 
