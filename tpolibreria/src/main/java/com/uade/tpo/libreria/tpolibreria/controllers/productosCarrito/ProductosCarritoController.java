@@ -107,24 +107,30 @@ public class ProductosCarritoController {
         }
     }
 
-    //"el usuario tiene que poner en el url, el isbn del libro que quiere actualizar"
-    //dsp en el json va a escribir {cantidad: 3}, se va a moficar a esa cantidad
-    //TENGO QUE PASARLE EL MAIL
-    @PutMapping("/{isbn}/ActualizarCantLibro")
-    public ResponseEntity<String> actualizarProductoCarritoByIsbn(
-            @PathVariable Integer isbn, 
-            @RequestBody ProductoCarritoRequest productoCarritoRequest) {
-        
-        ProductoCarritoService.actualizarProductoCarritoByIsbn(isbn, productoCarritoRequest);
-        
-        return ResponseEntity.ok("Cantidad del libro actualizado.");
+    @PutMapping("/ActualizarCantLibro") //le tenes que poner en el json el isbn, la cantidad y el mail
+    public ResponseEntity<String> actualizarProductoCarrito(@RequestBody ProductoCarritoRequest ProductoCarritoRequest){
+        try{
+            ProductoCarritoService.actualizarProductoCarritoByIsbn(
+                ProductoCarritoRequest.getIsbn(),
+                ProductoCarritoRequest.getCantidad(),
+                ProductoCarritoRequest.getCarrito_mail());
+    
+            return ResponseEntity.ok("Producto en el carrito actualizado correctamente.");
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+        }
     }
 
-    @DeleteMapping("EliminarprodCarrito")
+    @DeleteMapping("/EliminarprodCarrito") //le tenes que poner en el json el isbn y el mail
     public ResponseEntity<String> eliminarProductoCarritoByIsbnAndMail(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) {
         try {
-            ProductoCarritoService.eliminarProductoCarritoByIsbnAndMail(ProductoCarritoRequest);
-            return ResponseEntity.ok("ProductoCarrito eliminado correctamente.");
+            ProductoCarritoService.eliminarProductoCarritoByIsbnAndMail(
+                ProductoCarritoRequest.getIsbn(),
+                ProductoCarritoRequest.getCarrito_mail());
+    
+            return ResponseEntity.ok("Producto del carrito eliminado correctamente.");
+    
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: ProductoCarrito no encontrado.");
         }

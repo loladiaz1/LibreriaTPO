@@ -105,36 +105,23 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     }
     
     @Override
-    public void actualizarProductoCarritoByIsbn(Integer isbn, ProductoCarritoRequest prodCarrRequest) {
-        Carrito carrito = carritoRepository.findById(prodCarrRequest.getCarrito_mail())
-            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + prodCarrRequest.getCarrito_mail()));
+    public void actualizarProductoCarritoByIsbn(int isbn, int cantidad, String mail) {
+        ProductoCarrito productoCarrito = ProductoCarritoRepository.findByIsbnAndCarritoMail(isbn, mail)
+        .orElseThrow(() -> new RuntimeException("No se encontró el producto con ISBN: " + isbn + " en el carrito con mail: " + mail));
         
-            ProductoCarrito productoCarrito = null;
-            for (ProductoCarrito pc : carrito.getProductosCarrito()) {
-                if (pc.getLibro().getIsbn() == isbn) {
-                    productoCarrito = pc;
-                    break;
-                }
-            }
-        
-            if (productoCarrito == null) {
-                throw new RuntimeException("No se encontró el producto con ISBN: " + isbn + " en el carrito con mail: " + prodCarrRequest.getCarrito_mail());
-            }
-        
-            
-            double montoARestar = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
-            carrito.setTotal(carrito.getTotal() - montoARestar);
-        
-            if (prodCarrRequest.getCantidad() > 0) {
-                productoCarrito.setCantidad(prodCarrRequest.getCantidad());
-                double montoNuevo = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
-                carrito.setTotal(carrito.getTotal() + montoNuevo);
-                ProductoCarritoRepository.save(productoCarrito);
-            } else {
-                ProductoCarritoRepository.delete(productoCarrito);
-            }
-        
-            carritoRepository.save(carrito);
+        double montoARestar = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
+        Carrito carrito = productoCarrito.getCarrito();
+        carrito.setTotal(carrito.getTotal() - montoARestar);
+
+        if (cantidad > 0) {
+            productoCarrito.setCantidad(cantidad);
+            double montoNuevo = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
+            carrito.setTotal(carrito.getTotal() + montoNuevo);
+            ProductoCarritoRepository.save(productoCarrito); 
+        } else {
+            ProductoCarritoRepository.delete(productoCarrito); // elimina el producto si la cantidad es 0 o menor
+        }
+        carritoRepository.save(carrito);
     }
 
     @Override
@@ -142,27 +129,16 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findMailById(ProductoCarritoId);
     }
 
-    public void eliminarProductoCarritoByIsbnAndMail(ProductoCarritoRequest prodCarrRequest){
-        Carrito carrito = carritoRepository.findById(prodCarrRequest.getCarrito_mail())
-            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + prodCarrRequest.getCarrito_mail()));
-
-        ProductoCarrito productoAEliminar = null;
-        for (ProductoCarrito productoCarrito : carrito.getProductosCarrito()) {
-            if (productoCarrito.getLibro().getIsbn() == prodCarrRequest.getIsbn()) {
-                productoAEliminar = productoCarrito;
-                break;
-            }
-        }
-        if (productoAEliminar == null) {
-            throw new RuntimeException("No se encontró el producto con ISBN: " + prodCarrRequest.getIsbn() + " en el carrito con mail: " + prodCarrRequest.getCarrito_mail());
-        }
+    public void eliminarProductoCarritoByIsbnAndMail(int isbn, String carritoMail){
+        ProductoCarrito productoAEliminar = ProductoCarritoRepository.findByIsbnAndCarritoMail(isbn, carritoMail)
+        .orElseThrow(() -> new RuntimeException("No se encontró el producto con ISBN: " + isbn + " en el carrito con mail: " + carritoMail));
 
         double montoARestar = productoAEliminar.getLibro().getPrecio() * productoAEliminar.getCantidad();
+        Carrito carrito = productoAEliminar.getCarrito();
         carrito.setTotal(carrito.getTotal() - montoARestar);
         carritoRepository.save(carrito);
 
         ProductoCarritoRepository.delete(productoAEliminar);
-
     }
     
 }
