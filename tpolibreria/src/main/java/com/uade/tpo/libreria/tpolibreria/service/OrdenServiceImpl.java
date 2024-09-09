@@ -35,9 +35,13 @@ public class OrdenServiceImpl implements OrdenService {
 
         Orden ordenNueva = new Orden();
         ordenNueva.setTotalSinDescuento(carrito.getTotal());
-        if
-        ordenNueva.setTotalConDescuento(carrito.getTotal()* ordenNueva.getGiftCard().getDescuento());
-        ordenNueva.setDescuento(ordenNueva.getGiftCard().getDescuento());
+        if (ordenNueva.getGiftCard() != null){
+            ordenNueva.setTotalConDescuento(carrito.getTotal()* ordenNueva.getGiftCard().getDescuento());
+            ordenNueva.setDescuento(ordenNueva.getGiftCard().getDescuento());  
+        }else{
+            ordenNueva.setTotalConDescuento(carrito.getTotal());
+            ordenNueva.setDescuento(0.0);
+        }
         Usuario usuario = usuarioRepository.findByMail(mail)
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el mail: " + mail));
         ordenNueva.setUsuario(usuario);
