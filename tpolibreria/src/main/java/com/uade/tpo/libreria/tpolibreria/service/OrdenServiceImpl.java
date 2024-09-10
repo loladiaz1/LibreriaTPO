@@ -11,17 +11,22 @@ import com.uade.tpo.libreria.tpolibreria.repository.OrdenRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
 import com.uade.tpo.libreria.tpolibreria.controllers.orden.OrdenRequest;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.Orden;
+import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.entity.Usuario;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.GiftCardRepository;
-
+import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
 
 @Service
 public class OrdenServiceImpl implements OrdenService {
 
     @Autowired
     private CarritoRepository carritoRepository;
+
+    @Autowired
+    private CarritoService carritoService;
 
     @Autowired
     private OrdenRepository OrdenRepository;
@@ -31,6 +36,9 @@ public class OrdenServiceImpl implements OrdenService {
 
     @Autowired
     private GiftCardRepository giftCardRepository;
+
+    @Autowired
+    private LibroRepository LibroRepository;
 
     @Override
     public Orden createOrden(OrdenRequest ordenRequest) {
@@ -50,6 +58,29 @@ public class OrdenServiceImpl implements OrdenService {
         Usuario usuario = usuarioRepository.findByMail(ordenRequest.getMail())
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el mail: " + ordenRequest.getMail()));
         ordenNueva.setUsuario(usuario);
+
+        //Obtener la cantidad de libros que se compro por cada libro y restarle esa cantidad a cada libro en su repository:
+        List<ProductoCarrito> productosCarrito= carrito.getProductosCarrito();
+        for (ProductoCarrito prodcarr : productosCarrito) {
+            int cantARestar = prodcarr.getCantidad();
+            Libro libro = prodcarr.getLibro();
+            int nuevaCantidad = libro.getStock() - cantARestar;
+            
+            if (nuevaCantidad < 0) {
+                throw new IllegalArgumentException("Error al comprar.");
+            }
+            libro.setStock(nuevaCantidad);
+            LibroRepository.save(libro);
+
+            /*
+             * if (nuevaCantidad == 0){
+             * IMPLEMENTACION DE QUE EL LIBRO SE VUELVA GRIS
+             * }
+             */
+        }
+        //Vacio de carrito, en vaciar carrito se guarda el carrito nuevo en repository:
+        carritoService.vaciarCarrito(ordenRequest.getMail());
+
         return OrdenRepository.save(ordenNueva);
 
     }
