@@ -10,24 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
-import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.entity.Role;
 import com.uade.tpo.libreria.tpolibreria.entity.Usuario;
 import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
-import com.uade.tpo.libreria.tpolibreria.repository.ProductoCarritoRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
-
-import jakarta.servlet.http.HttpServletRequest;
-
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +28,6 @@ public class SecurityConfig {
         private final AuthenticationProvider authenticationProvider;
         private final CarritoRepository carritoRepository;
         private final UsuarioRepository usuarioRepository;
-        private final ProductoCarritoRepository productoCarritoRepository;
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
