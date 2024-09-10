@@ -49,7 +49,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             if (productoCarrito.getLibro().getIsbn() == isbn) {
                 //EXCEPCION POR STOCK
                 Libro libro = productoCarrito.getLibro();
-                if (cantidad > libro.getStock()) {
+                if (cantidad + productoCarrito.getCantidad()> libro.getStock()) {
                     throw new RuntimeException("No hay stock suficiente para el libro: " + libro.getTitulo());
                 }
                 //sumo la cantidad vieja y la cantidad nueva
