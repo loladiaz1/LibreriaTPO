@@ -83,8 +83,8 @@ public class SecurityConfig {
                                         .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
 
                                         //PRODUCTOS CARRITO
-                                        .requestMatchers(HttpMethod.POST, "/productosCarrito").hasAnyAuthority(Role.USUARIO.name())
-                                        .requestMatchers("/productosCarrito/{isbn}/ActualizarCantLibro").hasAnyAuthority(Role.USUARIO.name())
+                                        .requestMatchers(HttpMethod.POST, "/productosCarrito").hasAnyAuthority(Role.USUARIO.name(), Role.ADMIN.name())
+                                        .requestMatchers("/productosCarrito/{isbn}/ActualizarCantLibro").hasAnyAuthority(Role.USUARIO.name(), Role.ADMIN.name())
                                         .requestMatchers("/productosCarrito/{mail}/listaDeProductosCarritoByMail").access((authentication, context) -> {
                                                 String mail = context.getVariables().get("mail");
                                                 Carrito carrito = carritoRepository.findByMail(mail);
