@@ -64,8 +64,12 @@ public class UsuariosController {
 
     @DeleteMapping("/{usuarioId}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long usuarioId) {
-        boolean deleted = usuarioService.deleteUsuario(usuarioId);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        try {
+            usuarioService.deleteUsuario(usuarioId);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
     
     @PostMapping

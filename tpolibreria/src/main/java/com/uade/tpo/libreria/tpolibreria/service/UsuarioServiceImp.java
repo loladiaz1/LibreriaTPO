@@ -15,6 +15,9 @@ public class UsuarioServiceImp implements UsuarioService{
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private CarritoService CarritoService;
+
     @Override
     public Page<Usuario> getUsuarios(PageRequest pageable) {
         return usuarioRepository.findAll(pageable);
@@ -62,13 +65,16 @@ public class UsuarioServiceImp implements UsuarioService{
     }
 
     @Override
-    public boolean deleteUsuario(Long usuarioId) {
-        if (usuarioRepository.existsById(usuarioId)) {
+    public void deleteUsuario(Long usuarioId) {
+        Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
+
+        if (usuario.isPresent()) {
+            CarritoService.eliminarCarrito(usuario.get().getMail());
+
             usuarioRepository.deleteById(usuarioId);
-            return true;
+        } else {
+            throw new RuntimeException("Usuario no encontrado con ID: " + usuarioId);
         }
-        return false;
     }
-    
     
 }
