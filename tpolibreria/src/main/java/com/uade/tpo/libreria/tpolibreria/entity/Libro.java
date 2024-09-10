@@ -3,6 +3,8 @@ package com.uade.tpo.libreria.tpolibreria.entity;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -10,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 
@@ -58,4 +61,10 @@ public class Libro {
     @CollectionTable(name = "autores", joinColumns = @JoinColumn(name = "isbn"))
     @Column(name = "autor")
     private List<String> autor;
+
+    @OneToOne
+    @JoinColumn(name = "image_id", unique = true)
+    @JsonManagedReference
+    private Image image;
+
 }
