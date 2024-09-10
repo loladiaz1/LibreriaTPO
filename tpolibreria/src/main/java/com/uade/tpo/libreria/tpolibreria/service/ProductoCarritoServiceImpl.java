@@ -39,15 +39,19 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
 
     @Override
     public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado {
-
-        //CAMBIAR LOS EXCEPTIONS
+         //CAMBIAR LOS EXCEPTIONS
         Carrito carrito = carritoRepository.findById(carrito_mail)
-            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + carrito_mail));
-
+            .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + carrito_mail));        
+        
         ProductoCarrito productoEncontrado = null;
         //busca el productoCarrito y si lo encuentra le actualiza la cantidad
         for (ProductoCarrito productoCarrito : carrito.getProductosCarrito()) {
             if (productoCarrito.getLibro().getIsbn() == isbn) {
+                //EXCEPCION POR STOCK
+                Libro libro = productoCarrito.getLibro();
+                if (cantidad > libro.getStock()) {
+                    throw new RuntimeException("No hay stock suficiente para el libro: " + libro.getTitulo());
+                }
                 //sumo la cantidad vieja y la cantidad nueva
                 productoCarrito.setCantidad(productoCarrito.getCantidad() + cantidad);
 
@@ -69,7 +73,9 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         Libro libro = libroRepository.findById(isbn)
             .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
 
-        
+        if (cantidad > libro.getStock()) {
+            throw new RuntimeException("No hay stock suficiente para el libro: " + libro.getTitulo());
+        }
         ProductoCarrito nuevoProductoCarrito = new ProductoCarrito();
         nuevoProductoCarrito.setLibro(libro);  
         nuevoProductoCarrito.setCantidad(cantidad);  
@@ -98,16 +104,24 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findLibroByProductoCarritoId(ProductoCarritoId);
     }
 
+    /*
     @Override
     public Optional<ProductoCarrito> getProductoCarritoByIsbn(int isbn) {
         return ProductoCarritoRepository.findByIsbn(isbn);
     }
+    */
     
     @Override
     public void actualizarProductoCarritoByIsbn(int isbn, int cantidad, String mail) {
         ProductoCarrito productoCarrito = ProductoCarritoRepository.findByIsbnAndCarritoMail(isbn, mail)
         .orElseThrow(() -> new RuntimeException("No se encontró el producto con ISBN: " + isbn + " en el carrito con mail: " + mail));
         
+        Libro libro = productoCarrito.getLibro();
+        //cantidad + productoCarrito.getCantidad() --> es asi porque yo antes le puse cantidad
+        if (cantidad + productoCarrito.getCantidad()> libro.getStock()) {
+            throw new RuntimeException("No hay stock suficiente para el libro: " + libro.getTitulo());
+        }
+
         double montoARestar = productoCarrito.getLibro().getPrecio() * productoCarrito.getCantidad();
         Carrito carrito = productoCarrito.getCarrito();
         carrito.setTotal(carrito.getTotal() - montoARestar);

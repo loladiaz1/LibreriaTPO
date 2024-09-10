@@ -94,6 +94,7 @@ public class ProductosCarritoController {
         }
     }
 
+    /* 
     @GetMapping("/{isbn}/productoCarritoByIsbn")
     public ResponseEntity<ProductoCarrito> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
         Optional<ProductoCarrito> prodCarr = ProductoCarritoService.getProductoCarritoByIsbn(isbn);
@@ -104,7 +105,7 @@ public class ProductosCarritoController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    */  
     @PutMapping("/ActualizarCantLibro") //le tenes que poner en el json el isbn, la cantidad y el mail
     public ResponseEntity<String> actualizarProductoCarrito(@RequestBody ProductoCarritoRequest ProductoCarritoRequest){
         try{

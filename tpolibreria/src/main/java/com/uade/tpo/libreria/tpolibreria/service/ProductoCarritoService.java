@@ -25,8 +25,10 @@ public interface ProductoCarritoService {
     public Optional<Libro> getLibroById(Long ProductoCarritoId);
     //^^^ admin: si, usuario: no
     
+    /* 
     public Optional<ProductoCarrito> getProductoCarritoByIsbn(int isbn);
     //^^^ admin: si, usuario: no
+    */
 
     public void actualizarProductoCarritoByIsbn(int isbn, int cantidad, String mail);
 
