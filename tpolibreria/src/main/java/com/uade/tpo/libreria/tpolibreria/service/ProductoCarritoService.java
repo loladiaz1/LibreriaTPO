@@ -25,10 +25,11 @@ public interface ProductoCarritoService {
     public Optional<Libro> getLibroById(Long ProductoCarritoId);
     //^^^ admin: si, usuario: no
     
-    /* 
-    public Optional<ProductoCarrito> getProductoCarritoByIsbn(int isbn);
+    //para eliminar los productos carrito con el isbn indicado sin que me importe de quien es --> para eliminar libro
+    
+    public List<ProductoCarrito> getProductosCarritoByIsbn(int isbn);
     //^^^ admin: si, usuario: no
-    */
+    
 
     public void actualizarProductoCarritoByIsbn(int isbn, int cantidad, String mail);
 
@@ -37,4 +38,5 @@ public interface ProductoCarritoService {
 
     public void eliminarProductoCarritoByIsbnAndMail(int isbn, String carrito_mail);
     
+    public void eliminarProductoCarritoByIsbn(int isbn);
 } 

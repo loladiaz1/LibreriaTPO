@@ -24,6 +24,9 @@ public class LibroServiceImpl implements LibroService {
     @Autowired
     private GeneroRepository generoRepository;
 
+    @Autowired
+    private ProductoCarritoService productoCarritoService;
+
     @Override
     public Page<Libro> getLibros(PageRequest pageable, String titulo, String autor, String editorial, String idioma) {
         List<Libro> libros;
@@ -71,13 +74,18 @@ public class LibroServiceImpl implements LibroService {
         return libroRepository.save(libro);
     }
     public void deleteLibro(int isbn) {
+        //Cuando elimino un libro tengo que eliminar su relacion con productos carrito si es que hay
         Optional<Libro> libro = libroRepository.findById(isbn);
-        if (libro.isPresent()) {
+        if (libro.isPresent()) { 
+            productoCarritoService.eliminarProductoCarritoByIsbn(isbn);
             libroRepository.deleteById(isbn);
+            //si da error, que se mande la clase libro
+
         } else {
             throw new RuntimeException("Libro no encontrado con ISBN: " + isbn);
         }
     }
+
     @Override
     public Libro updateLibro(int isbn, LibroRequest libroRequest) {
         Optional<Libro> existingLibro = libroRepository.findById(isbn);

@@ -94,7 +94,6 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     }
 
     @Override
-    //esta bien el list?, la profe usa page con findall
     public List<ProductoCarrito> getProductosCarritoByMail(String carrito_mail) {
         return ProductoCarritoRepository.findByMail(carrito_mail);
     }
@@ -104,12 +103,11 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findLibroByProductoCarritoId(ProductoCarritoId);
     }
 
-    /*
+    
     @Override
-    public Optional<ProductoCarrito> getProductoCarritoByIsbn(int isbn) {
+    public List<ProductoCarrito> getProductosCarritoByIsbn(int isbn) {
         return ProductoCarritoRepository.findByIsbn(isbn);
     }
-    */
     
     @Override
     public void actualizarProductoCarritoByIsbn(int isbn, int cantidad, String mail) {
@@ -154,4 +152,18 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         ProductoCarritoRepository.delete(productoAEliminar);
     }
     
+    public void eliminarProductoCarritoByIsbn(int isbn){
+        //es lo mismo que productoCarritorepository.findByIsbn()
+        List<ProductoCarrito> lista = getProductosCarritoByIsbn(isbn);
+        for (ProductoCarrito prodcarr : lista) {
+            double montoARestar = prodcarr.getLibro().getPrecio() * prodcarr.getCantidad();
+            Carrito carrito = prodcarr.getCarrito();
+            carrito.setTotal(carrito.getTotal() - montoARestar);
+            carritoRepository.save(carrito);
+            
+            ProductoCarritoRepository.delete(prodcarr);
+        }
+
+
+    }
 }

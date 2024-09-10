@@ -94,18 +94,18 @@ public class ProductosCarritoController {
         }
     }
 
-    /* 
+    
     @GetMapping("/{isbn}/productoCarritoByIsbn")
-    public ResponseEntity<ProductoCarrito> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
-        Optional<ProductoCarrito> prodCarr = ProductoCarritoService.getProductoCarritoByIsbn(isbn);
+    public ResponseEntity<List<ProductoCarrito>> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
+        List<ProductoCarrito> prodsCarr = ProductoCarritoService.getProductosCarritoByIsbn(isbn);
 
-        if (prodCarr.isPresent()) {
-            return ResponseEntity.ok(prodCarr.get());
+        if (!prodsCarr.isEmpty()) {
+            return ResponseEntity.ok(prodsCarr);
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-    */  
+}
+      
     @PutMapping("/ActualizarCantLibro") //le tenes que poner en el json el isbn, la cantidad y el mail
     public ResponseEntity<String> actualizarProductoCarrito(@RequestBody ProductoCarritoRequest ProductoCarritoRequest){
         try{
@@ -144,5 +144,15 @@ public class ProductosCarritoController {
         return ResponseEntity.ok(mail);
     }
     
-
+    @DeleteMapping("/EliminarprodCarritoByIsbn")
+    public ResponseEntity<String> eliminarProductoCarritoByIsbn(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) {
+        try {
+            ProductoCarritoService.eliminarProductoCarritoByIsbn(ProductoCarritoRequest.getIsbn());
+    
+            return ResponseEntity.ok("Producto del carrito eliminado correctamente.");
+    
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: ProductoCarrito no encontrado.");
+        }
+    }
 }
