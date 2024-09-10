@@ -97,6 +97,8 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "/ordenes/**").hasAnyAuthority(Role.USUARIO.name(), Role.ADMIN.name())//Agregar que solo pueda hacerlo si es su usuario
                                         .requestMatchers("/ordenes/**").hasAnyAuthority(Role.ADMIN.name())
 
+                                        .requestMatchers("/images/**").permitAll()
+
                                         .anyRequest()
                                         .authenticated())
                                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
