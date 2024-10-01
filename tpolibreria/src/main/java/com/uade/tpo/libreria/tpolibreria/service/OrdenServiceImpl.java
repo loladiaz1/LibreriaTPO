@@ -49,7 +49,7 @@ public class OrdenServiceImpl implements OrdenService {
         ordenNueva.setGiftCard(giftCardRepository.findByCodigo(ordenRequest.getCodigo()));
         ordenNueva.setTotalSinDescuento(carrito.getTotal());
         if (ordenNueva.getGiftCard() != null){
-            ordenNueva.setTotalConDescuento(carrito.getTotal()* ordenNueva.getGiftCard().getDescuento());
+            ordenNueva.setTotalConDescuento(carrito.getTotal() * (1 - ordenNueva.getGiftCard().getDescuento()));
             ordenNueva.setDescuento(ordenNueva.getGiftCard().getDescuento());  
         }else{
             ordenNueva.setTotalConDescuento(carrito.getTotal());
