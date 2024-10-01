@@ -26,11 +26,14 @@ public interface ProductoCarritoRepository extends JpaRepository<ProductoCarrito
 
     //libro.isbn --> la consulta debe acceder a isbn a través de la relación con Libro
     @Query("select p from ProductoCarrito p where p.libro.isbn = :isbn")
-    Optional<ProductoCarrito> findByIsbn(@Param("isbn") Integer isbn);
-
+    List<ProductoCarrito> findByIsbn(@Param("isbn") Integer isbn);
+    
     @Query("select p.carrito.mail from ProductoCarrito p where p.id = :id")
     String findMailById(@Param("id") Long id); 
 
     @Query("select p from ProductoCarrito p where p.carrito.mail = :mail")
     List<ProductoCarrito> findProductosCarritoByMail(@Param("mail") String mail); 
+
+    @Query("select p from ProductoCarrito p where p.libro.isbn = :isbn and p.carrito.mail = :mail")
+    Optional<ProductoCarrito> findByIsbnAndCarritoMail(@Param("isbn") Integer isbn, @Param("mail") String mail);
 } 

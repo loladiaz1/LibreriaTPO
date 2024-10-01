@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.uade.tpo.libreria.tpolibreria.entity.Genero;
+import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionGeneroDuplicado;
 import com.uade.tpo.libreria.tpolibreria.repository.GeneroRepository;
 
@@ -15,6 +16,9 @@ public class GeneroServiceImpl implements GeneroService {
 
     @Autowired
     private GeneroRepository GeneroRepository;
+
+    @Autowired
+    private LibroService LibroService;
 
     public Page<Genero> getGeneros(PageRequest pageable) {
         return GeneroRepository.findAll(pageable);
@@ -61,7 +65,15 @@ public class GeneroServiceImpl implements GeneroService {
 
     @Override
     public void deleteGenero(Long id) {
-        if (GeneroRepository.existsById(id)) {
+        Optional<Genero> genero = GeneroRepository.findById(id);
+
+        if (genero.isPresent()) {
+            
+            List<Libro> libros = genero.get().getLibros();
+            for (Libro lib : libros) {
+                LibroService.deleteLibro(lib.getIsbn());
+            }
+             
             GeneroRepository.deleteById(id);
         } else {
             throw new RuntimeException("Género no encontrado con ID: " + id);

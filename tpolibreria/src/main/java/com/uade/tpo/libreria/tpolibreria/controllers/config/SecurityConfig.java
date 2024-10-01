@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/auth/**").permitAll()
                                         .requestMatchers("/error/**").permitAll()
+                                        //CARRITO
                                         .requestMatchers("/carritos/{carritoId}").access((authentication, context) -> {
                                                 String carritoId = context.getVariables().get("carritoId");
                                                 Optional<Carrito> carrito = carritoRepository.findById(carritoId);
@@ -42,23 +43,62 @@ public class SecurityConfig {
                                                 boolean esAdmin = authentication.get().getAuthorities().stream()
                                                                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
                                                 return new AuthorizationDecision(esPropietario || esAdmin); })
-                                         .requestMatchers("/usuarios/mail/{UsuarioMail}").access((authentication, context) -> {
+                                        .requestMatchers("/carritos/**").hasAnyAuthority(Role.ADMIN.name())
+                                        
+                                        //USUARIOS
+                                         .requestMatchers(HttpMethod.DELETE,"/usuarios/{usuarioId}").access((authentication, context) -> {
+                                                Long usuarioId = Long.parseLong(context.getVariables().get("usuarioId"));
+                                                Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
+                                                boolean esPropietario = (usuario.isPresent() && usuario.get().getMail().equals(authentication.get().getName()));
+                                                boolean esAdmin = authentication.get().getAuthorities().stream()
+                                                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
+                                                return new AuthorizationDecision(esPropietario || esAdmin); })
+                                        .requestMatchers(HttpMethod.PUT,"/usuarios/{usuarioId}").access((authentication, context) -> {
+                                                Long usuarioId = Long.parseLong(context.getVariables().get("usuarioId"));
+                                                Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
+                                                boolean esPropietario = (usuario.isPresent() && usuario.get().getMail().equals(authentication.get().getName()));
+                                                boolean esAdmin = authentication.get().getAuthorities().stream()
+                                                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
+                                                return new AuthorizationDecision(esPropietario || esAdmin); })
+                                        .requestMatchers("/usuarios/mail/{UsuarioMail}").access((authentication, context) -> {
                                                 String usuarioMail = context.getVariables().get("UsuarioMail");
                                                 Optional<Usuario> usuario = usuarioRepository.findByMail(usuarioMail);
                                                 boolean esPropietario = (usuario.isPresent() && usuario.get().getMail().equals(authentication.get().getName()));
                                                 boolean esAdmin = authentication.get().getAuthorities().stream()
                                                                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
                                                 return new AuthorizationDecision(esPropietario || esAdmin); })
-                                        .requestMatchers(HttpMethod.POST, "/productosCarrito/**").hasAnyAuthority(Role.USUARIO.name())
-                                        .requestMatchers("/productosCarrito/{isbn}/ActualizarCantLibro").hasAnyAuthority(Role.USUARIO.name())
-                                        .requestMatchers("/carritos/**").hasAnyAuthority(Role.ADMIN.name())
-                                        .requestMatchers("/productosCarrito/**").hasAnyAuthority(Role.ADMIN.name())
                                         .requestMatchers("/usuarios/**").hasAnyAuthority(Role.ADMIN.name())
+
+                                        //PRODUCTOS CARRITO
+                                        .requestMatchers(HttpMethod.POST, "/productosCarrito").hasAnyAuthority(Role.USUARIO.name(), Role.ADMIN.name())
+                                        .requestMatchers("/productosCarrito/{isbn}/ActualizarCantLibro").hasAnyAuthority(Role.USUARIO.name(), Role.ADMIN.name())
+                                        .requestMatchers("/productosCarrito/{mail}/listaDeProductosCarritoByMail").access((authentication, context) -> {
+                                                String mail = context.getVariables().get("mail");
+                                                Carrito carrito = carritoRepository.findByMail(mail);
+                                                boolean esPropietario = (carrito.getMail().equals(authentication.get().getName()));
+                                                boolean esAdmin = authentication.get().getAuthorities().stream()
+                                                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.ADMIN.name()));
+                                                return new AuthorizationDecision(esPropietario || esAdmin); })
+                                        .requestMatchers("/productosCarrito/EliminarprodCarrito").hasAnyAuthority(Role.USUARIO.name(), Role.ADMIN.name())
+                                        .requestMatchers("/productosCarrito/**").hasAnyAuthority(Role.ADMIN.name())
+
+                                        //GIFTCARDS
                                         .requestMatchers("/giftcards/**").hasAnyAuthority(Role.ADMIN.name())
+
+                                        //GENEROS
                                         .requestMatchers(HttpMethod.GET,"/generos/**").permitAll()
-                                        .requestMatchers(HttpMethod.GET,"/libros/**").permitAll()
                                         .requestMatchers("/generos/**").hasAnyAuthority(Role.ADMIN.name())
+
+                                        //LIBROS
+                                        .requestMatchers(HttpMethod.GET,"/libros/**").permitAll()
                                         .requestMatchers("/libros/**").hasAnyAuthority(Role.ADMIN.name())
+
+                                        //ORDENES
+                                        .requestMatchers(HttpMethod.POST, "/ordenes/**").hasAnyAuthority(Role.USUARIO.name(), Role.ADMIN.name())//Agregar que solo pueda hacerlo si es su usuario
+                                        .requestMatchers("/ordenes/**").hasAnyAuthority(Role.ADMIN.name())
+
+                                        .requestMatchers("/images/**").permitAll()
+
                                         .anyRequest()
                                         .authenticated())
                                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

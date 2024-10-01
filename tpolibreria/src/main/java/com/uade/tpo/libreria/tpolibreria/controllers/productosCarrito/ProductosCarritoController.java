@@ -94,35 +94,42 @@ public class ProductosCarritoController {
         }
     }
 
+    
     @GetMapping("/{isbn}/productoCarritoByIsbn")
-    public ResponseEntity<ProductoCarrito> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
-        Optional<ProductoCarrito> prodCarr = ProductoCarritoService.getProductoCarritoByIsbn(isbn);
+    public ResponseEntity<List<ProductoCarrito>> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
+        List<ProductoCarrito> prodsCarr = ProductoCarritoService.getProductosCarritoByIsbn(isbn);
 
-        if (prodCarr.isPresent()) {
-            return ResponseEntity.ok(prodCarr.get());
+        if (!prodsCarr.isEmpty()) {
+            return ResponseEntity.ok(prodsCarr);
         } else {
             return ResponseEntity.notFound().build();
         }
+}
+      
+    @PutMapping("/ActualizarCantLibro") //le tenes que poner en el json el isbn, la cantidad y el mail
+    public ResponseEntity<String> actualizarProductoCarrito(@RequestBody ProductoCarritoRequest ProductoCarritoRequest){
+        try{
+            ProductoCarritoService.actualizarProductoCarritoByIsbn(
+                ProductoCarritoRequest.getIsbn(),
+                ProductoCarritoRequest.getCantidad(),
+                ProductoCarritoRequest.getCarrito_mail());
+    
+            return ResponseEntity.ok("Producto en el carrito actualizado correctamente.");
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+        }
     }
 
-    //"el usuario tiene que poner en el url, el isbn del libro que quiere actualizar"
-    //dsp en el json va a escribir {cantidad: 3}, se va a moficar a esa cantidad
-    //TENGO QUE PASARLE EL MAIL
-    @PutMapping("/{isbn}/ActualizarCantLibro")
-    public ResponseEntity<String> actualizarProductoCarritoByIsbn(
-            @PathVariable Integer isbn, 
-            @RequestBody ProductoCarritoRequest productoCarritoRequest) {
-        
-        ProductoCarritoService.actualizarProductoCarritoByIsbn(isbn, productoCarritoRequest);
-        
-        return ResponseEntity.ok("Cantidad del libro actualizado.");
-    }
-
-    @DeleteMapping("EliminarprodCarrito")
+    @DeleteMapping("/EliminarprodCarrito") //le tenes que poner en el json el isbn y el mail
     public ResponseEntity<String> eliminarProductoCarritoByIsbnAndMail(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) {
         try {
-            ProductoCarritoService.eliminarProductoCarritoByIsbnAndMail(ProductoCarritoRequest);
-            return ResponseEntity.ok("ProductoCarrito eliminado correctamente.");
+            ProductoCarritoService.eliminarProductoCarritoByIsbnAndMail(
+                ProductoCarritoRequest.getIsbn(),
+                ProductoCarritoRequest.getCarrito_mail());
+    
+            return ResponseEntity.ok("Producto del carrito eliminado correctamente.");
+    
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: ProductoCarrito no encontrado.");
         }
@@ -137,5 +144,15 @@ public class ProductosCarritoController {
         return ResponseEntity.ok(mail);
     }
     
-
+    @DeleteMapping("/EliminarprodCarritoByIsbn")
+    public ResponseEntity<String> eliminarProductoCarritoByIsbn(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) {
+        try {
+            ProductoCarritoService.eliminarProductoCarritoByIsbn(ProductoCarritoRequest.getIsbn());
+    
+            return ResponseEntity.ok("Producto del carrito eliminado correctamente.");
+    
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: ProductoCarrito no encontrado.");
+        }
+    }
 }

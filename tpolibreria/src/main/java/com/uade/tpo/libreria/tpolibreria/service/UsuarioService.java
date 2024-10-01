@@ -13,5 +13,5 @@ public interface UsuarioService {
 
     public Usuario createUsuario(String nombre_usuario, String mail, String contraseña, String nombre, String apellido, String direccion, int CP);
     Optional<Usuario> updateUsuario(Long usuarioId, String nombre_usuario, String mail, String contraseña, String nombre, String apellido, String direccion, int CP);
-    boolean deleteUsuario(Long usuarioId);
+    void deleteUsuario(Long usuarioId);
 }

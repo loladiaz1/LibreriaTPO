@@ -1,4 +1,4 @@
-/* 
+ 
 package com.uade.tpo.libreria.tpolibreria.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -11,61 +11,42 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "ordenes")
 public class Orden {
 
     public Orden(){
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //se genera solo el ID
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "mail_id")
     private Usuario usuario;
 
-    @OneToOne
-    @JoinColumn(name = "giftCard_id") //permite nulls
-    private GiftCard giftCard;
-
     @ManyToOne
-    @JoinColumn(name = "carrito_nombreUsuario", nullable = false)
+    @JoinColumn(name = "carrito_mailUsuario")
     @JsonBackReference
     private Carrito carrito;
 
-    @Column
-    private Double TotalSinDescuento(){
-        Double Total = 0.0;
-        if (carrito != null){
-            Total = carrito.getPrecio();
-            
-        }
-        return Total;
-
-    }
+    @OneToOne
+    @JoinColumn(name = "giftCard_id")
+    private GiftCard giftCard;
 
     @Column
-    private Double TotalConDescueno(){
-        Double total = 0.0;
-        if (carrito != null){
-            if (giftCard != null) {
-                // Aplicar descuento 
-                total -= total * (giftCard.getDescuento() / 100);
-            }
-            // Si no hay GiftCard, total ya está sin el descuento
-            return total;
-        }
-        return total;
-        
+    private Double totalSinDescuento;
 
-    }
+    @Column
+    private Double totalConDescuento;
+
+    @Column
+    private Double Descuento;
+
 
     
 }
-*/
+

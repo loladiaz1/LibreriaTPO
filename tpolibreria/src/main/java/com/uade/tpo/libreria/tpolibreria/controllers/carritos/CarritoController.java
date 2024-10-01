@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionCarrito;
 import com.uade.tpo.libreria.tpolibreria.service.CarritoService;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -27,7 +30,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("carritos") //creo que carrito es uno solo pero es para diferenciar
 public class CarritoController {
 
-     @Autowired
+    @Autowired
     private CarritoService carritoService;
 
     @GetMapping
@@ -66,10 +69,14 @@ public class CarritoController {
         }
     }
 
-    @PutMapping("{mail}/VaciarCarrito")
-    public ResponseEntity<String> vaciarCarrito(@PathVariable String mail) {
-        carritoService.vaciarCarrito(mail);
-        return ResponseEntity.ok("El carrito se ha vaciado");
+    @PutMapping("/VaciarCarrito")
+    public ResponseEntity<String> vaciarCarrito(@RequestBody CarritoRequest carritoRequest) {
+        try {
+            carritoService.vaciarCarrito(carritoRequest.getMail());
+            return ResponseEntity.ok("El carrito se ha vaciado.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Carrito no encontrado.");
+        }
     }
 
 }
