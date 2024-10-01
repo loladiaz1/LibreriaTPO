@@ -47,6 +47,32 @@ public class LibroServiceImpl implements LibroService {
         return libroRepository.findById(isbn);
     }
 
+
+    @Override
+    public Optional<LibroResponse> getLibroByTitulo(String titulo) {
+        return libroRepository.findByTituloContaining(titulo)
+                //.map(this::convertToLibroResponse);
+    }
+
+    @Override
+    public Optional<LibroResponse> getLibroByAutor(String autor) {
+        return libroRepository.findByAutorContaining(autor)
+                //.map(this::convertToLibroResponse);
+    }
+
+    @Override
+    public Optional<LibroResponse> getLibroByEditorial(String editorial) {
+        return libroRepository.findByEditorialContaining(editorial)
+                //.map(this::convertToLibroResponse);
+    }
+
+    @Override
+    public Optional<LibroResponse> getLibroByIdioma(String idioma) {
+        return libroRepository.findByIdiomaContaining(idioma)
+                //.map(this::convertToLibroResponse);
+    }
+
+
     @Override
     public Libro createLibro(LibroRequest libroRequest) {
         Libro libro = new Libro();
