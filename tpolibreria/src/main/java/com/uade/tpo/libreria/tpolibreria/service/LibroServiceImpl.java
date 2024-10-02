@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LibroServiceImpl implements LibroService {
@@ -50,7 +50,7 @@ public class LibroServiceImpl implements LibroService {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -81,7 +81,7 @@ public class LibroServiceImpl implements LibroService {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -91,11 +91,10 @@ public class LibroServiceImpl implements LibroService {
         }
         
     }
-    public Optional<LibroResponse> getLibroByTitulo(String titulo) {
-        Optional<Libro> existingLibro = libroRepository.findByTituloContaining(titulo);
-        LibroResponse libroResponse = new LibroResponse();
-        if (existingLibro.isPresent()) {
-            Libro libro = existingLibro.get();
+    public List<LibroResponse> getLibroByTitulo(String titulo) {
+        List<Libro> libros = libroRepository.findByTituloContaining(titulo);
+        return libros.stream().map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
             libroResponse.setAutor(libro.getAutor());
             libroResponse.setCantPaginas(libro.getCantPaginas());
             libroResponse.setDescripcion(libro.getDescripcion());
@@ -112,22 +111,19 @@ public class LibroServiceImpl implements LibroService {
             try {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
-                libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return Optional.of(libroResponse);
-        } else {
-            throw new RuntimeException("Libro no encontrado con título: " + titulo);
-        }
+            return libroResponse;
+        }).collect(Collectors.toList());
     }
     @Override
-    public Optional<LibroResponse> getLibroByEditorial(String editorial) {
-        Optional<Libro> existingLibro = libroRepository.findByEditorialContaining(editorial);
-        LibroResponse libroResponse = new LibroResponse();
-        if (existingLibro.isPresent()) {
-            Libro libro = existingLibro.get();
+    public List<LibroResponse> getLibroByEditorial(String editorial) {
+        List<Libro> libros = libroRepository.findByEditorialContaining(editorial);
+        return libros.stream().map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
             libroResponse.setAutor(libro.getAutor());
             libroResponse.setCantPaginas(libro.getCantPaginas());
             libroResponse.setDescripcion(libro.getDescripcion());
@@ -144,22 +140,19 @@ public class LibroServiceImpl implements LibroService {
             try {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
-                libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return Optional.of(libroResponse);
-        } else {
-            throw new RuntimeException("Libro no encontrado con editorial: " + editorial);
-        }
+            return libroResponse;
+        }).collect(Collectors.toList());
     }
     @Override
-    public Optional<LibroResponse> getLibroByIdioma(String idioma) {
-        Optional<Libro> existingLibro = libroRepository.findByIdiomaContaining(idioma);
-        LibroResponse libroResponse = new LibroResponse();
-        if (existingLibro.isPresent()) {
-            Libro libro = existingLibro.get();
+    public List<LibroResponse> getLibroByIdioma(String idioma) {
+        List<Libro> libros = libroRepository.findByIdiomaContaining(idioma);
+        return libros.stream().map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
             libroResponse.setAutor(libro.getAutor());
             libroResponse.setCantPaginas(libro.getCantPaginas());
             libroResponse.setDescripcion(libro.getDescripcion());
@@ -176,23 +169,20 @@ public class LibroServiceImpl implements LibroService {
             try {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
-                libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return Optional.of(libroResponse);
-        } else {
-            throw new RuntimeException("Libro no encontrado con idioma: " + idioma);
-        }
+            return libroResponse;
+        }).collect(Collectors.toList());
     }
 
 
-    public Optional<LibroResponse> getLibroByAutor(String autor) {
-        Optional<Libro> existingLibro = libroRepository.findByAutorContaining(autor);
-        LibroResponse libroResponse = new LibroResponse();
-        if (existingLibro.isPresent()) {
-            Libro libro = existingLibro.get();
+    public List<LibroResponse> getLibroByAutor(String autor) {
+        List<Libro> libros = libroRepository.findByAutorContaining(autor);
+        return libros.stream().map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
             libroResponse.setAutor(libro.getAutor());
             libroResponse.setCantPaginas(libro.getCantPaginas());
             libroResponse.setDescripcion(libro.getDescripcion());
@@ -209,15 +199,13 @@ public class LibroServiceImpl implements LibroService {
             try {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
-                libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return Optional.of(libroResponse);
-        } else {
-            throw new RuntimeException("Libro no encontrado con autor: " + autor);
-        }
+            return libroResponse;
+        }).collect(Collectors.toList());
     }
 
 
@@ -300,7 +288,7 @@ public class LibroServiceImpl implements LibroService {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

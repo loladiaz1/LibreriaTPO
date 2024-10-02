@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
  
 import com.uade.tpo.libreria.tpolibreria.service.LibroService;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,6 @@ public class LibrosController {
     @Autowired
     private LibroService libroService;
  
-    // Endpoint para buscar libros con filtros combinados
     @GetMapping
     public ResponseEntity<Page<LibroResponse>> getLibros(
             @RequestParam(required = false) Integer page,
@@ -36,35 +36,27 @@ public class LibrosController {
     }
  
     @GetMapping("/titulo/{titulo}")
-    public ResponseEntity<LibroResponse> getLibroByTitulo(@PathVariable String titulo) {
-        Optional<LibroResponse> result = libroService.getLibroByTitulo(titulo);
-        if (result.isPresent())
-            return ResponseEntity.ok(result.get());
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<List<LibroResponse>> getLibroByTitulo(@PathVariable String titulo) {
+        List<LibroResponse> result = libroService.getLibroByTitulo(titulo);
+        return ResponseEntity.ok(result);
     }
    
     @GetMapping("/autor/{autor}")
-    public ResponseEntity<LibroResponse> getLibroByAutor(@PathVariable String autor) {
-        Optional<LibroResponse> result = libroService.getLibroByAutor(autor);
-        if (result.isPresent())
-            return ResponseEntity.ok(result.get());
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<List<LibroResponse>> getLibroByAutor(@PathVariable String autor) {
+        List<LibroResponse> result = libroService.getLibroByAutor(autor);
+        return ResponseEntity.ok(result);
     }
    
     @GetMapping("/editorial/{editorial}")
-    public ResponseEntity<LibroResponse> getLibroByEditorial(@PathVariable String editorial) {
-        Optional<LibroResponse> result = libroService.getLibroByEditorial(editorial);
-        if (result.isPresent())
-            return ResponseEntity.ok(result.get());
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<List<LibroResponse>> getLibroByEditorial(@PathVariable String editorial) {
+        List<LibroResponse> result = libroService.getLibroByEditorial(editorial);
+        return ResponseEntity.ok(result);
     }
    
     @GetMapping("/idioma/{idioma}")
-    public ResponseEntity<LibroResponse> getLibroByIdioma(@PathVariable String idioma) {
-        Optional<LibroResponse> result = libroService.getLibroByIdioma(idioma);
-        if (result.isPresent())
-            return ResponseEntity.ok(result.get());
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<List<LibroResponse>> getLibroByIdioma(@PathVariable String idioma) {
+        List<LibroResponse> result = libroService.getLibroByIdioma(idioma);
+        return ResponseEntity.ok(result);
     }
  
  
