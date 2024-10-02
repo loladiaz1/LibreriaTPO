@@ -91,6 +91,137 @@ public class LibroServiceImpl implements LibroService {
         }
         
     }
+    public LibroResponse getLibroByTitulo(String titulo) {
+        Optional<Libro> existingLibro = libroRepository.findByTituloContaining(titulo);
+        LibroResponse libroResponse = new LibroResponse();
+        if (existingLibro.isPresent()) {
+            Libro libro = existingLibro.get();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                libroResponse.setImage(encodedString);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return libroResponse;
+        } else {
+            throw new RuntimeException("Libro no encontrado con título: " + titulo);
+        }
+    }
+    @Override
+    public LibroResponse getLibroByEditorial(String editorial) {
+        Optional<Libro> existingLibro = libroRepository.findByEditorialContaining(editorial);
+        LibroResponse libroResponse = new LibroResponse();
+        if (existingLibro.isPresent()) {
+            Libro libro = existingLibro.get();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                libroResponse.setImage(encodedString);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return libroResponse;
+        } else {
+            throw new RuntimeException("Libro no encontrado con editorial: " + editorial);
+        }
+    }
+    @Override
+    public LibroResponse getLibroByIdioma(String idioma) {
+        Optional<Libro> existingLibro = libroRepository.findByIdiomaContaining(idioma);
+        LibroResponse libroResponse = new LibroResponse();
+        if (existingLibro.isPresent()) {
+            Libro libro = existingLibro.get();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                libroResponse.setImage(encodedString);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return libroResponse;
+        } else {
+            throw new RuntimeException("Libro no encontrado con idioma: " + idioma);
+        }
+    }
+
+
+    public LibroResponse getLibroByAutor(String autor) {
+        Optional<Libro> existingLibro = libroRepository.findByAutorContaining(autor);
+        LibroResponse libroResponse = new LibroResponse();
+        if (existingLibro.isPresent()) {
+            Libro libro = existingLibro.get();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                libroResponse.setImage(encodedString);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return libroResponse;
+        } else {
+            throw new RuntimeException("Libro no encontrado con autor: " + autor);
+        }
+    }
+
+
+
 
     @Override
     public LibroResponse createLibro(LibroRequest libroRequest) {
@@ -129,7 +260,7 @@ public class LibroServiceImpl implements LibroService {
     }
     public void deleteLibro(int isbn) {
         //Cuando elimino un libro tengo que eliminar su relacion con productos carrito si es que hay
-        Optional<Libro> libro = libroRepository.findById(isbn);
+         Optional<Libro> libro = libroRepository.findById(isbn);
         if (libro.isPresent()) { 
             productoCarritoService.eliminarProductoCarritoByIsbn(isbn);
             libroRepository.deleteById(isbn);
