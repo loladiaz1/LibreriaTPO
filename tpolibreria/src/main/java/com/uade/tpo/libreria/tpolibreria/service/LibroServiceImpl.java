@@ -51,7 +51,6 @@ public class LibroServiceImpl implements LibroService {
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return libroResponse;
@@ -82,7 +81,6 @@ public class LibroServiceImpl implements LibroService {
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return libroResponse;
@@ -113,7 +111,6 @@ public class LibroServiceImpl implements LibroService {
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return libroResponse;
@@ -142,7 +139,6 @@ public class LibroServiceImpl implements LibroService {
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return libroResponse;
@@ -171,7 +167,6 @@ public class LibroServiceImpl implements LibroService {
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return libroResponse;
@@ -201,7 +196,6 @@ public class LibroServiceImpl implements LibroService {
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return libroResponse;
