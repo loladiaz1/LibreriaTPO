@@ -91,7 +91,7 @@ public class LibroServiceImpl implements LibroService {
         }
         
     }
-    public LibroResponse getLibroByTitulo(String titulo) {
+    public Optional<LibroResponse> getLibroByTitulo(String titulo) {
         Optional<Libro> existingLibro = libroRepository.findByTituloContaining(titulo);
         LibroResponse libroResponse = new LibroResponse();
         if (existingLibro.isPresent()) {
@@ -117,13 +117,13 @@ public class LibroServiceImpl implements LibroService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return libroResponse;
+            return Optional.of(libroResponse);
         } else {
             throw new RuntimeException("Libro no encontrado con título: " + titulo);
         }
     }
     @Override
-    public LibroResponse getLibroByEditorial(String editorial) {
+    public Optional<LibroResponse> getLibroByEditorial(String editorial) {
         Optional<Libro> existingLibro = libroRepository.findByEditorialContaining(editorial);
         LibroResponse libroResponse = new LibroResponse();
         if (existingLibro.isPresent()) {
@@ -149,13 +149,13 @@ public class LibroServiceImpl implements LibroService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return libroResponse;
+            return Optional.of(libroResponse);
         } else {
             throw new RuntimeException("Libro no encontrado con editorial: " + editorial);
         }
     }
     @Override
-    public LibroResponse getLibroByIdioma(String idioma) {
+    public Optional<LibroResponse> getLibroByIdioma(String idioma) {
         Optional<Libro> existingLibro = libroRepository.findByIdiomaContaining(idioma);
         LibroResponse libroResponse = new LibroResponse();
         if (existingLibro.isPresent()) {
@@ -181,14 +181,14 @@ public class LibroServiceImpl implements LibroService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return libroResponse;
+            return Optional.of(libroResponse);
         } else {
             throw new RuntimeException("Libro no encontrado con idioma: " + idioma);
         }
     }
 
 
-    public LibroResponse getLibroByAutor(String autor) {
+    public Optional<LibroResponse> getLibroByAutor(String autor) {
         Optional<Libro> existingLibro = libroRepository.findByAutorContaining(autor);
         LibroResponse libroResponse = new LibroResponse();
         if (existingLibro.isPresent()) {
@@ -214,7 +214,7 @@ public class LibroServiceImpl implements LibroService {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return libroResponse;
+            return Optional.of(libroResponse);
         } else {
             throw new RuntimeException("Libro no encontrado con autor: " + autor);
         }

@@ -4,9 +4,6 @@ import com.uade.tpo.libreria.tpolibreria.entity.Image;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.repository.ImageRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
-
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

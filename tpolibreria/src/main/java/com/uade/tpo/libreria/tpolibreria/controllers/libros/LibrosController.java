@@ -2,10 +2,8 @@ package com.uade.tpo.libreria.tpolibreria.controllers.libros;
  
 import org.springframework.web.bind.annotation.*;
  
-import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.service.LibroService;
 import java.net.URI;
-import java.util.Base64;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
