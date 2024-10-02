@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LibroResponse {
-    private int isbn;
+    private Long isbn;
     private String titulo;
     private double precio;
     private int cantPaginas;

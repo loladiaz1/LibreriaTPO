@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
  
 @Repository
-public interface LibroRepository extends JpaRepository<Libro, Integer> {
+public interface LibroRepository extends JpaRepository<Libro, Long> {
  
     @Query("SELECT l FROM Libro l WHERE l.titulo LIKE %?1%")
     List<Libro> findByTituloContaining(String titulo);

@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface LibroService {
     Page<LibroResponse> getLibros(PageRequest pageRequest);
-    LibroResponse getLibroByIsbn(int isbn);
+    LibroResponse getLibroByIsbn(Long isbn);
     List<LibroResponse> getLibroByTitulo(String titulo);
     List<LibroResponse> getLibroByAutor(String autor);
     List<LibroResponse> getLibroByEditorial(String editorial);
     List<LibroResponse> getLibroByIdioma(String idioma);
     LibroResponse createLibro(LibroRequest libroRequest);
-    void deleteLibro(int isbn);  // delete
-    LibroResponse updateLibro(int isbn, LibroRequest libroRequest); //put
+    void deleteLibro(Long isbn);  // delete
+    LibroResponse updateLibro(Long isbn, LibroRequest libroRequest); //put
 }

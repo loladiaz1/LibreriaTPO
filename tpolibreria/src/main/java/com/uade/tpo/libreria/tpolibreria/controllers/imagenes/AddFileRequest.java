@@ -8,5 +8,5 @@ import lombok.Data;
 public class AddFileRequest {
     private String name;
     private MultipartFile file;
-    private int isbn;
+    private Long isbn;
 }

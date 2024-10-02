@@ -29,7 +29,7 @@ public class LibrosController {
  
     // Endpoint específico para buscar por ISBN
     @GetMapping("/{isbn}")
-    public ResponseEntity<LibroResponse> getLibroByIsbn(@PathVariable int isbn) {
+    public ResponseEntity<LibroResponse> getLibroByIsbn(@PathVariable Long isbn) {
         LibroResponse result = libroService.getLibroByIsbn(isbn);
         return ResponseEntity.ok(result);
     }
@@ -60,7 +60,7 @@ public class LibrosController {
  
  
     @DeleteMapping("/{isbn}")
-    public ResponseEntity<Void> deleteLibro(@PathVariable int isbn) {
+    public ResponseEntity<Void> deleteLibro(@PathVariable Long isbn) {
         try {
             libroService.deleteLibro(isbn);
             return ResponseEntity.noContent().build();
@@ -69,7 +69,7 @@ public class LibrosController {
         }
     }
     @PutMapping("/{isbn}")
-    public ResponseEntity<LibroResponse> updateLibro(@PathVariable int isbn, @RequestBody LibroRequest libroRequest) {
+    public ResponseEntity<LibroResponse> updateLibro(@PathVariable Long isbn, @RequestBody LibroRequest libroRequest) {
         try {
             LibroResponse updatedLibro = libroService.updateLibro(isbn, libroRequest);
             return ResponseEntity.ok(updatedLibro);
@@ -86,7 +86,7 @@ public class LibrosController {
     }
  
     @GetMapping("/foto/{isbn}")
-    public ResponseEntity<String> getFotoByIsbn(@PathVariable int isbn) throws SQLException {
+    public ResponseEntity<String> getFotoByIsbn(@PathVariable Long isbn) throws SQLException {
         LibroResponse result = libroService.getLibroByIsbn(isbn);
         return ResponseEntity.ok(result.getImage());
     }

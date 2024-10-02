@@ -59,7 +59,7 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public LibroResponse getLibroByIsbn(int isbn) {
+    public LibroResponse getLibroByIsbn(Long isbn) {
         Optional<Libro> existingLibro = libroRepository.findById(isbn);
         LibroResponse libroResponse = new LibroResponse();
         if (existingLibro.isPresent()) {
@@ -246,7 +246,7 @@ public class LibroServiceImpl implements LibroService {
         libroRepository.save(libro);
         return libroResponse;
     }
-    public void deleteLibro(int isbn) {
+    public void deleteLibro(Long isbn) {
         //Cuando elimino un libro tengo que eliminar su relacion con productos carrito si es que hay
          Optional<Libro> libro = libroRepository.findById(isbn);
         if (libro.isPresent()) { 
@@ -260,7 +260,7 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public LibroResponse updateLibro(int isbn, LibroRequest libroRequest) {
+    public LibroResponse updateLibro(Long isbn, LibroRequest libroRequest) {
         Optional<Libro> existingLibro = libroRepository.findById(isbn);
         if (existingLibro.isPresent()) {
             Libro libro = existingLibro.get();

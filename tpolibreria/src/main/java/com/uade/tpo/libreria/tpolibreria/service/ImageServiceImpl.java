@@ -17,7 +17,7 @@ public class ImageServiceImpl implements ImageService {
     private LibroRepository libroRepository;
 
     @Override
-    public Image create(Image image, int isbn) {
+    public Image create(Image image, Long isbn) {
         Libro libro = libroRepository.findById(isbn)
             .orElseThrow(() -> new RuntimeException("Libro no encontrado con el isbn: " + isbn));
         image.setLibro(libro);
