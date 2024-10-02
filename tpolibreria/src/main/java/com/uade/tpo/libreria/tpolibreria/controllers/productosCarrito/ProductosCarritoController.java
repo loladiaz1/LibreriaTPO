@@ -96,7 +96,7 @@ public class ProductosCarritoController {
 
     
     @GetMapping("/{isbn}/productoCarritoByIsbn")
-    public ResponseEntity<List<ProductoCarrito>> getProductoCarritoByIsbn(@PathVariable Integer isbn) {
+    public ResponseEntity<List<ProductoCarrito>> getProductoCarritoByIsbn(@PathVariable Long isbn) {
         List<ProductoCarrito> prodsCarr = ProductoCarritoService.getProductosCarritoByIsbn(isbn);
 
         if (!prodsCarr.isEmpty()) {

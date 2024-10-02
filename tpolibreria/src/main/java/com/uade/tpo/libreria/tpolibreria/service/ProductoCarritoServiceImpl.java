@@ -38,7 +38,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     }
 
     @Override
-    public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado {
+    public ProductoCarrito createProductoCarrito(int cantidad, Long isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado {
          //CAMBIAR LOS EXCEPTIONS
         Carrito carrito = carritoRepository.findById(carrito_mail)
             .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + carrito_mail));        
@@ -105,12 +105,12 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
 
     
     @Override
-    public List<ProductoCarrito> getProductosCarritoByIsbn(int isbn) {
+    public List<ProductoCarrito> getProductosCarritoByIsbn(Long isbn) {
         return ProductoCarritoRepository.findByIsbn(isbn);
     }
     
     @Override
-    public void actualizarProductoCarritoByIsbn(int isbn, int cantidad, String mail) {
+    public void actualizarProductoCarritoByIsbn(Long isbn, int cantidad, String mail) {
         ProductoCarrito productoCarrito = ProductoCarritoRepository.findByIsbnAndCarritoMail(isbn, mail)
         .orElseThrow(() -> new RuntimeException("No se encontró el producto con ISBN: " + isbn + " en el carrito con mail: " + mail));
         
@@ -140,7 +140,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         return ProductoCarritoRepository.findMailById(ProductoCarritoId);
     }
 
-    public void eliminarProductoCarritoByIsbnAndMail(int isbn, String carritoMail){
+    public void eliminarProductoCarritoByIsbnAndMail(Long isbn, String carritoMail){
         ProductoCarrito productoAEliminar = ProductoCarritoRepository.findByIsbnAndCarritoMail(isbn, carritoMail)
         .orElseThrow(() -> new RuntimeException("No se encontró el producto con ISBN: " + isbn + " en el carrito con mail: " + carritoMail));
 
@@ -152,7 +152,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         ProductoCarritoRepository.delete(productoAEliminar);
     }
     
-    public void eliminarProductoCarritoByIsbn(int isbn){
+    public void eliminarProductoCarritoByIsbn(Long isbn){
         //es lo mismo que productoCarritorepository.findByIsbn()
         List<ProductoCarrito> lista = getProductosCarritoByIsbn(isbn);
         for (ProductoCarrito prodcarr : lista) {

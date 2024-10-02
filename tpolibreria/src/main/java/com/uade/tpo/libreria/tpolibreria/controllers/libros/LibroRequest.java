@@ -5,7 +5,7 @@ import java.util.List;
 
 @Data
 public class LibroRequest {
-    private int isbn;
+    private Long isbn;
     private String titulo;
     private double precio;
     private int cantPaginas;

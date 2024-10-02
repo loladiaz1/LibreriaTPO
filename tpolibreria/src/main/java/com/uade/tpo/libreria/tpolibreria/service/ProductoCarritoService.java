@@ -16,7 +16,7 @@ public interface ProductoCarritoService {
     
     public Optional<ProductoCarrito> getProductoCarritoById(Long ProductoCarritoId);
 
-    public ProductoCarrito createProductoCarrito(int cantidad, int isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado;
+    public ProductoCarrito createProductoCarrito(int cantidad, Long isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado;
     //^^^ admin: no, usuario: si
 
     public List<ProductoCarrito> getProductosCarritoByMail(String carrito_mail); //se van a mostrar los ProductosCarrito de un usuario
@@ -27,16 +27,16 @@ public interface ProductoCarritoService {
     
     //para eliminar los productos carrito con el isbn indicado sin que me importe de quien es --> para eliminar libro
     
-    public List<ProductoCarrito> getProductosCarritoByIsbn(int isbn);
+    public List<ProductoCarrito> getProductosCarritoByIsbn(Long isbn);
     //^^^ admin: si, usuario: no
     
 
-    public void actualizarProductoCarritoByIsbn(int isbn, int cantidad, String mail);
+    public void actualizarProductoCarritoByIsbn(Long isbn, int cantidad, String mail);
 
     public String getMailById(Long ProductoCarritoId);
     //^^^ admin: si, usuario: no
 
-    public void eliminarProductoCarritoByIsbnAndMail(int isbn, String carrito_mail);
+    public void eliminarProductoCarritoByIsbnAndMail(Long isbn, String carrito_mail);
     
-    public void eliminarProductoCarritoByIsbn(int isbn);
+    public void eliminarProductoCarritoByIsbn(Long isbn);
 } 

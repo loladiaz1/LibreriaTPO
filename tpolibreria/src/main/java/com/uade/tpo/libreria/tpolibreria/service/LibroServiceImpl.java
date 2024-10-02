@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LibroServiceImpl implements LibroService {
@@ -50,8 +50,7 @@ public class LibroServiceImpl implements LibroService {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return libroResponse;
@@ -59,7 +58,7 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public LibroResponse getLibroByIsbn(int isbn) {
+    public LibroResponse getLibroByIsbn(Long isbn) {
         Optional<Libro> existingLibro = libroRepository.findById(isbn);
         LibroResponse libroResponse = new LibroResponse();
         if (existingLibro.isPresent()) {
@@ -81,8 +80,7 @@ public class LibroServiceImpl implements LibroService {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return libroResponse;
@@ -91,6 +89,121 @@ public class LibroServiceImpl implements LibroService {
         }
         
     }
+    public List<LibroResponse> getLibroByTitulo(String titulo) {
+        List<Libro> libros = libroRepository.findByTituloContaining(titulo);
+        return libros.stream().map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return libroResponse;
+        }).collect(Collectors.toList());
+    }
+    @Override
+    public List<LibroResponse> getLibroByEditorial(String editorial) {
+        List<Libro> libros = libroRepository.findByEditorialContaining(editorial);
+        return libros.stream().map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return libroResponse;
+        }).collect(Collectors.toList());
+    }
+    @Override
+    public List<LibroResponse> getLibroByIdioma(String idioma) {
+        List<Libro> libros = libroRepository.findByIdiomaContaining(idioma);
+        return libros.stream().map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return libroResponse;
+        }).collect(Collectors.toList());
+    }
+
+
+    public List<LibroResponse> getLibroByAutor(String autor) {
+        List<Libro> libros = libroRepository.findByAutorContaining(autor);
+        return libros.stream().map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return libroResponse;
+        }).collect(Collectors.toList());
+    }
+
+
+
 
     @Override
     public LibroResponse createLibro(LibroRequest libroRequest) {
@@ -127,9 +240,9 @@ public class LibroServiceImpl implements LibroService {
         libroRepository.save(libro);
         return libroResponse;
     }
-    public void deleteLibro(int isbn) {
+    public void deleteLibro(Long isbn) {
         //Cuando elimino un libro tengo que eliminar su relacion con productos carrito si es que hay
-        Optional<Libro> libro = libroRepository.findById(isbn);
+         Optional<Libro> libro = libroRepository.findById(isbn);
         if (libro.isPresent()) { 
             productoCarritoService.eliminarProductoCarritoByIsbn(isbn);
             libroRepository.deleteById(isbn);
@@ -141,7 +254,7 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public LibroResponse updateLibro(int isbn, LibroRequest libroRequest) {
+    public LibroResponse updateLibro(Long isbn, LibroRequest libroRequest) {
         Optional<Libro> existingLibro = libroRepository.findById(isbn);
         if (existingLibro.isPresent()) {
             Libro libro = existingLibro.get();
@@ -169,8 +282,7 @@ public class LibroServiceImpl implements LibroService {
                 encodedString = Base64.getEncoder()
                     .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
                     libroResponse.setImage(encodedString);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
