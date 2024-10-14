@@ -35,6 +35,16 @@ public class SecurityConfig {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/auth/**").permitAll()
                                         .requestMatchers("/error/**").permitAll()
+                                        .requestMatchers("/carritos/**").permitAll()
+                                        .requestMatchers("/usuarios/**").permitAll()
+                                        .requestMatchers("/productosCarrito/**").permitAll()
+                                        .requestMatchers("/giftcards/**").permitAll()
+                                        .requestMatchers("/generos/**").permitAll()
+                                        .requestMatchers("/libros/**").permitAll()
+                                        .requestMatchers("/ordenes/**").permitAll()
+                                        .requestMatchers("/images/**").permitAll()
+
+                                        /* 
                                         //CARRITO
                                         .requestMatchers("/carritos/{carritoId}").access((authentication, context) -> {
                                                 String carritoId = context.getVariables().get("carritoId");
@@ -96,8 +106,9 @@ public class SecurityConfig {
                                         //ORDENES
                                         .requestMatchers(HttpMethod.POST, "/ordenes/**").hasAnyAuthority(Role.USUARIO.name(), Role.ADMIN.name())//Agregar que solo pueda hacerlo si es su usuario
                                         .requestMatchers("/ordenes/**").hasAnyAuthority(Role.ADMIN.name())
-
-                                        .requestMatchers("/images/**").hasAnyAuthority(Role.ADMIN.name())
+                                        
+                                        //IMAGENES
+                                        .requestMatchers("/images/**").hasAnyAuthority(Role.ADMIN.name())*/
 
                                         .anyRequest()
                                         .authenticated())
