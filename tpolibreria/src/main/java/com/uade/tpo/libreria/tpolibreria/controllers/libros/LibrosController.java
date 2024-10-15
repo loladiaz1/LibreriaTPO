@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import java.sql.SQLException;
  
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/libros")
 public class LibrosController {
  
