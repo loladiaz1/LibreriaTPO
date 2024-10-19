@@ -28,7 +28,7 @@ public class GenerosController {
     private GeneroService GeneroService;
 
     @GetMapping
-    public ResponseEntity<Page<Genero>> getGeneros(
+    public ResponseEntity<Page<GenerosResponse>> getGeneros(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
         if (page == null || size == null)
@@ -37,8 +37,8 @@ public class GenerosController {
     }
 
     @GetMapping("/{GeneroId}")
-    public ResponseEntity<Genero> getGeneroById(@PathVariable Long GeneroId) {
-        Optional<Genero> result = GeneroService.getGeneroById(GeneroId);
+    public ResponseEntity<GenerosResponse> getGeneroById(@PathVariable Long GeneroId) {
+        Optional<GenerosResponse> result = GeneroService.getGeneroById(GeneroId);
         if (result.isPresent())
             return ResponseEntity.ok(result.get());
 
