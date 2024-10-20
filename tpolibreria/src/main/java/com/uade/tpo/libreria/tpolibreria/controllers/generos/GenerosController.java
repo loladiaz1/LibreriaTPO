@@ -73,4 +73,10 @@ public class GenerosController {
         Genero result = GeneroService.createGenero(GeneroRequest.getNombre());
         return ResponseEntity.created(URI.create("/generos/" + result.getId())).body(result);
     }
+
+    @GetMapping("/{nombre}/idByNombre")
+    public ResponseEntity<Long> getGenerosIdByName(@PathVariable String nombre){
+        Long result = GeneroService.getGenerosIdByName(nombre);
+        return ResponseEntity.ok(result);
+    }
 }

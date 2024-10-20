@@ -113,7 +113,7 @@ public class GeneroServiceImpl implements GeneroService {
     
     //NUEVO POST:
     public Genero createGenero(String nombre) throws ExcepcionGeneroDuplicado {
-        List<Genero> generos = GeneroRepository.findByNombre(nombre);
+        Optional<Genero> generos = GeneroRepository.findByNombre(nombre);
         if (generos.isEmpty()) {
             Genero nuevoGenero = new Genero();
             nuevoGenero.setNombre(nombre);
@@ -126,8 +126,8 @@ public class GeneroServiceImpl implements GeneroService {
         Optional<Genero> generoOptional = GeneroRepository.findById(id);
         if (generoOptional.isPresent()) {
             Genero genero = generoOptional.get();
-            List<Genero> generos = GeneroRepository.findByNombre(nombre);
-            if (generos.isEmpty() || generos.get(0).getId().equals(id)) {
+            Optional<Genero> generos = GeneroRepository.findByNombre(nombre);
+            if (generos.isEmpty() || generos.get().getId().equals(id)) {
                 genero.setNombre(nombre);
                 return GeneroRepository.save(genero);
             }
@@ -151,6 +151,12 @@ public class GeneroServiceImpl implements GeneroService {
         } else {
             throw new RuntimeException("Género no encontrado con ID: " + id);
         }
+    }
+
+    @Override
+    public Long getGenerosIdByName (String nombre){
+        Optional<Genero> generos = GeneroRepository.findByNombre(nombre);
+        return generos.get().getId();
     }
 
 

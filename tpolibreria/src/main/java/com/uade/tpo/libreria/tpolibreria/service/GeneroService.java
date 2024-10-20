@@ -15,4 +15,5 @@ public interface GeneroService {
     public Genero createGenero(String nombre) throws ExcepcionGeneroDuplicado;
     public Genero updateGenero(Long id, String nombre) throws ExcepcionGeneroDuplicado;
     public void deleteGenero(Long id);
+    public Long getGenerosIdByName (String nombre);
 }
