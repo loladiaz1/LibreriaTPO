@@ -1,5 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.uade.tpo.libreria.tpolibreria.controllers.libros.LibroResponse;
+import com.uade.tpo.libreria.tpolibreria.controllers.productosCarrito.ProductoCarritoResponse;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
@@ -29,8 +33,37 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     private CarritoRepository carritoRepository;
 
     @Override
-    public Page<ProductoCarrito> getProductosCarrito(PageRequest pageRequest) {
-        return ProductoCarritoRepository.findAll(pageRequest);
+    public Page<ProductoCarritoResponse> getProductosCarrito(PageRequest pageRequest) {
+        Page<ProductoCarrito> productosCarrito = ProductoCarritoRepository.findAll(pageRequest);
+        return productosCarrito.map(producto ->{
+            ProductoCarritoResponse productoCarritoResponse = new ProductoCarritoResponse();
+            productoCarritoResponse.setId(producto.getId());
+            productoCarritoResponse.setCantidad(producto.getCantidad());
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(producto.getLibro().getAutor());
+            libroResponse.setCantPaginas(producto.getLibro().getCantPaginas());
+            libroResponse.setDescripcion(producto.getLibro().getDescripcion());
+            libroResponse.setEdicion(producto.getLibro().getEdicion());
+            libroResponse.setEditorial(producto.getLibro().getEditorial());
+            libroResponse.setGenero(producto.getLibro().getGenero().getNombre());
+            libroResponse.setIdioma(producto.getLibro().getIdioma());
+            libroResponse.setIsbn(producto.getLibro().getIsbn());
+            libroResponse.setPrecio(producto.getLibro().getPrecio());
+            libroResponse.setStock(producto.getLibro().getStock());
+            libroResponse.setTitulo(producto.getLibro().getTitulo());
+            String encodedString;
+                try {
+                    encodedString = Base64.getEncoder()
+                        .encodeToString(producto.getLibro().getImage().getImage().getBytes(1, (int) producto.getLibro().getImage().getImage().length()));
+                        libroResponse.setImage(encodedString);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            productoCarritoResponse.setLibro(libroResponse);
+            return productoCarritoResponse;
+        });
+        
+        
     }
 
     public Optional<Integer> getCantidadById(Long productoCarritoId) {
@@ -89,13 +122,69 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     }
 
     @Override
-    public Optional<ProductoCarrito> getProductoCarritoById(Long ProductoCarritoId) {
-        return ProductoCarritoRepository.findById(ProductoCarritoId);
+    public Optional<ProductoCarritoResponse> getProductoCarritoById(Long ProductoCarritoId) {
+        Optional<ProductoCarrito> productosCarrito = ProductoCarritoRepository.findById(ProductoCarritoId);
+        return productosCarrito.map(producto ->{
+            ProductoCarritoResponse productoCarritoResponse = new ProductoCarritoResponse();
+            productoCarritoResponse.setId(producto.getId());
+            productoCarritoResponse.setCantidad(producto.getCantidad());
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(producto.getLibro().getAutor());
+            libroResponse.setCantPaginas(producto.getLibro().getCantPaginas());
+            libroResponse.setDescripcion(producto.getLibro().getDescripcion());
+            libroResponse.setEdicion(producto.getLibro().getEdicion());
+            libroResponse.setEditorial(producto.getLibro().getEditorial());
+            libroResponse.setGenero(producto.getLibro().getGenero().getNombre());
+            libroResponse.setIdioma(producto.getLibro().getIdioma());
+            libroResponse.setIsbn(producto.getLibro().getIsbn());
+            libroResponse.setPrecio(producto.getLibro().getPrecio());
+            libroResponse.setStock(producto.getLibro().getStock());
+            libroResponse.setTitulo(producto.getLibro().getTitulo());
+            String encodedString;
+                try {
+                    encodedString = Base64.getEncoder()
+                        .encodeToString(producto.getLibro().getImage().getImage().getBytes(1, (int) producto.getLibro().getImage().getImage().length()));
+                        libroResponse.setImage(encodedString);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            productoCarritoResponse.setLibro(libroResponse);
+            return productoCarritoResponse;
+        });
     }
 
     @Override
-    public List<ProductoCarrito> getProductosCarritoByMail(String carrito_mail) {
-        return ProductoCarritoRepository.findByMail(carrito_mail);
+    public List<ProductoCarritoResponse> getProductosCarritoByMail(String carrito_mail) {
+        List<ProductoCarrito> productosCarrito = ProductoCarritoRepository.findByMail(carrito_mail);
+        List<ProductoCarritoResponse> pc = new  ArrayList<>();
+        for (ProductoCarrito producto : productosCarrito) {
+            ProductoCarritoResponse productoCarritoResponse = new ProductoCarritoResponse();
+            productoCarritoResponse.setId(producto.getId());
+            productoCarritoResponse.setCantidad(producto.getCantidad());
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(producto.getLibro().getAutor());
+            libroResponse.setCantPaginas(producto.getLibro().getCantPaginas());
+            libroResponse.setDescripcion(producto.getLibro().getDescripcion());
+            libroResponse.setEdicion(producto.getLibro().getEdicion());
+            libroResponse.setEditorial(producto.getLibro().getEditorial());
+            libroResponse.setGenero(producto.getLibro().getGenero().getNombre());
+            libroResponse.setIdioma(producto.getLibro().getIdioma());
+            libroResponse.setIsbn(producto.getLibro().getIsbn());
+            libroResponse.setPrecio(producto.getLibro().getPrecio());
+            libroResponse.setStock(producto.getLibro().getStock());
+            libroResponse.setTitulo(producto.getLibro().getTitulo());
+            String encodedString;
+                try {
+                    encodedString = Base64.getEncoder()
+                        .encodeToString(producto.getLibro().getImage().getImage().getBytes(1, (int) producto.getLibro().getImage().getImage().length()));
+                        libroResponse.setImage(encodedString);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            productoCarritoResponse.setLibro(libroResponse);
+            pc.add(productoCarritoResponse);
+        }
+            return pc;
     }
 
     @Override
@@ -105,8 +194,37 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
 
     
     @Override
-    public List<ProductoCarrito> getProductosCarritoByIsbn(Long isbn) {
-        return ProductoCarritoRepository.findByIsbn(isbn);
+    public List<ProductoCarritoResponse> getProductosCarritoByIsbn(Long isbn) {
+        List<ProductoCarrito> productosCarrito = ProductoCarritoRepository.findByIsbn(isbn);
+        List<ProductoCarritoResponse> pc = new  ArrayList<>();
+        for (ProductoCarrito producto : productosCarrito) {
+            ProductoCarritoResponse productoCarritoResponse = new ProductoCarritoResponse();
+            productoCarritoResponse.setId(producto.getId());
+            productoCarritoResponse.setCantidad(producto.getCantidad());
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(producto.getLibro().getAutor());
+            libroResponse.setCantPaginas(producto.getLibro().getCantPaginas());
+            libroResponse.setDescripcion(producto.getLibro().getDescripcion());
+            libroResponse.setEdicion(producto.getLibro().getEdicion());
+            libroResponse.setEditorial(producto.getLibro().getEditorial());
+            libroResponse.setGenero(producto.getLibro().getGenero().getNombre());
+            libroResponse.setIdioma(producto.getLibro().getIdioma());
+            libroResponse.setIsbn(producto.getLibro().getIsbn());
+            libroResponse.setPrecio(producto.getLibro().getPrecio());
+            libroResponse.setStock(producto.getLibro().getStock());
+            libroResponse.setTitulo(producto.getLibro().getTitulo());
+            String encodedString;
+                try {
+                    encodedString = Base64.getEncoder()
+                        .encodeToString(producto.getLibro().getImage().getImage().getBytes(1, (int) producto.getLibro().getImage().getImage().length()));
+                        libroResponse.setImage(encodedString);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            productoCarritoResponse.setLibro(libroResponse);
+            pc.add(productoCarritoResponse);
+        }
+            return pc;
     }
     
     @Override
@@ -153,8 +271,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     }
     
     public void eliminarProductoCarritoByIsbn(Long isbn){
-        //es lo mismo que productoCarritorepository.findByIsbn()
-        List<ProductoCarrito> lista = getProductosCarritoByIsbn(isbn);
+        List<ProductoCarrito> lista = ProductoCarritoRepository.findByIsbn(isbn);
         for (ProductoCarrito prodcarr : lista) {
             double montoARestar = prodcarr.getLibro().getPrecio() * prodcarr.getCantidad();
             Carrito carrito = prodcarr.getCarrito();

@@ -35,7 +35,7 @@ public class ProductosCarritoController {
     private ProductoCarritoService ProductoCarritoService;
 
     @GetMapping
-    public ResponseEntity<Page<ProductoCarrito>> getProductosCarrito(
+    public ResponseEntity<Page<ProductoCarritoResponse>> getProductosCarrito(
         @RequestParam(required = false) Integer page,
         @RequestParam(required = false) Integer size) {
             if (page == null || size == null)
@@ -45,9 +45,9 @@ public class ProductosCarritoController {
      
     @GetMapping("/{productoCarritoId}")
     //@PathVariable --> indica que el valor del segmento de la URL {productoCarritoId} debe ser vinculado al parámetro productoCarritoId en el método.
-    public ResponseEntity<ProductoCarrito> getProductoCarritoById(@PathVariable Long productoCarritoId) {
+    public ResponseEntity<ProductoCarritoResponse> getProductoCarritoById(@PathVariable Long productoCarritoId) {
         //Optional --> se utiliza para representar un valor que puede estar presente o ausente
-        Optional<ProductoCarrito> result = ProductoCarritoService.getProductoCarritoById(productoCarritoId);
+        Optional<ProductoCarritoResponse> result = ProductoCarritoService.getProductoCarritoById(productoCarritoId);
         if (result.isPresent())
             return ResponseEntity.ok(result.get());
         
@@ -76,8 +76,8 @@ public class ProductosCarritoController {
     }
     
     @GetMapping("/{mail}/listaDeProductosCarritoByMail")
-    public ResponseEntity<List<ProductoCarrito>> getProductosCarritoByMail(@PathVariable String mail) {
-        List<ProductoCarrito> productosCarrito = ProductoCarritoService.getProductosCarritoByMail(mail);
+    public ResponseEntity<List<ProductoCarritoResponse>> getProductosCarritoByMail(@PathVariable String mail) {
+        List<ProductoCarritoResponse> productosCarrito = ProductoCarritoService.getProductosCarritoByMail(mail);
         if (productosCarrito.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
@@ -98,8 +98,8 @@ public class ProductosCarritoController {
 
     
     @GetMapping("/{isbn}/productoCarritoByIsbn")
-    public ResponseEntity<List<ProductoCarrito>> getProductoCarritoByIsbn(@PathVariable Long isbn) {
-        List<ProductoCarrito> prodsCarr = ProductoCarritoService.getProductosCarritoByIsbn(isbn);
+    public ResponseEntity<List<ProductoCarritoResponse>> getProductoCarritoByIsbn(@PathVariable Long isbn) {
+        List<ProductoCarritoResponse> prodsCarr = ProductoCarritoService.getProductosCarritoByIsbn(isbn);
 
         if (!prodsCarr.isEmpty()) {
             return ResponseEntity.ok(prodsCarr);

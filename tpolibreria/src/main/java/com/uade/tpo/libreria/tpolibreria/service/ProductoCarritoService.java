@@ -5,21 +5,22 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import com.uade.tpo.libreria.tpolibreria.controllers.productosCarrito.ProductoCarritoResponse;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 
 public interface ProductoCarritoService {
-    public Page<ProductoCarrito> getProductosCarrito(PageRequest pageRequest);
+    public Page<ProductoCarritoResponse> getProductosCarrito(PageRequest pageRequest);
     
     public Optional<Integer> getCantidadById(Long ProductoCarritoId);
     
-    public Optional<ProductoCarrito> getProductoCarritoById(Long ProductoCarritoId);
+    public Optional<ProductoCarritoResponse> getProductoCarritoById(Long ProductoCarritoId);
 
     public ProductoCarrito createProductoCarrito(int cantidad, Long isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado;
     //^^^ admin: no, usuario: si
 
-    public List<ProductoCarrito> getProductosCarritoByMail(String carrito_mail); //se van a mostrar los ProductosCarrito de un usuario
+    public List<ProductoCarritoResponse> getProductosCarritoByMail(String carrito_mail); //se van a mostrar los ProductosCarrito de un usuario
     //^^^ admin: si, usuario: solo permitirle que ponga su mail
 
     public Optional<Libro> getLibroById(Long ProductoCarritoId);
@@ -27,7 +28,7 @@ public interface ProductoCarritoService {
     
     //para eliminar los productos carrito con el isbn indicado sin que me importe de quien es --> para eliminar libro
     
-    public List<ProductoCarrito> getProductosCarritoByIsbn(Long isbn);
+    public List<ProductoCarritoResponse> getProductosCarritoByIsbn(Long isbn);
     //^^^ admin: si, usuario: no
     
 

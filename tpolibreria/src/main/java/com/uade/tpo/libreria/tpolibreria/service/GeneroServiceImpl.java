@@ -33,6 +33,7 @@ public class GeneroServiceImpl implements GeneroService {
             generosResponse.setNombre(genero.getNombre());
             List<LibroResponse> libros = new  ArrayList<>();
             for (Libro libro  : genero.getLibros()) {
+    
                 LibroResponse libroResponse = new LibroResponse();
                 libroResponse.setAutor(libro.getAutor());
                 libroResponse.setCantPaginas(libro.getCantPaginas());
