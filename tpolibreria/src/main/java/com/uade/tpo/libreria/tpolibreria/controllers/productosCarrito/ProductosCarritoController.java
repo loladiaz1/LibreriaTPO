@@ -4,8 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.uade.tpo.libreria.tpolibreria.entity.Libro;
-import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
+import com.uade.tpo.libreria.tpolibreria.controllers.libros.LibroResponse;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 import com.uade.tpo.libreria.tpolibreria.service.ProductoCarritoService;
 
@@ -68,7 +67,7 @@ public class ProductosCarritoController {
     @PostMapping //("path") --> http://localhost:4002/"path"
     public ResponseEntity<Object> createProductoCarrito(@RequestBody ProductoCarritoRequest ProductoCarritoRequest) 
         throws ExcepcionProductoCarritoDuplicado {
-        ProductoCarrito resultado = ProductoCarritoService.createProductoCarrito(
+        ProductoCarritoResponse resultado = ProductoCarritoService.createProductoCarrito(
             ProductoCarritoRequest.getCantidad(),
             ProductoCarritoRequest.getIsbn(),
             ProductoCarritoRequest.getCarrito_mail());
@@ -86,14 +85,10 @@ public class ProductosCarritoController {
     }
 
     @GetMapping("/{productoCarritoId}/libroById")
-    public ResponseEntity<Libro> getLibroById(@PathVariable Long productoCarritoId) {
-        Optional<Libro> libro = ProductoCarritoService.getLibroById(productoCarritoId);
-
-        if (libro.isPresent()) {
-            return ResponseEntity.ok(libro.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<LibroResponse> getLibroById(@PathVariable Long productoCarritoId) {
+        LibroResponse libro = ProductoCarritoService.getLibroById(productoCarritoId);
+        return ResponseEntity.ok(libro);
+  
     }
 
     

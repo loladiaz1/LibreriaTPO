@@ -36,7 +36,7 @@ public class CarritoController {
     private CarritoService carritoService;
 
     @GetMapping
-    public  ResponseEntity<Page<Carrito>> getCarritos(
+    public  ResponseEntity<Page<CarritoResponse>> getCarritos(
         @RequestParam(required = false) Integer page,
         @RequestParam(required = false) Integer size) {
         if (page == null || size == null)
@@ -46,8 +46,8 @@ public class CarritoController {
     }
 
     @GetMapping("/{carritoId}")
-    public ResponseEntity<Carrito> getCarritoById(@PathVariable String carritoId) {
-        Optional<Carrito> result = carritoService.getCarritoById(carritoId);
+    public ResponseEntity<CarritoResponse> getCarritoById(@PathVariable String carritoId) {
+        Optional<CarritoResponse> result = carritoService.getCarritoById(carritoId);
         if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
         }
@@ -57,7 +57,7 @@ public class CarritoController {
     @PostMapping
      public ResponseEntity<Object> createCarrito(@RequestBody CarritoRequest carritoRequest)
             throws ExcepcionCarrito{
-                Carrito result = carritoService.createCarrito(carritoRequest.getMail());
+                CarritoResponse result = carritoService.createCarrito(carritoRequest.getMail());
                 return ResponseEntity.created(URI.create("/carritos/" + result.getMail())).body(result);
             }
 

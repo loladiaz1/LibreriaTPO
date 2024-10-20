@@ -71,7 +71,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     }
 
     @Override
-    public ProductoCarrito createProductoCarrito(int cantidad, Long isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado {
+    public ProductoCarritoResponse createProductoCarrito(int cantidad, Long isbn, String carrito_mail) throws ExcepcionProductoCarritoDuplicado {
          //CAMBIAR LOS EXCEPTIONS
         Carrito carrito = carritoRepository.findById(carrito_mail)
             .orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + carrito_mail));        
@@ -99,7 +99,32 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
 
         //si lo encontro, lo devuelvo y lo guardo en repository
         if (productoEncontrado != null) {
-            return ProductoCarritoRepository.save(productoEncontrado);
+            ProductoCarrito producto = ProductoCarritoRepository.save(productoEncontrado);
+            ProductoCarritoResponse productoCarritoResponse = new ProductoCarritoResponse();
+            productoCarritoResponse.setId(producto.getId());
+            productoCarritoResponse.setCantidad(producto.getCantidad());
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(producto.getLibro().getAutor());
+            libroResponse.setCantPaginas(producto.getLibro().getCantPaginas());
+            libroResponse.setDescripcion(producto.getLibro().getDescripcion());
+            libroResponse.setEdicion(producto.getLibro().getEdicion());
+            libroResponse.setEditorial(producto.getLibro().getEditorial());
+            libroResponse.setGenero(producto.getLibro().getGenero().getNombre());
+            libroResponse.setIdioma(producto.getLibro().getIdioma());
+            libroResponse.setIsbn(producto.getLibro().getIsbn());
+            libroResponse.setPrecio(producto.getLibro().getPrecio());
+            libroResponse.setStock(producto.getLibro().getStock());
+            libroResponse.setTitulo(producto.getLibro().getTitulo());
+            String encodedString;
+                try {
+                    encodedString = Base64.getEncoder()
+                        .encodeToString(producto.getLibro().getImage().getImage().getBytes(1, (int) producto.getLibro().getImage().getImage().length()));
+                        libroResponse.setImage(encodedString);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            productoCarritoResponse.setLibro(libroResponse);
+            return productoCarritoResponse;
         }
 
         //ahora si no se encontro, voy a crear un productoCarrito nuevo:
@@ -118,7 +143,33 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         carrito.setTotal(carrito.getTotal() + montoASumar);
         carritoRepository.save(carrito);
 
-    return ProductoCarritoRepository.save(nuevoProductoCarrito);
+        ProductoCarrito producto = ProductoCarritoRepository.save(nuevoProductoCarrito);
+        ProductoCarritoResponse productoCarritoResponse = new ProductoCarritoResponse();
+        productoCarritoResponse.setId(producto.getId());
+        productoCarritoResponse.setCantidad(producto.getCantidad());
+        LibroResponse libroResponse = new LibroResponse();
+        libroResponse.setAutor(producto.getLibro().getAutor());
+        libroResponse.setCantPaginas(producto.getLibro().getCantPaginas());
+        libroResponse.setDescripcion(producto.getLibro().getDescripcion());
+        libroResponse.setEdicion(producto.getLibro().getEdicion());
+        libroResponse.setEditorial(producto.getLibro().getEditorial());
+        libroResponse.setGenero(producto.getLibro().getGenero().getNombre());
+        libroResponse.setIdioma(producto.getLibro().getIdioma());
+        libroResponse.setIsbn(producto.getLibro().getIsbn());
+        libroResponse.setPrecio(producto.getLibro().getPrecio());
+        libroResponse.setStock(producto.getLibro().getStock());
+        libroResponse.setTitulo(producto.getLibro().getTitulo());
+        String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(producto.getLibro().getImage().getImage().getBytes(1, (int) producto.getLibro().getImage().getImage().length()));
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        productoCarritoResponse.setLibro(libroResponse);
+
+    return productoCarritoResponse;
     }
 
     @Override
@@ -188,8 +239,36 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
     }
 
     @Override
-    public Optional<Libro> getLibroById(Long ProductoCarritoId) {
-        return ProductoCarritoRepository.findLibroByProductoCarritoId(ProductoCarritoId);
+    public LibroResponse getLibroById(Long ProductoCarritoId) {
+        Optional<Libro> existingLibro = ProductoCarritoRepository.findLibroByProductoCarritoId(ProductoCarritoId);
+        LibroResponse libroResponse = new LibroResponse();
+        if (existingLibro.isPresent()) {
+            Libro libro = existingLibro.get();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre());
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            
+            String encodedString;
+            try {
+                encodedString = Base64.getEncoder()
+                    .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                    libroResponse.setImage(encodedString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return libroResponse;
+        } else {
+            throw new RuntimeException("Libro no encontrado con id: " + ProductoCarritoId );
+        }
+        
     }
 
     
