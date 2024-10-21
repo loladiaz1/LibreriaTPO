@@ -1,5 +1,6 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,8 @@ public class AuthenticationService {
         private final PasswordEncoder passwordEncoder;
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
+        @Autowired
+        private CarritoService carritoService;
 
         public AuthenticationResponse register(RegisterRequest request) {
                 var user = Usuario.builder()
@@ -33,6 +36,7 @@ public class AuthenticationService {
 
                 repository.save(user);
                 var jwtToken = jwtService.generateToken(user);
+                carritoService.createCarrito(request.getMail());
                 return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
                                 .build();
