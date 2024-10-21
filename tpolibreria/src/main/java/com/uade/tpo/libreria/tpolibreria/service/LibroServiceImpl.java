@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -240,13 +242,13 @@ public class LibroServiceImpl implements LibroService {
         libroRepository.save(libro);
         return libroResponse;
     }
+
+    @Transactional
     public void deleteLibro(Long isbn) {
-        //Cuando elimino un libro tengo que eliminar su relacion con productos carrito si es que hay
          Optional<Libro> libro = libroRepository.findById(isbn);
         if (libro.isPresent()) { 
             productoCarritoService.eliminarProductoCarritoByIsbn(isbn);
-            libroRepository.deleteById(isbn);
-            //si da error, que se mande la clase libro
+            libroRepository.deleteByIsbn(isbn);
 
         } else {
             throw new RuntimeException("Libro no encontrado con ISBN: " + isbn);

@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.sql.SQLException;
  
@@ -61,12 +62,12 @@ public class LibrosController {
  
  
     @DeleteMapping("/{isbn}")
-    public ResponseEntity<Void> deleteLibro(@PathVariable Long isbn) {
+    public ResponseEntity<String> deleteLibro(@PathVariable Long isbn) {
         try {
             libroService.deleteLibro(isbn);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
     @PutMapping("/{isbn}")
