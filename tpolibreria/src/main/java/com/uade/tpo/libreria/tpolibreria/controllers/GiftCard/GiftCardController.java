@@ -40,6 +40,12 @@ public class GiftCardController {
         return giftCard.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/byCodigo/{codigo}")
+    public ResponseEntity<GiftCard> getGiftCardByCodigo(@PathVariable("codigo") String codigo) {
+        Optional<GiftCard> giftCard = giftCardService.getByCodigo(codigo);
+        return giftCard.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @GetMapping
     public ResponseEntity<List<GiftCard>> getAllGiftCards() {
         List<GiftCard> giftCards = giftCardService.getAllGiftCards();

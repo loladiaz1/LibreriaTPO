@@ -1,6 +1,7 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import com.uade.tpo.libreria.tpolibreria.repository.OrdenRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
 import com.uade.tpo.libreria.tpolibreria.controllers.orden.OrdenRequest;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
+import com.uade.tpo.libreria.tpolibreria.entity.GiftCard;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.entity.Orden;
 import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
@@ -46,7 +48,8 @@ public class OrdenServiceImpl implements OrdenService {
             //.orElseThrow(() -> new RuntimeException("No se encontró un carrito asociado al correo: " + mail));
 
         Orden ordenNueva = new Orden();
-        ordenNueva.setGiftCard(giftCardRepository.findByCodigo(ordenRequest.getCodigo()));
+        Optional<GiftCard> giftCard =giftCardRepository.findByCodigo(ordenRequest.getCodigo());
+        ordenNueva.setGiftCard(giftCard.get());
         ordenNueva.setTotalSinDescuento(carrito.getTotal());
         if (ordenNueva.getGiftCard() != null){
             ordenNueva.setTotalConDescuento(carrito.getTotal() * (1 - ordenNueva.getGiftCard().getDescuento()));
