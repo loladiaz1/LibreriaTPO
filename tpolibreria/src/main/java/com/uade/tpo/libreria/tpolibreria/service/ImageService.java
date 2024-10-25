@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ImageService {
     public Image create(Image image, Long isbn);
-
     public Image viewById(long id);
+    public String deleteImage(long id);
 }

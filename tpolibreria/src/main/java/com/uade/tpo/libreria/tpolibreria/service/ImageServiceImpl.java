@@ -4,6 +4,9 @@ import com.uade.tpo.libreria.tpolibreria.entity.Image;
 import com.uade.tpo.libreria.tpolibreria.entity.Libro;
 import com.uade.tpo.libreria.tpolibreria.repository.ImageRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.LibroRepository;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +32,18 @@ public class ImageServiceImpl implements ImageService {
     public Image viewById(long id) {
         return imageRepository.findById(id).get();
     }
+
+    @Override
+    public String deleteImage(long id) {
+        Optional<Image> imagen = imageRepository.findById(id);
+        if (imagen.isPresent()){
+            imageRepository.deleteById(id);
+            return ("Imagen eliminada exitosamente");
+        }
+        else{
+            return("No se encontro la imagen");
+        }
+        
+    }
+
 }

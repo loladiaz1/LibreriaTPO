@@ -30,6 +30,9 @@ public class LibroServiceImpl implements LibroService {
     @Autowired
     private ProductoCarritoService productoCarritoService;
 
+    @Autowired
+    private ImageService imageService;
+
     @Override
     public Page<LibroResponse> getLibros(PageRequest pageable) {
         Page<Libro> libros = libroRepository.findAll(pageable);
@@ -245,11 +248,15 @@ public class LibroServiceImpl implements LibroService {
 
     @Transactional
     public void deleteLibro(Long isbn) {
-         Optional<Libro> libro = libroRepository.findById(isbn);
+        Optional<Libro> libro = libroRepository.findById(isbn);
         if (libro.isPresent()) { 
             productoCarritoService.eliminarProductoCarritoByIsbn(isbn);
-            libroRepository.deleteByIsbn(isbn);
-
+            if (libro.get().getImage() != null){
+                imageService.deleteImage(libro.get().getImage().getId());
+            }
+            else {
+                libroRepository.deleteByIsbn(isbn);
+            }
         } else {
             throw new RuntimeException("Libro no encontrado con ISBN: " + isbn);
         }
