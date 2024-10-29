@@ -79,7 +79,7 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         ProductoCarrito productoEncontrado = null;
         //busca el productoCarrito y si lo encuentra le actualiza la cantidad
         for (ProductoCarrito productoCarrito : carrito.getProductosCarrito()) {
-            if (productoCarrito.getLibro().getIsbn() == isbn) {
+            if (productoCarrito.getLibro().getIsbn().equals(isbn)) {
                 //EXCEPCION POR STOCK
                 Libro libro = productoCarrito.getLibro();
                 if (cantidad + productoCarrito.getCantidad()> libro.getStock()) {
