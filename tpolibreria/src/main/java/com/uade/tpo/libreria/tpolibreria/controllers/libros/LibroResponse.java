@@ -22,4 +22,7 @@ public class LibroResponse {
     private String genero; 
     private List<String> autor;
     private String image;
+
+    private boolean novedad;
+    private boolean recomendado;
 }

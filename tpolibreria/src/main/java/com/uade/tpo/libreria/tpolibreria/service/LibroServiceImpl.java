@@ -236,6 +236,11 @@ public class LibroServiceImpl implements LibroService {
             libroResponse.setAutor(libroRequest.getAutor());
             libroResponse.setImage("Sin imagen");
 
+            libro.setNovedad(libroRequest.isNovedad());
+            libro.setRecomendado(libroRequest.isRecomendado());
+            libroResponse.setNovedad(libroRequest.isNovedad());
+            libroResponse.setRecomendado(libroRequest.isRecomendado());
+
         // Manejo de la asignación del género
         if (libroRequest.getGeneroId() != null) {
             Genero genero = generoRepository.findById(libroRequest.getGeneroId())
@@ -286,6 +291,12 @@ public class LibroServiceImpl implements LibroService {
             libroResponse.setIdioma(libroRequest.getIdioma());
             libro.setAutor(libroRequest.getAutor());
             libroResponse.setAutor(libroRequest.getAutor());
+            
+            libro.setNovedad(libroRequest.isNovedad());
+            libro.setRecomendado(libroRequest.isRecomendado());
+            libroResponse.setNovedad(libroRequest.isNovedad());
+            libroResponse.setRecomendado(libroRequest.isRecomendado());
+            
             String encodedString;
             try {
                 encodedString = Base64.getEncoder()

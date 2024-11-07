@@ -67,4 +67,10 @@ public class Libro {
     @JsonManagedReference
     private Image image;
 
+    @Column
+    private boolean novedad;
+
+    @Column
+    private boolean recomendado;
+
 }
