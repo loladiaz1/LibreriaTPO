@@ -49,6 +49,9 @@ public class LibroServiceImpl implements LibroService {
             libroResponse.setPrecio(libro.getPrecio());
             libroResponse.setStock(libro.getStock());
             libroResponse.setTitulo(libro.getTitulo());
+
+            libroResponse.setNovedad(libro.isNovedad());
+            libroResponse.setRecomendado(libro.isRecomendado());
             
             String encodedString;
             try {
@@ -79,6 +82,9 @@ public class LibroServiceImpl implements LibroService {
             libroResponse.setPrecio(libro.getPrecio());
             libroResponse.setStock(libro.getStock());
             libroResponse.setTitulo(libro.getTitulo());
+
+            libroResponse.setNovedad(libro.isNovedad());
+            libroResponse.setRecomendado(libro.isRecomendado());
             
             String encodedString;
             try {
@@ -109,6 +115,9 @@ public class LibroServiceImpl implements LibroService {
             libroResponse.setPrecio(libro.getPrecio());
             libroResponse.setStock(libro.getStock());
             libroResponse.setTitulo(libro.getTitulo());
+
+            libroResponse.setNovedad(libro.isNovedad());
+            libroResponse.setRecomendado(libro.isRecomendado());
             
             String encodedString;
             try {
@@ -137,6 +146,9 @@ public class LibroServiceImpl implements LibroService {
             libroResponse.setPrecio(libro.getPrecio());
             libroResponse.setStock(libro.getStock());
             libroResponse.setTitulo(libro.getTitulo());
+
+            libroResponse.setNovedad(libro.isNovedad());
+            libroResponse.setRecomendado(libro.isRecomendado());
             
             String encodedString;
             try {
@@ -165,6 +177,9 @@ public class LibroServiceImpl implements LibroService {
             libroResponse.setPrecio(libro.getPrecio());
             libroResponse.setStock(libro.getStock());
             libroResponse.setTitulo(libro.getTitulo());
+
+            libroResponse.setNovedad(libro.isNovedad());
+            libroResponse.setRecomendado(libro.isRecomendado());
             
             String encodedString;
             try {
@@ -194,6 +209,9 @@ public class LibroServiceImpl implements LibroService {
             libroResponse.setPrecio(libro.getPrecio());
             libroResponse.setStock(libro.getStock());
             libroResponse.setTitulo(libro.getTitulo());
+
+            libroResponse.setNovedad(libro.isNovedad());
+            libroResponse.setRecomendado(libro.isRecomendado());
             
             String encodedString;
             try {
@@ -206,9 +224,6 @@ public class LibroServiceImpl implements LibroService {
             return libroResponse;
         }).collect(Collectors.toList());
     }
-
-
-
 
     @Override
     public LibroResponse createLibro(LibroRequest libroRequest) {

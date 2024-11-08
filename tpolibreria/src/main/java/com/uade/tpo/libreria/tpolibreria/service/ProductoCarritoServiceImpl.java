@@ -51,6 +51,10 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             libroResponse.setPrecio(producto.getLibro().getPrecio());
             libroResponse.setStock(producto.getLibro().getStock());
             libroResponse.setTitulo(producto.getLibro().getTitulo());
+
+            libroResponse.setRecomendado(producto.getLibro().isRecomendado());
+            libroResponse.setNovedad(producto.getLibro().isNovedad());
+
             String encodedString;
                 try {
                     encodedString = Base64.getEncoder()
@@ -115,6 +119,10 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             libroResponse.setPrecio(producto.getLibro().getPrecio());
             libroResponse.setStock(producto.getLibro().getStock());
             libroResponse.setTitulo(producto.getLibro().getTitulo());
+
+            libroResponse.setRecomendado(producto.getLibro().isRecomendado());
+            libroResponse.setNovedad(producto.getLibro().isNovedad());
+
             String encodedString;
                 try {
                     encodedString = Base64.getEncoder()
@@ -159,6 +167,10 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
         libroResponse.setPrecio(producto.getLibro().getPrecio());
         libroResponse.setStock(producto.getLibro().getStock());
         libroResponse.setTitulo(producto.getLibro().getTitulo());
+
+        libroResponse.setRecomendado(producto.getLibro().isRecomendado());
+        libroResponse.setNovedad(producto.getLibro().isNovedad());
+
         String encodedString;
             try {
                 encodedString = Base64.getEncoder()
@@ -191,6 +203,10 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             libroResponse.setPrecio(producto.getLibro().getPrecio());
             libroResponse.setStock(producto.getLibro().getStock());
             libroResponse.setTitulo(producto.getLibro().getTitulo());
+
+            libroResponse.setRecomendado(producto.getLibro().isRecomendado());
+            libroResponse.setNovedad(producto.getLibro().isNovedad());
+
             String encodedString;
                 try {
                     encodedString = Base64.getEncoder()
@@ -224,6 +240,10 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             libroResponse.setPrecio(producto.getLibro().getPrecio());
             libroResponse.setStock(producto.getLibro().getStock());
             libroResponse.setTitulo(producto.getLibro().getTitulo());
+
+            libroResponse.setRecomendado(producto.getLibro().isRecomendado());
+            libroResponse.setNovedad(producto.getLibro().isNovedad());
+
             String encodedString;
                 try {
                     encodedString = Base64.getEncoder()
@@ -256,6 +276,9 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             libroResponse.setStock(libro.getStock());
             libroResponse.setTitulo(libro.getTitulo());
             
+            libroResponse.setRecomendado(libro.isRecomendado());
+            libroResponse.setNovedad(libro.isNovedad());
+
             String encodedString;
             try {
                 encodedString = Base64.getEncoder()
@@ -292,6 +315,10 @@ public class ProductoCarritoServiceImpl implements ProductoCarritoService{
             libroResponse.setPrecio(producto.getLibro().getPrecio());
             libroResponse.setStock(producto.getLibro().getStock());
             libroResponse.setTitulo(producto.getLibro().getTitulo());
+
+            libroResponse.setRecomendado(producto.getLibro().isRecomendado());
+            libroResponse.setNovedad(producto.getLibro().isNovedad());
+            
             String encodedString;
                 try {
                     encodedString = Base64.getEncoder()
