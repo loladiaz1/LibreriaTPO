@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -58,9 +60,12 @@ public class UsuariosController {
     }
     
     @PutMapping("/{usuarioId}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long usuarioId, @RequestBody UsuarioRequest ur) {
-        Optional<Usuario> result = usuarioService.updateUsuario(usuarioId, ur.getNombre_usuario(), ur.getMail(),
-                ur.getContraseña(), ur.getNombre(), ur.getApellido(), ur.getDireccion(), ur.getCP());
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long usuarioId, @RequestBody Map<String, Object> params) { 
+        String nombre = (String) params.get("nombre");
+        String apellido = (String) params.get("apellido");
+        String direccion = (String) params.get("direccion");
+        int cp = (int) params.get("cp");
+        Optional<Usuario> result = usuarioService.updateUsuario(usuarioId, nombre, apellido, direccion, cp);
         return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

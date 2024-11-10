@@ -12,6 +12,6 @@ public interface UsuarioService {
     public Optional<Usuario> getUsuarioByMail(String UsuarioMail);
 
     public Usuario createUsuario(String nombre_usuario, String mail, String contraseña, String nombre, String apellido, String direccion, int CP);
-    Optional<Usuario> updateUsuario(Long usuarioId, String nombre_usuario, String mail, String contraseña, String nombre, String apellido, String direccion, int CP);
+    Optional<Usuario> updateUsuario(Long usuarioId, String nombre, String apellido, String direccion, int CP);
     void deleteUsuario(Long usuarioId);
 }
