@@ -1,6 +1,8 @@
  
 package com.uade.tpo.libreria.tpolibreria.entity;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -28,10 +30,12 @@ public class Orden {
     @JoinColumn(name = "mail_id")
     private Usuario usuario;
 
+    /* 
     @ManyToOne
     @JoinColumn(name = "carrito_mailUsuario")
     @JsonBackReference
     private Carrito carrito;
+    */
 
     @OneToOne
     @JoinColumn(name = "giftCard_id")
@@ -45,8 +49,14 @@ public class Orden {
 
     @Column
     private Double Descuento;
-
-
     
+    @Column
+    private String productosComprados; //en la bd se guarda como un json
+
+    @Column
+    private String estado;
+
+    @Column
+    private LocalDate fecha;
 }
 

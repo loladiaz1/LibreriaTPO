@@ -1,6 +1,10 @@
 package com.uade.tpo.libreria.tpolibreria.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.uade.tpo.libreria.tpolibreria.repository.OrdenRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uade.tpo.libreria.tpolibreria.controllers.orden.OrdenRequest;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 import com.uade.tpo.libreria.tpolibreria.entity.GiftCard;
@@ -58,13 +64,23 @@ public class OrdenServiceImpl implements OrdenService {
             ordenNueva.setTotalConDescuento(carrito.getTotal());
             ordenNueva.setDescuento(0.0);
         }
+
         Usuario usuario = usuarioRepository.findByMail(ordenRequest.getMail())
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el mail: " + ordenRequest.getMail()));
         ordenNueva.setUsuario(usuario);
 
-        //Obtener la cantidad de libros que se compro por cada libro y restarle esa cantidad a cada libro en su repository:
+        // Convertir productos del carrito en JSON
+        List<Map<String, Object>> productos = new ArrayList<>();
         List<ProductoCarrito> productosCarrito= carrito.getProductosCarrito();
         for (ProductoCarrito prodcarr : productosCarrito) {
+            Map<String, Object> producto = new HashMap<>();
+            producto.put("isbn", prodcarr.getLibro().getIsbn());
+            producto.put("titulo", prodcarr.getLibro().getTitulo());
+            producto.put("cantidad", prodcarr.getCantidad());
+            producto.put("precioUnitario", prodcarr.getLibro().getPrecio());
+            productos.add(producto);
+
+            // Actualizar el stock del libro
             int cantARestar = prodcarr.getCantidad();
             Libro libro = prodcarr.getLibro();
             int nuevaCantidad = libro.getStock() - cantARestar;
@@ -75,12 +91,19 @@ public class OrdenServiceImpl implements OrdenService {
             libro.setStock(nuevaCantidad);
             LibroRepository.save(libro);
 
-            /*
-             * if (nuevaCantidad == 0){
-             * IMPLEMENTACION DE QUE EL LIBRO SE VUELVA GRIS
-             * }
-             */
+            // Serializar a JSON usando Jackson
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                String productosJson = objectMapper.writeValueAsString(productos);
+                ordenNueva.setProductosComprados(productosJson);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Error al convertir productos a JSON: " + e.getMessage());
+            }
         }
+
+        ordenNueva.setEstado("En proceso"); 
+        ordenNueva.setFecha(LocalDate.now());
+
         //Vacio de carrito, en vaciar carrito se guarda el carrito nuevo en repository:
         carritoService.vaciarCarrito(ordenRequest.getMail());
 

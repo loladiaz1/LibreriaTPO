@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class OrdenRequest {
-
     String mail;
     String codigo;
 }
