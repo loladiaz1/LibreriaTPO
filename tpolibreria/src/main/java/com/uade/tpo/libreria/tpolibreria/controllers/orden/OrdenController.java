@@ -2,6 +2,7 @@ package com.uade.tpo.libreria.tpolibreria.controllers.orden;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +62,25 @@ public class OrdenController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Orden> getOrdenById(@PathVariable Long id) {
+        Optional<Orden> orden = ordenService.getOrdenById(id);
+        if (orden.isPresent()) {
+            return ResponseEntity.ok(orden.get());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<String> updateOrden(@PathVariable Long id, @RequestBody OrdenRequest ordenRequest) {
+        try {
+            ordenService.updateOrden(id, ordenRequest);
+            return ResponseEntity.ok("Orden actualizada.");
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
 }

@@ -2,6 +2,7 @@ package com.uade.tpo.libreria.tpolibreria.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,5 +20,7 @@ public interface OrdenService {
 
     public void eliminarOrden(Long id);
 
-   
+    public Optional<Orden> getOrdenById(Long id);
+
+    public void updateOrden(Long id, OrdenRequest ordenRequest);
 }

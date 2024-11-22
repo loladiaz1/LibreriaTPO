@@ -129,7 +129,23 @@ public class OrdenServiceImpl implements OrdenService {
 
         OrdenRepository.delete(Orden);
         }
-        
-        
+
+    @Override
+    public Optional<Orden> getOrdenById(Long id) {
+        return OrdenRepository.findById(id);
+    }
+
+    @Override
+    public void updateOrden(Long id, OrdenRequest ordenRequest) {
+        Optional<Orden> ordenOptional = OrdenRepository.findById(id);
+        if (ordenOptional.isPresent()) {
+            Orden orden = ordenOptional.get();
+            //Solo tengo que modificar el estado
+            orden.setEstado(ordenRequest.getEstado());
+            OrdenRepository.save(orden);
+        } else {
+            throw new RuntimeException("Orden no encontrada con ID: " + id);
+        }
+    }
     }
 
