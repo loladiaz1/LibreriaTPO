@@ -58,6 +58,8 @@ public class GiftCardController {
         GiftCard giftCard = new GiftCard();
         giftCard.setDescuento(giftCardRequest.getDescuento() != null ? giftCardRequest.getDescuento() : 0.0);
         giftCard.setCodigo(giftCardRequest.getCodigo());
+        giftCard.setTitulo(giftCardRequest.getTitulo());
+        giftCard.setDescripcion(giftCardRequest.getDescripcion());
         // GuardarGiftCard
         GiftCard savedGiftCard = giftCardRepository.save(giftCard);
 

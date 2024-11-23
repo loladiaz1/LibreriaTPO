@@ -7,5 +7,7 @@ public class GiftCardRequest {
 
     private Double descuento;
     private String codigo;
+    private String titulo;
+    private String descripcion;
    
 }

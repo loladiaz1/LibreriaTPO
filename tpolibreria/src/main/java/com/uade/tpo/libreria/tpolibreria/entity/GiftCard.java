@@ -30,6 +30,12 @@ public class GiftCard {
     @Column(nullable = false, unique = true)
     private String codigo;
 
+    @Column
+    private String titulo;
+
+    @Column
+    private String descripcion;
+
 
     
 }
