@@ -37,8 +37,8 @@ public class Orden {
     private Carrito carrito;
     */
 
-    @OneToOne
-    @JoinColumn(name = "giftCard_id")
+    @ManyToOne
+    @JoinColumn(name = "giftCard_id", nullable = true)
     private GiftCard giftCard;
 
     @Column
