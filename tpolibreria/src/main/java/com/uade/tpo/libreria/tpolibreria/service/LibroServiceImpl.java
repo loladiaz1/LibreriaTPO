@@ -333,4 +333,44 @@ public class LibroServiceImpl implements LibroService {
             throw new RuntimeException("Libro no encontrado con ISBN: " + isbn);
         }
     }
+
+    @Override
+    public Page<LibroResponse> getLibrosByGeneroId(Long id, PageRequest pageable) {
+        // Buscar libros por género usando el ID de género
+        Page<Libro> libros = libroRepository.findByGeneroId(id, pageable); 
+
+        return libros.map(libro -> {
+            LibroResponse libroResponse = new LibroResponse();
+            libroResponse.setAutor(libro.getAutor());
+            libroResponse.setCantPaginas(libro.getCantPaginas());
+            libroResponse.setDescripcion(libro.getDescripcion());
+            libroResponse.setEdicion(libro.getEdicion());
+            libroResponse.setEditorial(libro.getEditorial());
+            libroResponse.setGenero(libro.getGenero().getNombre()); // Nombre del género
+            libroResponse.setIdioma(libro.getIdioma());
+            libroResponse.setIsbn(libro.getIsbn());
+            libroResponse.setPrecio(libro.getPrecio());
+            libroResponse.setStock(libro.getStock());
+            libroResponse.setTitulo(libro.getTitulo());
+            libroResponse.setNovedad(libro.isNovedad());
+            libroResponse.setRecomendado(libro.isRecomendado());
+
+            // Manejo de imagen (Base64)
+            String encodedString = null;
+            try {
+                if (libro.getImage() != null && libro.getImage().getImage() != null) {
+                    encodedString = Base64.getEncoder()
+                        .encodeToString(libro.getImage().getImage().getBytes(1, (int) libro.getImage().getImage().length()));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            libroResponse.setImage(encodedString);
+            
+            return libroResponse;
+        });
+    }
+
+
 }

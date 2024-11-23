@@ -1,6 +1,9 @@
 package com.uade.tpo.libreria.tpolibreria.repository;
  
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +28,6 @@ public interface LibroRepository extends JpaRepository<Libro, Long> {
     @Modifying
     @Query("DELETE FROM Libro l WHERE l.isbn = ?1")
     void deleteByIsbn(Long isbn);
+
+    Page<Libro> findByGeneroId(Long generoId, PageRequest pageable);
 }

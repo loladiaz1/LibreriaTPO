@@ -16,4 +16,5 @@ public interface LibroService {
     LibroResponse createLibro(LibroRequest libroRequest);
     void deleteLibro(Long isbn);  // delete
     LibroResponse updateLibro(Long isbn, LibroRequest libroRequest); //put
+    Page<LibroResponse> getLibrosByGeneroId(Long id, PageRequest pageRequest);
 }
