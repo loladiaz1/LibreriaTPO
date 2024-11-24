@@ -93,5 +93,19 @@ public class LibrosController {
         return ResponseEntity.ok(result.getImage());
     }
  
+    @GetMapping("/generoId/{id}")
+    public ResponseEntity<Page<LibroResponse>> getLibrosByGeneroId(
+            @PathVariable Long id,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+
+        // Si los parámetros page o size no son proporcionados:
+        if (page == null || size == null) {
+            return ResponseEntity.ok(libroService.getLibrosByGeneroId(id, PageRequest.of(0, Integer.MAX_VALUE)));
+        }
+
+        // Si los parámetros page y size son proporcionados:
+        return ResponseEntity.ok(libroService.getLibrosByGeneroId(id, PageRequest.of(page, size)));
+    }
+
 }
- 

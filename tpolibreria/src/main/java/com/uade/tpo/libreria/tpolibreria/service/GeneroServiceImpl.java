@@ -100,18 +100,6 @@ public class GeneroServiceImpl implements GeneroService {
         });
     }
     
-
-    /* 
-    //POST DE LA PROFESORA:
-    public Genero createGenero(String nombre) throws ExcepcionGeneroDuplicado {
-        List<Genero> generos = GeneroRepository.findByNombre(nombre);
-        if (generos.isEmpty())
-            return GeneroRepository.save(new Genero());
-        throw new ExcepcionGeneroDuplicado();
-    }
-    */
-    
-    //NUEVO POST:
     public Genero createGenero(String nombre) throws ExcepcionGeneroDuplicado {
         Optional<Genero> generos = GeneroRepository.findByNombre(nombre);
         if (generos.isEmpty()) {
@@ -146,7 +134,7 @@ public class GeneroServiceImpl implements GeneroService {
             for (Libro lib : libros) {
                 LibroService.deleteLibro(lib.getIsbn());
             }
-             
+            
             GeneroRepository.deleteById(id);
         } else {
             throw new RuntimeException("Género no encontrado con ID: " + id);

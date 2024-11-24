@@ -6,4 +6,5 @@ import lombok.Data;
 public class OrdenRequest {
     String mail;
     String codigo;
+    String estado;
 }
