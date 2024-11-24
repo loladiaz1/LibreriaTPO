@@ -43,6 +43,7 @@ public class SecurityConfig {
                                         .requestMatchers("/libros/**").permitAll()
                                         .requestMatchers("/ordenes/**").permitAll()
                                         .requestMatchers("/images/**").permitAll()
+                                        .requestMatchers("/email/send").permitAll()
 
                                         /* 
                                         //CARRITO
