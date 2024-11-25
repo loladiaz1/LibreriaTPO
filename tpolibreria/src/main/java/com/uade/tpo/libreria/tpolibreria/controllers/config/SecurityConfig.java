@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import java.util.Optional;
 import com.uade.tpo.libreria.tpolibreria.entity.Carrito;
 import com.uade.tpo.libreria.tpolibreria.entity.Role;
@@ -18,6 +19,10 @@ import com.uade.tpo.libreria.tpolibreria.repository.CarritoRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.List;
+
 
 @Configuration
 @EnableWebSecurity
@@ -33,18 +38,18 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
+                                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                                 .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/auth/**").permitAll()
                                         .requestMatchers("/error/**").permitAll()
-                                        .requestMatchers("/carritos/**").permitAll()
-                                        .requestMatchers("/usuarios/**").permitAll()
-                                        .requestMatchers("/productosCarrito/**").permitAll()
-                                        .requestMatchers("/giftcards/**").permitAll()
-                                        .requestMatchers("/generos/**").permitAll()
-                                        .requestMatchers("/libros/**").permitAll()
-                                        .requestMatchers("/ordenes/**").permitAll()
-                                        .requestMatchers("/images/**").permitAll()
+                                        //.requestMatchers("/carritos/**").permitAll()
+                                        //.requestMatchers("/usuarios/**").permitAll()
+                                        //.requestMatchers("/productosCarrito/**").permitAll()
+                                        //.requestMatchers("/giftcards/**").permitAll()
+                                        //.requestMatchers("/generos/**").permitAll()
+                                        //.requestMatchers("/libros/**").permitAll()
+                                        //.requestMatchers("/ordenes/**").permitAll()
+                                        //requestMatchers("/images/**").permitAll()
 
-                                        /* 
                                         //CARRITO
                                         .requestMatchers("/carritos/{carritoId}").access((authentication, context) -> {
                                                 String carritoId = context.getVariables().get("carritoId");
@@ -93,7 +98,7 @@ public class SecurityConfig {
                                         .requestMatchers("/productosCarrito/**").hasAnyAuthority(Role.ADMIN.name())
 
                                         //GIFTCARDS
-                                        .requestMatchers("/giftcards/**").hasAnyAuthority(Role.ADMIN.name())
+                                        .requestMatchers("/giftcards/**").permitAll()
 
                                         //GENEROS
                                         .requestMatchers(HttpMethod.GET,"/generos/**").permitAll()
@@ -108,7 +113,7 @@ public class SecurityConfig {
                                         .requestMatchers("/ordenes/**").hasAnyAuthority(Role.ADMIN.name())
                                         
                                         //IMAGENES
-                                        .requestMatchers("/images/**").hasAnyAuthority(Role.ADMIN.name())*/
+                                        .requestMatchers("/images/**").hasAnyAuthority(Role.ADMIN.name())
 
                                         .anyRequest()
                                         .authenticated())
@@ -117,5 +122,17 @@ public class SecurityConfig {
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
+        }
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.setAllowedOrigins(List.of("http://localhost:5173")); // Orígenes permitidos
+                configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos HTTP permitidos
+                configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // Encabezados permitidos
+                configuration.setAllowCredentials(true); // Permitir credenciales (cookies, Authorization headers, etc.)
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", configuration); // Aplicar configuración a todas las rutas
+                return source;
         }
 }
