@@ -121,8 +121,6 @@ public class OrdenServiceImpl implements OrdenService {
 
         String direccionEnvio = usuario.getDireccion();
         String subtotal = String.format("$%.2f", carrito.getTotal());
-        String costoEnvio = String.format("$%.2f", 3500.0);
-        String descuentoEnvio = String.format("-$%.2f", 3500.0);
         String total = String.format("$%.2f", ordenNueva.getTotalConDescuento());
 
         String htmlBody = 
@@ -147,15 +145,7 @@ public class OrdenServiceImpl implements OrdenService {
                     "<tr>" +
                         "<td style=\"padding: 5px; text-align: left;\">Subtotal</td>" +
                         "<td style=\"padding: 5px; text-align: right;\">" + subtotal + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                        "<td style=\"padding: 5px; text-align: left;\">Costo de Envío</td>" +
-                        "<td style=\"padding: 5px; text-align: right;\">" + costoEnvio + "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                        "<td style=\"padding: 5px; text-align: left;\">Descuento en el Envío</td>" +
-                        "<td style=\"padding: 5px; text-align: right;\">" + descuentoEnvio + "</td>" +
-                    "</tr>" +
+                    "</tr>"  +
                     "<tr style=\"border-top: 2px solid #eee; font-weight: bold;\">" +
                         "<td style=\"padding: 5px; text-align: left;\">Total</td>" +
                         "<td style=\"padding: 5px; text-align: right;\">" + total + "</td>" +
