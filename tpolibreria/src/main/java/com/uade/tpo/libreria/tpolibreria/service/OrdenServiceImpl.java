@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.uade.tpo.libreria.tpolibreria.repository.OrdenRepository;
 import com.uade.tpo.libreria.tpolibreria.repository.UsuarioRepository;
+
+import jakarta.mail.MessagingException;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uade.tpo.libreria.tpolibreria.controllers.orden.OrdenRequest;
@@ -47,6 +50,9 @@ public class OrdenServiceImpl implements OrdenService {
 
     @Autowired
     private LibroRepository LibroRepository;
+
+    @Autowired
+    private MailService MailService;
 
     @Override
     public Orden createOrden(OrdenRequest ordenRequest) {
@@ -103,6 +109,77 @@ public class OrdenServiceImpl implements OrdenService {
 
         ordenNueva.setEstado("En proceso"); 
         ordenNueva.setFecha(LocalDate.now());
+
+        String productosHtml = "";
+        for (ProductoCarrito prodcarr : productosCarrito) {
+            productosHtml += "<li style=\"padding: 10px 0; border-bottom: 1px solid #eee;\">" +
+                            "<span style=\"display: block; font-weight: bold;\">" + prodcarr.getLibro().getTitulo() + "</span>" +
+                            "<span>Cantidad: " + prodcarr.getCantidad() + "</span><br>" +
+                            "<span>Precio Unitario: $" + prodcarr.getLibro().getPrecio() + "</span>" +
+                            "</li>";
+        }
+
+        String direccionEnvio = usuario.getDireccion();
+        String subtotal = String.format("$%.2f", carrito.getTotal());
+        String costoEnvio = String.format("$%.2f", 3500.0);
+        String descuentoEnvio = String.format("-$%.2f", 3500.0);
+        String total = String.format("$%.2f", ordenNueva.getTotalConDescuento());
+
+        String htmlBody = 
+        "<html>" +
+        "<body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px; background-color: #f9f9f9;\">" +
+            "<div style=\"max-width: 600px; margin: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); padding: 20px;\">" +
+                "<h2 style=\"color: #5a67d8; text-align: center;\">¡Muchas gracias por tu compra!</h2>" +
+                "<p style=\"text-align: center;\">Ya recibimos tu orden y pronto será despachada. Aquí tienes los detalles de tu compra:</p>" +
+                "<hr style=\"border: none; border-top: 1px solid #eee; margin: 20px 0;\">" +
+
+                "<h3 style=\"color: #5a67d8;\">RESUMEN DE TU ORDEN</h3>" +
+                "<p><strong>Dirección de Envío:</strong> " + direccionEnvio + "</p>" +
+                "<p><strong>Método de Pago:</strong> Tarjeta de Crédito</p>" +
+
+                "<h4 style=\"margin-top: 20px; color: #5a67d8;\">Tus Productos</h4>" +
+                "<ul style=\"list-style: none; padding: 0;\">" +
+                    productosHtml +
+                "</ul>" +
+
+                "<h4 style=\"margin-top: 20px; color: #5a67d8;\">Resumen de la Orden</h4>" +
+                "<table style=\"width: 100%; border-collapse: collapse; margin-top: 10px;\">" +
+                    "<tr>" +
+                        "<td style=\"padding: 5px; text-align: left;\">Subtotal</td>" +
+                        "<td style=\"padding: 5px; text-align: right;\">" + subtotal + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                        "<td style=\"padding: 5px; text-align: left;\">Costo de Envío</td>" +
+                        "<td style=\"padding: 5px; text-align: right;\">" + costoEnvio + "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                        "<td style=\"padding: 5px; text-align: left;\">Descuento en el Envío</td>" +
+                        "<td style=\"padding: 5px; text-align: right;\">" + descuentoEnvio + "</td>" +
+                    "</tr>" +
+                    "<tr style=\"border-top: 2px solid #eee; font-weight: bold;\">" +
+                        "<td style=\"padding: 5px; text-align: left;\">Total</td>" +
+                        "<td style=\"padding: 5px; text-align: right;\">" + total + "</td>" +
+                    "</tr>" +
+                "</table>" +
+
+                "<p style=\"margin-top: 20px; text-align: center;\">" +
+                    "Esperamos que hayas disfrutado del proceso de compra. Si tienes preguntas, no dudes en " +
+                    "<a href=\"mailto:thegoldenfeather2024@gmail.com\" style=\"color: #5a67d8;\">contactarnos</a>." +
+                "</p>" +
+                "<p style=\"text-align: center; font-size: 0.9em; color: #888; margin-top: 20px;\">The Golden Feather - Librería Online</p>" +
+            "</div>" +
+        "</body>" +
+        "</html>";
+
+        try {
+            MailService.sendHtmlMail(
+                ordenRequest.getMail(),
+                "¡Gracias por tu compra!",
+                htmlBody
+            );
+        } catch (MessagingException e) {
+            throw new RuntimeException("Error al enviar el correo: " + e.getMessage(), e);
+        }
 
         //Vacio de carrito, en vaciar carrito se guarda el carrito nuevo en repository:
         carritoService.vaciarCarrito(ordenRequest.getMail());
