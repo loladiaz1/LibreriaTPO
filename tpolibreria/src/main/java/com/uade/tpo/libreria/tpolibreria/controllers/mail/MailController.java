@@ -8,6 +8,7 @@ import com.uade.tpo.libreria.tpolibreria.service.MailService;
 import jakarta.mail.MessagingException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/email")
 public class MailController {
 
