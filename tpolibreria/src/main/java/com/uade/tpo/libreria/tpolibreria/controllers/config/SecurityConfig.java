@@ -41,6 +41,7 @@ public class SecurityConfig {
                                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                                 .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/auth/**").permitAll()
                                         .requestMatchers("/error/**").permitAll()
+                                        .requestMatchers("/email/send").permitAll()
                                         //.requestMatchers("/carritos/**").permitAll()
                                         //.requestMatchers("/usuarios/**").permitAll()
                                         //.requestMatchers("/productosCarrito/**").permitAll()
