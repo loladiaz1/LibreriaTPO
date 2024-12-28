@@ -7,8 +7,6 @@ import org.springframework.data.domain.PageRequest;
 
 import com.uade.tpo.libreria.tpolibreria.controllers.libros.LibroResponse;
 import com.uade.tpo.libreria.tpolibreria.controllers.productosCarrito.ProductoCarritoResponse;
-import com.uade.tpo.libreria.tpolibreria.entity.Libro;
-import com.uade.tpo.libreria.tpolibreria.entity.ProductoCarrito;
 import com.uade.tpo.libreria.tpolibreria.exceptions.ExcepcionProductoCarritoDuplicado;
 
 public interface ProductoCarritoService {
